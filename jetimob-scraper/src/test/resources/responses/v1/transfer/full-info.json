@@ -1,0 +1,57 @@
+{
+  "state": "State 1",
+  "type": "RESIDENTIAL",
+  "status": null,
+  "subType": "Casa",
+  "providerCode": "PC1",
+  "url": "http://example.com/property/1",
+  "condominiumPrice": 1000.0,
+  "contract": "RENT",
+  "dormitories": null,
+  "bathrooms": null,
+  "garages": null,
+  "sellPrice": 1500900.99,
+  "rentPrice": 7350.0,
+  "condominiumName": "Condominium 1",
+  "exchangeable": null,
+  "financeable": true,
+  "occupied": null,
+  "notes": "Description 1",
+  "conveniences": [
+    "Item 1",
+    "Item 2",
+    "Item 3"
+  ],
+  "city": "City 1",
+  "district": "District 1",
+  "zipCode": null,
+  "streetName": "Street name 1",
+  "streetNumber": null,
+  "complement": null,
+  "latitude": null,
+  "longitude": null,
+  "totalArea": 350.0,
+  "privateArea": 275.0,
+  "usableArea": 265.0,
+  "terrainTotalArea": 500.0,
+  "terrainFront": null,
+  "terrainBack": null,
+  "terrainLeft": null,
+  "terrainRight": null,
+  "areaUnit": null,
+  "medias": [
+    {
+      "extension": "jpeg",
+      "mediaType": "IMAGE",
+      "link": "http://image.link/1",
+      "linkThumb": "http://image.link/1/thumb"
+    },
+    {
+      "extension": "jpeg",
+      "mediaType": "IMAGE",
+      "link": "http://image.link/2",
+      "linkThumb": "http://image.link/2/thumb"
+    }
+  ],
+  "suites": 3
+}

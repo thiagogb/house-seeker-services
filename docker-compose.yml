@@ -1,0 +1,28 @@
+version: '3.8'
+volumes:
+  houseSeekerDB:
+  houseSeekerMessaging:
+services:
+  db:
+    image: postgres:16.1-alpine
+    container_name: house-seeker-db
+    environment:
+      POSTGRES_USER: house-seeker
+      POSTGRES_PASSWORD: house-seeker
+      POSTGRES_DB: house-seeker
+      TZ: 'GMT-3'
+      PGTZ: 'GMT-3'
+    volumes:
+      - houseSeekerDB:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    network_mode: bridge
+  messaging:
+    image: rabbitmq:3.13.0-management-alpine
+    container_name: house-seeker-messaging
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - houseSeekerMessaging:/var/lib/rabbitmq/
+    network_mode: bridge

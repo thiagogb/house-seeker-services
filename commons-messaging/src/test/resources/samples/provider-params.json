@@ -1,0 +1,15 @@
+{
+  "connection": {
+    "connectionTimeout": 5,
+    "readTimeout": 15,
+    "logLevels": [
+      "BODY"
+    ],
+    "retryCount": 2,
+    "retryWait": 3000
+  },
+  "properties": {
+    "key1": "value1",
+    "key2": "value2"
+  }
+}
