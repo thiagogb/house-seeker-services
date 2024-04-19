@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static br.com.houseseeker.mock.ProviderMetadataMocks.withUrlAndMechanism;
 import static br.com.houseseeker.TestUtils.getTextFromResources;
+import static br.com.houseseeker.mock.ProviderMetadataMocks.withUrlAndMechanism;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {
@@ -86,7 +86,7 @@ class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
 
         assertThat(dataScraperV1Service.scrap(providerMetadata, DEFAULT_PROVIDER_PARAMETERS, retrofit))
                 .hasFieldOrPropertyWithValue("providerMetadata", providerMetadata)
-                .hasFieldOrPropertyWithValue("extractedData", null)
+                .hasFieldOrPropertyWithValue("extractedData", Collections.emptyList())
                 .extracting("errorInfo.message", InstanceOfAssertFactories.STRING)
                 .contains("500 INTERNAL_SERVER_ERROR \"Request failed with error: sample error message\"");
     }
@@ -135,7 +135,7 @@ class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
 
         assertThat(dataScraperV1Service.scrap(providerMetadata, DEFAULT_PROVIDER_PARAMETERS, retrofit))
                 .hasFieldOrPropertyWithValue("providerMetadata", providerMetadata)
-                .hasFieldOrPropertyWithValue("extractedData", null)
+                .hasFieldOrPropertyWithValue("extractedData", Collections.emptyList())
                 .extracting("errorInfo.message", InstanceOfAssertFactories.STRING)
                 .contains("500 INTERNAL_SERVER_ERROR \"Request failed with error: failed on property page request\"");
     }

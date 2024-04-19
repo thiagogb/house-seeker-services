@@ -3,14 +3,18 @@ package br.com.houseseeker.domain.provider;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ProviderMetadata implements Serializable {
 
@@ -19,16 +23,16 @@ public class ProviderMetadata implements Serializable {
 
     @NotNull
     @Min(1)
-    private final Integer id;
+    private Integer id;
     @NotBlank
-    private final String name;
+    private String name;
     @NotBlank
     @URL
-    private final String siteUrl;
+    private String siteUrl;
     @URL
-    private final String dataUrl;
+    private String dataUrl;
     @NotNull
-    private final ProviderMechanism mechanism;
-    private final String params;
+    private ProviderMechanism mechanism;
+    private String params;
 
 }

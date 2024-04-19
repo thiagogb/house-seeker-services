@@ -15,8 +15,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @UtilityClass
 public final class ConverterUtils {
 
-    public static final NumberFormat PT_BR_NUMBER_FORMAT = DecimalFormat.getInstance(Locale.of("pt", "BR"));
-    public static final NumberFormat EN_US_NUMBER_FORMAT = DecimalFormat.getInstance(Locale.of("en", "US"));
+    private static final NumberFormat PT_BR_NUMBER_FORMAT = DecimalFormat.getInstance(Locale.of("pt", "BR"));
+    private static final NumberFormat EN_US_NUMBER_FORMAT = DecimalFormat.getInstance(Locale.of("en", "US"));
 
     public Optional<Integer> tryToInteger(@Nullable String value) {
         if (isBlank(value))
