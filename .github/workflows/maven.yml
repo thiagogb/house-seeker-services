@@ -30,7 +30,7 @@ jobs:
       - name: Caching Working Directory
         uses: actions/cache@v4
         with:
-          path: ./
+          path: ~/.
           key: working-dir
   coverage:
     needs: build
@@ -39,7 +39,7 @@ jobs:
       - name: Restore cached docker image
         uses: actions/cache/restore@v4
         with:
-          path: ./
+          path: ~/.
           key: working-dir
       - name: Generate JaCoCo Badge - Commons
         uses: cicirello/jacoco-badge-generator@v2
