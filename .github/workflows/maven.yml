@@ -24,10 +24,30 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: JaCoCo Badge Generator
-        uses: cicirello/jacoco-badge-generator@v2.11.0
+      - name: Generate JaCoCo Badge - Commons
+        uses: cicirello/jacoco-badge-generator@v2
         with:
-          jacoco-csv-file: "**/target/jacoco-report/jacoco.csv"
+          generate-branches-badge: true
+          jacoco-csv-file: commons/target/jacoco-report/jacoco.csv
+          coverage-badge-filename: commons-coverage-jacoco.svg
+          branches-badge-filename: commons-branches-jacoco.svg
+          workflow-summary-heading: Module Commons - JaCoCo Test Coverage Summary
+      - name: Generate JaCoCo Badge - Commons Messaging
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: commons-messaging/target/jacoco-report/jacoco.csv
+          coverage-badge-filename: commons-messaging-coverage-jacoco.svg
+          branches-badge-filename: commons-messaging-branches-jacoco.svg
+          workflow-summary-heading: Module Commons Messaging - JaCoCo Test Coverage Summary
+      - name: Generate JaCoCo Badge - Jetimob Scraper
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: jetimob-scraper/target/jacoco-report/jacoco.csv
+          coverage-badge-filename: jetimob-scraper-coverage-jacoco.svg
+          branches-badge-filename: jetimob-scraper-branches-jacoco.svg
+          workflow-summary-heading: Module Jetimob Scraper - JaCoCo Test Coverage Summary
       - name: JoCoco Badge Commit
         run: |
           if [[ `git status --porcelain` ]]; then
