@@ -12,7 +12,6 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  runs-on: ubuntu-latest
   build:
     runs-on: ubuntu-latest
     steps:
