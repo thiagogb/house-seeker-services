@@ -24,14 +24,17 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: JaCoCo Badge Generator
-        uses: cicirello/jacoco-badge-generator@v2.11.0
+      - name: JaCoCo Coverage Report
+        uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
-          jacoco-csv-file: "**/jacoco.csv"
-      - name: Log Jacoco Coverage Percentage
-        run: |
-          echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-          echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
+          coverage_results_path: "**/jacoco.xml"
+          coverage_report_name: Jacoco Coverage Report
+          coverage_report_title: Coverage Report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_check_run: false
+          minimum_coverage: 80
+          fail_below_threshold: false
+          publish_only_summary: false
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
