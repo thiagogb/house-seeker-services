@@ -35,7 +35,7 @@ public class RetrofitUtils {
 
             throw new ResponseStatusException(HttpStatus.valueOf(errorCode), String.format("Request failed with error: %s", errorMessage));
         } catch (IOException e) {
-            throw new ExtendedRuntimeException("Unknown request failure", e);
+            throw new ExtendedRuntimeException(e, "Unknown request failure");
         }
     }
 

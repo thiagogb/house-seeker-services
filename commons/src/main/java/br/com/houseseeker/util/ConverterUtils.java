@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @UtilityClass
-public final class ConverterUtils {
+public class ConverterUtils {
 
     private static final NumberFormat PT_BR_NUMBER_FORMAT = DecimalFormat.getInstance(Locale.of("pt", "BR"));
     private static final NumberFormat EN_US_NUMBER_FORMAT = DecimalFormat.getInstance(Locale.of("en", "US"));

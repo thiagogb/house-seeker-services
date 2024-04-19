@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Getter
 @Builder
+@ToString
 public class ProviderParameters {
 
     public static final ProviderParameters DEFAULT = ProviderParameters.builder().build();

@@ -14,7 +14,7 @@ public class ObjectMapperUtils {
         try {
             return objectMapper.readValue(content, tClass);
         } catch (JsonProcessingException e) {
-            throw new ExtendedRuntimeException("Content read failed", e);
+            throw new ExtendedRuntimeException(e, "Content read failed");
         }
     }
 
@@ -22,7 +22,7 @@ public class ObjectMapperUtils {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new ExtendedRuntimeException("Content write failed", e);
+            throw new ExtendedRuntimeException(e, "Content write failed");
         }
     }
 
