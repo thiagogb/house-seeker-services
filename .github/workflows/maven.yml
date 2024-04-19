@@ -30,21 +30,18 @@ jobs:
       - name: Caching Commons Jacoco Report
         uses: actions/cache@v4
         with:
-          path: ./commons/target/site/jacoco-report
+          path: ${{ github.workspace }}/commons/target/site/jacoco-report
           key: commons-jacoco-report
-          save-always: true
       - name: Caching Commons Messaging Jacoco Report
         uses: actions/cache@v4
         with:
-          path: ./commons-messaging/target/site/jacoco-report
+          path: ${{ github.workspace }}/commons-messaging/target/site/jacoco-report
           key: commons-messaging-jacoco-report
-          save-always: true
       - name: Caching Jetimob Scraper Jacoco Report
         uses: actions/cache@v4
         with:
-          path: ./jetimob-scraper/target/site/jacoco-report
+          path: ${{ github.workspace }}/jetimob-scraper/target/site/jacoco-report
           key: jetimob-scraper-jacoco-report
-          save-always: true
   coverage:
     needs: build
     runs-on: ubuntu-latest
@@ -53,7 +50,7 @@ jobs:
       - name: Restoring Cached Commons Jacoco Report
         uses: actions/cache/restore@v4
         with:
-          path: ./commons/target/site/jacoco-report
+          path: ${{ github.workspace }}/commons/target/site/jacoco-report
           key: commons-jacoco-report
       - name: Generate JaCoCo Badge - Commons
         uses: cicirello/jacoco-badge-generator@v2
@@ -66,7 +63,7 @@ jobs:
       - name: Restoring Commons Messaging Jacoco Report
         uses: actions/cache/restore@v4
         with:
-          path: ./commons-messaging/target/site/jacoco-report
+          path: ${{ github.workspace }}/commons-messaging/target/site/jacoco-report
           key: commons-messaging-jacoco-report
       - name: Generate JaCoCo Badge - Commons Messaging
         uses: cicirello/jacoco-badge-generator@v2
@@ -79,7 +76,7 @@ jobs:
       - name: Restoring Jetimob Scraper Jacoco Report
         uses: actions/cache/restore@v4
         with:
-          path: ./jetimob-scraper/target/site/jacoco-report
+          path: ${{ github.workspace }}/jetimob-scraper/target/site/jacoco-report
           key: jetimob-scraper-jacoco-report
       - name: Generate JaCoCo Badge - Jetimob Scraper
         uses: cicirello/jacoco-badge-generator@v2
