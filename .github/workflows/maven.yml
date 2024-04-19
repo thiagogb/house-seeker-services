@@ -30,17 +30,17 @@ jobs:
       - name: Caching Commons Jacoco Report
         uses: actions/cache@v4
         with:
-          path: ${{ github.workspace }}/commons/target/site/jacoco-report
+          path: commons/target/site/jacoco
           key: commons-jacoco-report
       - name: Caching Commons Messaging Jacoco Report
         uses: actions/cache@v4
         with:
-          path: ${{ github.workspace }}/commons-messaging/target/site/jacoco-report
+          path: commons-messaging/target/site/jacoco
           key: commons-messaging-jacoco-report
       - name: Caching Jetimob Scraper Jacoco Report
         uses: actions/cache@v4
         with:
-          path: ${{ github.workspace }}/jetimob-scraper/target/site/jacoco-report
+          path: jetimob-scraper/target/site/jacoco
           key: jetimob-scraper-jacoco-report
   coverage:
     needs: build
@@ -50,39 +50,39 @@ jobs:
       - name: Restoring Cached Commons Jacoco Report
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}/commons/target/site/jacoco-report
+          path: commons/target/site/jacoco
           key: commons-jacoco-report
       - name: Generate JaCoCo Badge - Commons
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
-          jacoco-csv-file: commons/target/site/jacoco-report/jacoco.csv
+          jacoco-csv-file: commons/target/site/jacoco/jacoco.csv
           coverage-badge-filename: commons-coverage-jacoco.svg
           branches-badge-filename: commons-branches-jacoco.svg
           workflow-summary-heading: Module Commons - JaCoCo Test Coverage Summary
       - name: Restoring Commons Messaging Jacoco Report
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}/commons-messaging/target/site/jacoco-report
+          path: commons-messaging/target/site/jacoco
           key: commons-messaging-jacoco-report
       - name: Generate JaCoCo Badge - Commons Messaging
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
-          jacoco-csv-file: commons-messaging/target/site/jacoco-report/jacoco.csv
+          jacoco-csv-file: commons-messaging/target/site/jacoco/jacoco.csv
           coverage-badge-filename: commons-messaging-coverage-jacoco.svg
           branches-badge-filename: commons-messaging-branches-jacoco.svg
           workflow-summary-heading: Module Commons Messaging - JaCoCo Test Coverage Summary
       - name: Restoring Jetimob Scraper Jacoco Report
         uses: actions/cache/restore@v4
         with:
-          path: ${{ github.workspace }}/jetimob-scraper/target/site/jacoco-report
+          path: jetimob-scraper/target/site/jacoco
           key: jetimob-scraper-jacoco-report
       - name: Generate JaCoCo Badge - Jetimob Scraper
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
-          jacoco-csv-file: jetimob-scraper/target/site/jacoco-report/jacoco.csv
+          jacoco-csv-file: jetimob-scraper/target/site/jacoco/jacoco.csv
           coverage-badge-filename: jetimob-scraper-coverage-jacoco.svg
           branches-badge-filename: jetimob-scraper-branches-jacoco.svg
           workflow-summary-heading: Module Jetimob Scraper - JaCoCo Test Coverage Summary
