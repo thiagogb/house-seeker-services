@@ -1,10 +1,11 @@
-package br.com.houseseeker.service.v1;
+package br.com.houseseeker.service.v4;
 
 import br.com.houseseeker.JetimobScraperApplication;
 import br.com.houseseeker.RabbitMqIntegrationTest;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
+import br.com.houseseeker.mock.ProviderMetadataMocks;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +36,7 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 @SpringBootTest
 @ContextConfiguration(classes = JetimobScraperApplication.class)
 @ExtendWith(MockitoExtension.class)
-class ConsumerV1ServiceTest implements RabbitMqIntegrationTest {
+class ConsumerV4ServiceTest implements RabbitMqIntegrationTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -47,63 +48,63 @@ class ConsumerV1ServiceTest implements RabbitMqIntegrationTest {
     private Binding persistenceQueueBinding;
 
     @Autowired
-    private Binding scraperJetimobQueueV1QueueBinding;
+    private Binding scraperJetimobQueueV4QueueBinding;
 
     @MockBean
-    private DataScraperV1Service dataScraperV1Service;
+    private DataScraperV4Service dataScraperV4Service;
 
     @BeforeEach
     void setup() {
-        startListener(rabbitListenerEndpointRegistry, ConsumerV1Service.LISTENER_ID);
+        startListener(rabbitListenerEndpointRegistry, ConsumerV4Service.LISTENER_ID);
     }
 
     @AfterEach
     void finish() {
-        stopListener(rabbitListenerEndpointRegistry, ConsumerV1Service.LISTENER_ID);
+        stopListener(rabbitListenerEndpointRegistry, ConsumerV4Service.LISTENER_ID);
     }
 
     @Test
-    @DisplayName("given a message for jetimob scraper v1 when consume then expects")
-    void givenAMessageForJetimobScraperV1_whenConsume_thenExpects() {
-        ProviderMetadata providerMetadata = withMechanism(ProviderMechanism.JETIMOB_V1);
+    @DisplayName("given a message for jetimob scraper v4 when consume then expects")
+    void givenAMessageForJetimobScraperV4_whenConsume_thenExpects() {
+        ProviderMetadata providerMetadata = ProviderMetadataMocks.withMechanism(ProviderMechanism.JETIMOB_V4);
 
         ProviderScraperResponse response = ProviderScraperResponse.builder()
                                                                   .providerMetadata(providerMetadata)
                                                                   .extractedData(Collections.emptyList())
                                                                   .build();
 
-        when(dataScraperV1Service.scrap(eq(providerMetadata), any(), any())).thenReturn(response);
+        when(dataScraperV4Service.scrap(eq(providerMetadata), any(), any())).thenReturn(response);
 
-        sendMessage(rabbitTemplate, scraperJetimobQueueV1QueueBinding, providerMetadata);
+        sendMessage(rabbitTemplate, scraperJetimobQueueV4QueueBinding, providerMetadata);
 
         await().timeout(10, TimeUnit.SECONDS)
-               .untilAsserted(() -> verify(dataScraperV1Service, times(1)).scrap(eq(providerMetadata), any(), any()));
+               .untilAsserted(() -> verify(dataScraperV4Service, times(1)).scrap(eq(providerMetadata), any(), any()));
 
         assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isEqualTo(response);
     }
 
     @Test
-    @DisplayName("given a invalid message mechanism for jetimob scraper v1 when consume then expects exception")
-    void givenAInvalidMessageMechanismForJetimobScraperV1_whenConsume_thenExpectException() {
-        ProviderMetadata providerMetadata = withMechanism(ProviderMechanism.JETIMOB_V2);
+    @DisplayName("given a invalid message mechanism for jetimob scraper v4 when consume then expects exception")
+    void givenAInvalidMessageMechanismForJetimobScraperV4_whenConsume_thenExpectException() {
+        ProviderMetadata providerMetadata = withMechanism(ProviderMechanism.JETIMOB_V3);
 
-        sendMessage(rabbitTemplate, scraperJetimobQueueV1QueueBinding, providerMetadata);
+        sendMessage(rabbitTemplate, scraperJetimobQueueV4QueueBinding, providerMetadata);
 
         await().timeout(10, TimeUnit.SECONDS)
-               .untilAsserted(() -> verifyNoInteractions(dataScraperV1Service));
+               .untilAsserted(() -> verifyNoInteractions(dataScraperV4Service));
 
         assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isNull();
     }
 
     @Test
-    @DisplayName("given a invalid message for jetimob scraper v1 when consume then expects exception")
-    void givenAInvalidMessageForJetimobScraperV1_whenConsume_thenExpectException() {
+    @DisplayName("given a invalid message for jetimob scraper v4 when consume then expects exception")
+    void givenAInvalidMessageForJetimobScraperV4_whenConsume_thenExpectException() {
         ProviderMetadata providerMetadata = ProviderMetadata.builder().build();
 
-        sendMessage(rabbitTemplate, scraperJetimobQueueV1QueueBinding, providerMetadata);
+        sendMessage(rabbitTemplate, scraperJetimobQueueV4QueueBinding, providerMetadata);
 
         await().timeout(10, TimeUnit.SECONDS)
-               .untilAsserted(() -> verifyNoInteractions(dataScraperV1Service));
+               .untilAsserted(() -> verifyNoInteractions(dataScraperV4Service));
 
         assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isNull();
     }

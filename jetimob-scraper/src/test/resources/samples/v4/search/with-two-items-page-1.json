@@ -1,0 +1,90 @@
+{
+  "totalItems": 2,
+  "items": [
+    {
+      "id": 2367172,
+      "type": "Casa de Condomínio",
+      "typeId": 29,
+      "code": 2367172,
+      "garage": 2,
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "address": {
+        "street": "Rua Quatro",
+        "number": null,
+        "complement": null,
+        "neighborhood": "Camobi",
+        "zipCode": "97110770",
+        "city": "Santa Maria",
+        "state": "RS",
+        "coordinate": {
+          "latitude": "-29.7065499000000000",
+          "longitude": "-53.7295815000000000"
+        }
+      },
+      "contracts": [
+        {
+          "id": 1,
+          "price": {
+            "currency": "R$",
+            "value": 84900000
+          },
+          "totalPrice": {
+            "currency": "R$",
+            "value": 0
+          }
+        }
+      ],
+      "highlightLevel": 2,
+      "totalArea": {
+        "measurementUnit": "m²",
+        "value": 137
+      },
+      "privateArea": {
+        "measurementUnit": "m²",
+        "value": 132
+      },
+      "usefulArea": {
+        "measurementUnit": "m²",
+        "value": null
+      },
+      "terrainArea": {
+        "measurementUnit": "m²",
+        "value": null
+      },
+      "arableArea": {
+        "measurementUnit": "ha",
+        "value": 0
+      },
+      "url": "/imovel/casa-de-condominio-com-3-quartos-a-venda-e-2-vagas-bairro-camobi-em-santa-maria/2367172",
+      "images": [
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah8PU32J2bdQHdD76317o1frmmio2wiHk_6_Q3rKezNxt4Aj/whatsappimage20240323at112316jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xc3ypAV7wna_7ilRsLblbC0gZFKkGPQEHiF80vpEYdokEhg/whatsappimage20240323at112316jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xc3ypAV7wna_7ilRsLblbC0gZFKkGPQEHiF80mJEZ4hTZzQ/whatsappimage20240323at112316jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xc3ypAV7wna_7ilRsLblbC0gZFKkGPQEHiF81epEaiPnq3w/whatsappimage20240323at112316jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xc3ypAV7wna_7ilRsLblbC0gZFKkGPQEHiF81VJEbhnftUQ/whatsappimage20240323at112316jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah8PU32J2ddxKq4ydKpVuigEm9YvFSF2MzD5QnP3eIagQu6F/whatsappimage20240323at112318jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xc3ypAV6QvJiFQ8u7A6Ak5Emnk2cvzKHJzl4_y5FNQZw_3A/whatsappimage20240323at112318jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xc3ypAV6QvJiFQ8u7A6Ak5Emnk2cvzKHJzl4_pZFO5Th6-Q/whatsappimage20240323at112318jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xc3ypAV6QvJiFQ8u7A6Ak5Emnk2cvzKHJzl4_h5FPLLn_oA/whatsappimage20240323at112318jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xc3ypAV6QvJiFQ8u7A6Ak5Emnk2cvzKHJzl48YZGw318DDg/whatsappimage20240323at112318jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah8PU32J2dfxvbk05YS7oyh7CjhX2yaGNTHeQ3uSezB8LZeu/whatsappimage20240323at1123191jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xc3ypAV6QPA-SRVqV7bkkm9hJ66koPKfI6V80ZpEbsbqbZg/whatsappimage20240323at1123191jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xc3ypAV6QPA-SRVqV7bkkm9hJ66koPKfI6V80QJEc_Pr7oA/whatsappimage20240323at1123191jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xc3ypAV6QPA-SRVqV7bkkm9hJ66koPKfI6V80IpEdaeWo1g/whatsappimage20240323at1123191jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xc3ypAV6QPA-SRVqV7bkkm9hJ66koPKfI6V80PJEeSbflQA/whatsappimage20240323at1123191jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah8PU32J2elhCo-0OwVL-gnlzDkYG6n2LDG-Q3XUeLTbJVfb/whatsappimage20240323at112319jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xc3ypAV6urLikxYQUHeAFBR5IpGmnTL7IiV85qJGfRc322w/whatsappimage20240323at112319jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xc3ypAV6urLikxYQUHeAFBR5IpGmnTL7IiV85ipGApvKNSw/whatsappimage20240323at112319jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xc3ypAV6urLikxYQUHeAFBR5IpGmnTL7IiV8-ZJGByKrO-w/whatsappimage20240323at112319jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xc3ypAV6urLikxYQUHeAFBR5IpGmnTL7IiV8-RpGC54pqVg/whatsappimage20240323at112319jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        }
+      ],
+      "hasTour": false,
+      "hasVideo": false
+    }
+  ]
+}

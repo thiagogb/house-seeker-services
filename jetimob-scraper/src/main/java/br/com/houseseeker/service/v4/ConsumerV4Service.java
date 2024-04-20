@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class ConsumerServiceV4 extends AbstractConsumerService {
+public class ConsumerV4Service extends AbstractConsumerService {
+
+    public static final String LISTENER_ID = "scraperJetimobQueueV4Queue";
 
     private final DataScraperV4Service dataScraperV4Service;
 
-    protected ConsumerServiceV4(
+    protected ConsumerV4Service(
             PersistenceProducerService persistenceProducerService,
             ProviderInspectorService providerInspectorService,
             RetrofitFactoryService retrofitFactoryService,
@@ -27,7 +29,7 @@ public class ConsumerServiceV4 extends AbstractConsumerService {
     }
 
     @Override
-    @RabbitListener(queues = "#{scraperJetimobQueueV4Queue.getName()}")
+    @RabbitListener(id = LISTENER_ID, queues = "#{scraperJetimobQueueV4Queue.getName()}")
     public void consume(ProviderMetadata payload) {
         log.info("Received message: {}", payload);
         validateProviderMechanism(payload, ProviderMechanism.JETIMOB_V4);

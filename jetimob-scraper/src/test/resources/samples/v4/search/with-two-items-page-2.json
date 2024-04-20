@@ -1,0 +1,107 @@
+{
+  "totalItems": 2,
+  "items": [
+    {
+      "id": 2360531,
+      "type": "Apartamento",
+      "typeId": 12,
+      "code": 2360531,
+      "garage": 1,
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "address": {
+        "street": null,
+        "number": null,
+        "complement": null,
+        "neighborhood": "Camobi",
+        "zipCode": null,
+        "city": "Santa Maria",
+        "state": "RS",
+        "coordinate": {
+          "latitude": "-29.7075151000000000",
+          "longitude": "-53.7211764000000000"
+        }
+      },
+      "contracts": [
+        {
+          "id": 1,
+          "price": {
+            "currency": "R$",
+            "value": 23500000
+          },
+          "totalPrice": {
+            "currency": "R$",
+            "value": 23525000
+          }
+        },
+        {
+          "id": 2,
+          "price": {
+            "currency": "R$",
+            "value": 130000
+          },
+          "totalPrice": {
+            "currency": "R$",
+            "value": 155000
+          }
+        }
+      ],
+      "highlightLevel": 2,
+      "totalArea": {
+        "measurementUnit": "m²",
+        "value": 56
+      },
+      "privateArea": {
+        "measurementUnit": "m²",
+        "value": 44
+      },
+      "usefulArea": {
+        "measurementUnit": "m²",
+        "value": null
+      },
+      "terrainArea": {
+        "measurementUnit": "m²",
+        "value": null
+      },
+      "arableArea": {
+        "measurementUnit": "ha",
+        "value": 0
+      },
+      "url": "/imovel/apartamento-com-1-quarto-a-venda-e-para-alugar-e-1-vaga-bairro-camobi-em-santa-maria/2360531",
+      "images": [
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah_vk_1QUOmmDJ6T-gVkAjd7Ctinmljuw_B0UDprstxjqfY/whatsappimage20240411at095333jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xk7wp2Neua7614kUUMhg7m9ipG-hWVFEJQ2treMsbOELX/whatsappimage20240411at095333jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xk7wp2Neua7614kUUMhg7m9ipG-hWVFEJQ2tEeMo_pr5W/whatsappimage20240411at095333jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xk7wp2Neua7614kUUMhg7m9ipG-hWVFEJQ2sheMkKQyg6/whatsappimage20240411at095333jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xk7wp2Neua7614kUUMhg7m9ipG-hWVFEJQ2sCeMhk6nO4/whatsappimage20240411at095333jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah_vk_1QhmhR0zkLmkuls2iM7Ch46qdo0jB1X3RoQhZFqLU/whatsappimage20240411at0953331jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xk7wp2AEvnGESeiVa86lkbD5ZxJip0kDJQmOteBucNeHn/whatsappimage20240411at0953331jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xk7wp2AEvnGESeiVa86lkbD5ZxJip0kDJQmOOeBrynLpl/whatsappimage20240411at0953331jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xk7wp2AEvnGESeiVa86lkbD5ZxJip0kDJQmJreBlpnoun/whatsappimage20240411at0953331jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xk7wp2AEvnGESeiVa86lkbD5ZxJip0kDJQmJEeBhNAHcm/whatsappimage20240411at0953331jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah_vk_1QIHlQPJ_0eqUqw7gUNFf5leeI4vB0Tt5rIxjVlvs/whatsappimage20240411at095335jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xk7wp2Kc-nY60hcW0fNm09OYmRefpMnAJQ3FHezoL-prI/whatsappimage20240411at095335jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xk7wp2Kc-nY60hcW0fNm09OYmRefpMnAJQ3EgezmM_Air/whatsappimage20240411at095335jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xk7wp2Kc-nY60hcW0fNm09OYmRefpMnAJQ3EdezhDNHvf/whatsappimage20240411at095335jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xk7wp2Kc-nY60hcW0fNm09OYmRefpMnAJQ3H-ez-fWt19/whatsappimage20240411at095335jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah_vk_1QLlngo7-S-_Slk1hre8jXpaEpLY51UINrg5QcE98/whatsappimage20240411at095334jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xk7wp2KkeLRGU40Tl84lUi6m5a9evk793QmvieNrCPIh4/whatsappimage20240411at095334jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xk7wp2KkeLRGU40Tl84lUi6m5a9evk793QmvfeNnXdcqK/whatsappimage20240411at095334jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xk7wp2KkeLRGU40Tl84lUi6m5a9evk793Qmu4eNiK8mlv/whatsappimage20240411at095334jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xk7wp2KkeLRGU40Tl84lUi6m5a9evk793QmuVeN-RJ6mK/whatsappimage20240411at095334jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        },
+        {
+          "src": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqah_vk_1QsDbR61_6Y_vtYhb0mpmuUlZmQzB1USlrsF9GXVo/whatsappimage20240411at0953351jpeg.webp",
+          "srcset": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZqUt7Xk7wp2DdxHFl0i9zqu3gaFEjoEiBY3NHJQmxYeMlFcMSZ/whatsappimage20240411at0953351jpeg.webp 200w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeZZrUt7Xk7wp2DdxHFl0i9zqu3gaFEjoEiBY3NHJQmw1eMhnzqaO/whatsappimage20240411at0953351jpeg.webp 300w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZqUt7Xk7wp2DdxHFl0i9zqu3gaFEjoEiBY3NHJQmwWeM-Ez8Vn/whatsappimage20240411at0953351jpeg.webp 400w, https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu412cUyOGaHBa_M2TWfYJnty728l1v9lwAQs97PeVZrUt7Xk7wp2DdxHFl0i9zqu3gaFEjoEiBY3NHJQmzzeM7gBz1f/whatsappimage20240411at0953351jpeg.webp 500w",
+          "alt": "",
+          "title": ""
+        }
+      ],
+      "hasTour": false,
+      "hasVideo": false
+    }
+  ]
+}

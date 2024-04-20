@@ -10,6 +10,7 @@ import br.com.houseseeker.util.RetrofitUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -27,9 +28,10 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class DataScraperV4Service extends AbstractDataScraperService {
 
-    private static final int DEFAULT_PAGE_SIZE = 36;
-
     private final MetadataTransferV4Service metadataTransferV4Service;
+
+    @Value("${data.scraper.v4.page-size}")
+    private int pageSize;
 
     @Override
     protected ProviderScraperResponse execute(
@@ -50,8 +52,8 @@ public class DataScraperV4Service extends AbstractDataScraperService {
 
     private Pair<SearchPageResponse, Integer> fetchFirstPageAndCalculateTotalOfPages(Api api, ProviderMetadata providerMetadata) {
         log.info("Calculating total of pages ...");
-        SearchPageResponse response = RetrofitUtils.executeCall(api.search(DEFAULT_PAGE_SIZE, 1));
-        int totalOfPages = Math.ceilDiv(response.getTotalItems(), DEFAULT_PAGE_SIZE);
+        SearchPageResponse response = RetrofitUtils.executeCall(api.search(pageSize, 1));
+        int totalOfPages = Math.ceilDiv(response.getTotalItems(), pageSize);
         log.info("Provider {} has a total of {} pages to fetch", providerMetadata.getName(), totalOfPages);
         return Pair.of(response, totalOfPages);
     }
@@ -70,7 +72,7 @@ public class DataScraperV4Service extends AbstractDataScraperService {
             int page = i;
             requestList.add(CompletableFuture.supplyAsync(() -> {
                 log.info("Provider {} requesting page {} of {} ...", providerMetadata.getName(), page, totalOfPages);
-                return RetrofitUtils.executeCall(api.search(DEFAULT_PAGE_SIZE, page));
+                return RetrofitUtils.executeCall(api.search(pageSize, page));
             }));
         }
 

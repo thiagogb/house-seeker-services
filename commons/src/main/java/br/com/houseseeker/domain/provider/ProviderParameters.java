@@ -44,6 +44,7 @@ public class ProviderParameters {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
+    @ToString
     public static final class Connection {
 
         private Integer connectionTimeout;

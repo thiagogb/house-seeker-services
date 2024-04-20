@@ -48,18 +48,24 @@ public class OkHttpClientFactoryService {
                         providerParameters.getConnection().getRetryCount()
                 );
 
-                attemptNumber++;
-                try {
-                    Thread.sleep(providerParameters.getConnection().getRetryWait());
-                } catch (InterruptedException e) {
-                    throw new ExtendedRuntimeException(e, "Retry wait time failed for provider %s", providerMetadata.getName());
-                }
+                waitIfTheresRetryRemaining(providerMetadata, providerParameters, ++attemptNumber);
 
                 response.close();
                 response = chain.proceed(request);
             }
             return response;
         };
+    }
+
+    private void waitIfTheresRetryRemaining(ProviderMetadata providerMetadata, ProviderParameters providerParameters, int attemptNumber) {
+        if (attemptNumber >= providerParameters.getConnection().getRetryCount())
+            return;
+
+        try {
+            Thread.sleep(providerParameters.getConnection().getRetryWait());
+        } catch (InterruptedException e) {
+            throw new ExtendedRuntimeException(e, "Retry wait time failed for provider %s", providerMetadata.getName());
+        }
     }
 
 }

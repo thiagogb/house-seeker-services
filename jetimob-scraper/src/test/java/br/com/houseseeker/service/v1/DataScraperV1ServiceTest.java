@@ -1,14 +1,13 @@
 package br.com.houseseeker.service.v1;
 
 import br.com.houseseeker.AbstractMockWebServerTest;
+import br.com.houseseeker.configuration.ObjectMapperConfiguration;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
-import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.service.OkHttpClientFactoryService;
 import br.com.houseseeker.service.RetrofitFactoryService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.RecordedRequest;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,14 +18,13 @@ import retrofit2.Retrofit;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
 import static br.com.houseseeker.TestUtils.getTextFromResources;
 import static br.com.houseseeker.mock.ProviderMetadataMocks.withUrlAndMechanism;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {
-        ObjectMapper.class,
+        ObjectMapperConfiguration.class,
         OkHttpClientFactoryService.class,
         RetrofitFactoryService.class,
         SearchPageV1ScraperService.class,
@@ -36,18 +34,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 })
 class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
 
-    private static final ProviderParameters.Connection DEFAULT_CONNECTION = ProviderParameters.Connection.builder()
-                                                                                                         .retryCount(1)
-                                                                                                         .logLevels(List.of(HttpLoggingInterceptor.Level.BODY))
-                                                                                                         .build();
-
-    private static final ProviderParameters DEFAULT_PROVIDER_PARAMETERS = ProviderParameters.builder()
-                                                                                            .connection(DEFAULT_CONNECTION)
-                                                                                            .build();
-
     private static final String SAMPLE_WITHOUT_ITEMS = "samples/v1/search/without-items.html";
     private static final String SAMPLE_WITH_ONE_ITEM_PAGE_1 = "samples/v1/search/with-one-item-page-1.html";
     private static final String SAMPLE_WITH_ONE_ITEM_PAGE_2 = "samples/v1/search/with-one-item-page-2.html";
+    private static final String SAMPLE_WITH_SINGLE_PAGE = "samples/v1/search/with-single-page.html";
     private static final String SAMPLE_FULL_PROPERTY_DATA = "samples/v1/property/with-full-data.html";
 
     @Autowired
@@ -77,6 +67,13 @@ class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
                 .hasFieldOrPropertyWithValue("providerMetadata", providerMetadata)
                 .hasFieldOrPropertyWithValue("errorInfo", null)
                 .hasFieldOrPropertyWithValue("extractedData", Collections.emptyList());
+
+        assertRecordedRequests(RecordedRequest::getPath)
+                .hasSizeBetween(1, 2)
+                .containsExactlyInAnyOrder(
+                        "/imoveis/a-venda?ordem=valor_max&pagina=1",
+                        "/imoveis/alugar?ordem=valor_max&pagina=1"
+                );
     }
 
     @Test
@@ -89,22 +86,29 @@ class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
                 .hasFieldOrPropertyWithValue("extractedData", Collections.emptyList())
                 .extracting("errorInfo.message", InstanceOfAssertFactories.STRING)
                 .contains("500 INTERNAL_SERVER_ERROR \"Request failed with error: sample error message\"");
+
+        assertRecordedRequests(RecordedRequest::getPath)
+                .hasSizeBetween(1, 2)
+                .containsExactlyInAnyOrder(
+                        "/imoveis/a-venda?ordem=valor_max&pagina=1",
+                        "/imoveis/alugar?ordem=valor_max&pagina=1"
+                );
     }
 
     @Test
     @DisplayName("given sell search pages with one item on each when calls scrap then expects response with not empty extracted data")
     void givenSellSearchPagesWithOneItemOnEachPage_whenCallsScrap_thenExpectsResponseWithNotEmptyExtractedData() {
         whenDispatch(recordedRequest -> {
-            if (requestHasSegments(recordedRequest, "/imoveis/a-venda") && getRequestQueryParameter(recordedRequest, "pagina").equals("1"))
+            if (requestHasPath(recordedRequest, "/imoveis/a-venda?ordem=valor_max&pagina=1"))
                 return new MockResponse().setBody(replaceMockServerBaseUrlPlaceHolder(getTextFromResources(SAMPLE_WITH_ONE_ITEM_PAGE_1)));
 
-            if (requestHasSegments(recordedRequest, "/imoveis/a-venda") && getRequestQueryParameter(recordedRequest, "pagina").equals("2"))
+            if (requestHasPath(recordedRequest, "/imoveis/a-venda?ordem=valor_max&pagina=2"))
                 return new MockResponse().setBody(replaceMockServerBaseUrlPlaceHolder(getTextFromResources(SAMPLE_WITH_ONE_ITEM_PAGE_2)));
 
-            if (requestHasSegments(recordedRequest, "/imoveis/alugar"))
+            if (requestHasPath(recordedRequest, "/imoveis/alugar?ordem=valor_max&pagina=1"))
                 return new MockResponse().setBody(getTextFromResources(SAMPLE_WITHOUT_ITEMS));
 
-            if (requestHasSegments(recordedRequest, "/property/1") || requestHasSegments(recordedRequest, "/property/2"))
+            if (requestHasPath(recordedRequest, "/property/1") || requestHasPath(recordedRequest, "/property/2"))
                 return new MockResponse().setBody(getTextFromResources(SAMPLE_FULL_PROPERTY_DATA));
 
             return new MockResponse().setResponseCode(404);
@@ -115,19 +119,26 @@ class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
                 .hasFieldOrPropertyWithValue("errorInfo", null)
                 .extracting("extractedData", InstanceOfAssertFactories.LIST)
                 .hasSize(2);
+
+        assertRecordedRequests(RecordedRequest::getPath)
+                .hasSize(5)
+                .containsExactlyInAnyOrder(
+                        "/imoveis/alugar?ordem=valor_max&pagina=1",
+                        "/imoveis/a-venda?ordem=valor_max&pagina=1",
+                        "/imoveis/a-venda?ordem=valor_max&pagina=2",
+                        "/property/1",
+                        "/property/2"
+                );
     }
 
     @Test
     @DisplayName("given error on property page request when calls scrap then expects response to have error info")
     void givenSellSearchPagesWithOneItemOnEachPage_whenCallsScrap_thenExpectsResponseToHaveErrorInfo() {
         whenDispatch(recordedRequest -> {
-            if (requestHasSegments(recordedRequest, "/imoveis/a-venda") && getRequestQueryParameter(recordedRequest, "pagina").equals("1"))
-                return new MockResponse().setBody(replaceMockServerBaseUrlPlaceHolder(getTextFromResources(SAMPLE_WITH_ONE_ITEM_PAGE_1)));
+            if (requestHasPath(recordedRequest, "/imoveis/a-venda?ordem=valor_max&pagina=1"))
+                return new MockResponse().setBody(replaceMockServerBaseUrlPlaceHolder(getTextFromResources(SAMPLE_WITH_SINGLE_PAGE)));
 
-            if (requestHasSegments(recordedRequest, "/imoveis/a-venda") && getRequestQueryParameter(recordedRequest, "pagina").equals("2"))
-                return new MockResponse().setBody(replaceMockServerBaseUrlPlaceHolder(getTextFromResources(SAMPLE_WITH_ONE_ITEM_PAGE_2)));
-
-            if (requestHasSegments(recordedRequest, "/imoveis/alugar"))
+            if (requestHasPath(recordedRequest, "/imoveis/alugar?ordem=valor_max&pagina=1"))
                 return new MockResponse().setBody(getTextFromResources(SAMPLE_WITHOUT_ITEMS));
 
             return new MockResponse().setResponseCode(500).setBody("failed on property page request");
@@ -138,6 +149,14 @@ class DataScraperV1ServiceTest extends AbstractMockWebServerTest {
                 .hasFieldOrPropertyWithValue("extractedData", Collections.emptyList())
                 .extracting("errorInfo.message", InstanceOfAssertFactories.STRING)
                 .contains("500 INTERNAL_SERVER_ERROR \"Request failed with error: failed on property page request\"");
+
+        assertRecordedRequests(RecordedRequest::getPath)
+                .hasSize(3)
+                .containsExactlyInAnyOrder(
+                        "/imoveis/alugar?ordem=valor_max&pagina=1",
+                        "/imoveis/a-venda?ordem=valor_max&pagina=1",
+                        "/property/1"
+                );
     }
 
 }
