@@ -37,7 +37,6 @@ jobs:
           gh actions-cache delete "commons-jacoco-report" --confirm
           gh actions-cache delete "commons-messaging-jacoco-report" --confirm
           gh actions-cache delete "jetimob-scraper-jacoco-report" --confirm
-          gh actions-cache delete "surefire-report" --confirm
       - name: Caching Commons Jacoco Report
         uses: actions/cache@v4
         with:
@@ -53,31 +52,13 @@ jobs:
         with:
           path: jetimob-scraper/target/site/jacoco
           key: jetimob-scraper-jacoco-report
-      - name: Caching Surefire Report
-        uses: actions/cache@v4
-        with:
-          path: |
-            commons/target/surefire-reports/*.xml
-            commons-messaging/target/surefire-reports/*.xml
-            jetimob-scraper/target/surefire-reports/*.xml
-          key: surefire-report
-  testSummary:
-    name: Surefire Report
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Restoring Cached Surefire Report
-        uses: actions/cache/restore@v4
-        with:
-          path: ./surefire-reports
-          key: surefire-report
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         with:
-          report_paths: ./surefire-reports/*.xml
+          report_paths: "**/target/surefire-reports/*.xml"
           fail_if_no_tests: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
-  testCoverage:
+  coverage:
     name: Code Coverage
     needs: build
     runs-on: ubuntu-latest
