@@ -28,6 +28,14 @@ jobs:
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+      - name: Deleting Previous JaCoCo Cache
+        if: ${{ steps.cache-restore.outputs.cache-hit }}
+        continue-on-error: true
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete "commons-jacoco-report" --confirm
+          gh actions-cache delete "commons-messaging-jacoco-report" --confirm
+          gh actions-cache delete "jetimob-scraper-jacoco-report" --confirm
       - name: Caching Commons Jacoco Report
         uses: actions/cache@v4
         with:
