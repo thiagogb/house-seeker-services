@@ -56,7 +56,10 @@ jobs:
       - name: Caching Surefire Report
         uses: actions/cache@v4
         with:
-          path: "**/target/surefire-reports/*.xml"
+          path: |
+            commons/target/surefire-reports/*.xml
+            commons-messaging/target/surefire-reports/*.xml
+            jetimob-scraper/target/surefire-reports/*.xml
           key: surefire-report
   testSummary:
     name: Surefire Report
@@ -71,7 +74,7 @@ jobs:
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         with:
-          report_paths: surefire-reports/*.xml
+          report_paths: ./surefire-reports/*.xml
           fail_if_no_tests: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
   testCoverage:
