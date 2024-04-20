@@ -37,7 +37,7 @@ jobs:
           gh actions-cache delete "commons-jacoco-report" --confirm
           gh actions-cache delete "commons-messaging-jacoco-report" --confirm
           gh actions-cache delete "jetimob-scraper-jacoco-report" --confirm
-          gh actions-cache delete "c" --confirm
+          gh actions-cache delete "surefire-report" --confirm
       - name: Caching Commons Jacoco Report
         uses: actions/cache@v4
         with:
@@ -56,7 +56,7 @@ jobs:
       - name: Caching Surefire Report
         uses: actions/cache@v4
         with:
-          path: "**/target/surefire-reports/TEST-*.xml"
+          path: "**/target/surefire-reports/*.xml"
           key: surefire-report
   testSummary:
     name: Surefire Report
