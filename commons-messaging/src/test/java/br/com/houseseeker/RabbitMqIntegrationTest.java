@@ -3,6 +3,7 @@ package br.com.houseseeker;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.core.ParameterizedTypeReference;
@@ -13,8 +14,12 @@ import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.concurrent.TimeUnit;
+
 @Testcontainers
 public interface RabbitMqIntegrationTest {
+
+    int THREE_SECONDS_WAIT = 3;
 
     @Container
     RabbitMQContainer RABBIT_MQ_CONTAINER = new RabbitMQContainer("rabbitmq:3.13.0-alpine")
@@ -42,8 +47,12 @@ public interface RabbitMqIntegrationTest {
     }
 
     default ProviderScraperResponse receivePersistenceMessage(RabbitTemplate rabbitTemplate, Binding binding) {
-        return rabbitTemplate.receiveAndConvert(binding.getDestination(), 5000, new ParameterizedTypeReference<>() {
+        return rabbitTemplate.receiveAndConvert(binding.getDestination(), TimeUnit.SECONDS.toMillis(THREE_SECONDS_WAIT), new ParameterizedTypeReference<>() {
         });
+    }
+
+    default Message receiveMessage(RabbitTemplate rabbitTemplate, Binding binding) {
+        return rabbitTemplate.receive(binding.getDestination(), TimeUnit.SECONDS.toMillis(THREE_SECONDS_WAIT));
     }
 
 }

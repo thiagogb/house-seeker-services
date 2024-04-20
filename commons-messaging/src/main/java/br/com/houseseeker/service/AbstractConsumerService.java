@@ -1,6 +1,5 @@
 package br.com.houseseeker.service;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
@@ -9,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.messaging.handler.annotation.Payload;
 import retrofit2.Retrofit;
 
@@ -26,11 +26,11 @@ public abstract class AbstractConsumerService {
             @NotNull ProviderMechanism acceptedMechanism
     ) {
         if (!acceptedMechanism.equals(providerMetadata.getMechanism()))
-            throw new ExtendedRuntimeException(
+            throw new AmqpRejectAndDontRequeueException(String.format(
                     "Unaccepted provider mechanism %s: accepted value are (%s)",
                     providerMetadata.getMechanism(),
                     acceptedMechanism
-            );
+            ));
     }
 
     protected final void executeScraper(

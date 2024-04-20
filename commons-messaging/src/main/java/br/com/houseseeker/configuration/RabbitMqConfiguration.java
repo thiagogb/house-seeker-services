@@ -39,6 +39,16 @@ public class RabbitMqConfiguration {
     }
 
     @Bean
+    public Queue deadLetterQueue() {
+        return new Queue("deadLetter.queue", true, false, false);
+    }
+
+    @Bean
+    public Binding deadLetterQueueBinding(TopicExchange topicExchange, Queue deadLetterQueue) {
+        return BindingBuilder.bind(deadLetterQueue).to(topicExchange).with("deadLetter.*");
+    }
+
+    @Bean
     public DefaultMessageHandlerMethodFactory defaultMessageHandlerMethodFactory(LocalValidatorFactoryBean localValidatorFactoryBean) {
         DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
         factory.setValidator(localValidatorFactoryBean);

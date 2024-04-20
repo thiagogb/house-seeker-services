@@ -47,6 +47,9 @@ class ConsumerV1ServiceTest implements RabbitMqIntegrationTest {
     private Binding persistenceQueueBinding;
 
     @Autowired
+    private Binding deadLetterQueueBinding;
+
+    @Autowired
     private Binding scraperJetimobQueueV1QueueBinding;
 
     @MockBean
@@ -63,8 +66,8 @@ class ConsumerV1ServiceTest implements RabbitMqIntegrationTest {
     }
 
     @Test
-    @DisplayName("given a message for jetimob scraper v1 when consume then expects")
-    void givenAMessageForJetimobScraperV1_whenConsume_thenExpects() {
+    @DisplayName("given a message for jetimob scraper v1 with successful consume when consume then expects to save in persistence queue")
+    void givenAMessageForJetimobScraperV1WithSuccessfulConsume_whenConsume_thenExpectsToSaveInPersistenceQueue() {
         ProviderMetadata providerMetadata = withMechanism(ProviderMechanism.JETIMOB_V1);
 
         ProviderScraperResponse response = ProviderScraperResponse.builder()
@@ -76,36 +79,39 @@ class ConsumerV1ServiceTest implements RabbitMqIntegrationTest {
 
         sendMessage(rabbitTemplate, scraperJetimobQueueV1QueueBinding, providerMetadata);
 
-        await().timeout(10, TimeUnit.SECONDS)
+        await().timeout(THREE_SECONDS_WAIT, TimeUnit.SECONDS)
                .untilAsserted(() -> verify(dataScraperV1Service, times(1)).scrap(eq(providerMetadata), any(), any()));
 
         assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isEqualTo(response);
+        assertThat(receiveMessage(rabbitTemplate, deadLetterQueueBinding)).isNull();
     }
 
     @Test
-    @DisplayName("given a invalid message mechanism for jetimob scraper v1 when consume then expects exception")
-    void givenAInvalidMessageMechanismForJetimobScraperV1_whenConsume_thenExpectException() {
+    @DisplayName("given a invalid message mechanism for jetimob scraper v1 with acceptance fail when consume then expects to save dead letter queue")
+    void givenAInvalidMessageMechanismForJetimobScraperV1WithAcceptanceFail_whenConsume_thenExpectsToSaveDeadLetterQueue() {
         ProviderMetadata providerMetadata = withMechanism(ProviderMechanism.JETIMOB_V2);
 
         sendMessage(rabbitTemplate, scraperJetimobQueueV1QueueBinding, providerMetadata);
 
-        await().timeout(10, TimeUnit.SECONDS)
+        await().timeout(THREE_SECONDS_WAIT, TimeUnit.SECONDS)
                .untilAsserted(() -> verifyNoInteractions(dataScraperV1Service));
 
         assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isNull();
+        assertThat(receiveMessage(rabbitTemplate, deadLetterQueueBinding)).isNotNull();
     }
 
     @Test
-    @DisplayName("given a invalid message for jetimob scraper v1 when consume then expects exception")
-    void givenAInvalidMessageForJetimobScraperV1_whenConsume_thenExpectException() {
+    @DisplayName("given a invalid message for jetimob scraper v1 with failed consume when consume then expects to save dead letter queue")
+    void givenAInvalidMessageForJetimobScraperV1WithFailedConsume_whenConsume_thenExpectsToSaveDeadLetterQueue() {
         ProviderMetadata providerMetadata = ProviderMetadata.builder().build();
 
         sendMessage(rabbitTemplate, scraperJetimobQueueV1QueueBinding, providerMetadata);
 
-        await().timeout(10, TimeUnit.SECONDS)
+        await().timeout(THREE_SECONDS_WAIT, TimeUnit.SECONDS)
                .untilAsserted(() -> verifyNoInteractions(dataScraperV1Service));
 
         assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isNull();
+        assertThat(receiveMessage(rabbitTemplate, deadLetterQueueBinding)).isNotNull();
     }
 
 }
