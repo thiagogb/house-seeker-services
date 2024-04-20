@@ -57,6 +57,7 @@ jobs:
         with:
           report_paths: "**/target/surefire-reports/*.xml"
           fail_if_no_tests: false
+          check_name: Surefire Test Report
           github_token: ${{ secrets.GITHUB_TOKEN }}
   coverage:
     name: Code Coverage
