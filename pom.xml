@@ -33,15 +33,18 @@
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <jacoco.version>0.8.10</jacoco.version>
+        <!-- sonarQube -->
         <sonar.organization>thiagogb</sonar.organization>
         <sonar.projectKe>thiagogb_house-seeker-services</sonar.projectKe>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
         <sonar.language>java</sonar.language>
-        <sonar.sources>${maven.multiModuleProjectDirectory}/src/main</sonar.sources>
-        <sonar.binaries>${maven.multiModuleProjectDirectory}/target/classes></sonar.binaries>
-        <sonar.tests>${maven.multiModuleProjectDirectory}/src/test></sonar.tests>
-        <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/target/site/jacoco></sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.modules>commons,commons-messaging,jetimob-scraper</sonar.modules>
+        <sonar.sources>src/main</sonar.sources>
+        <sonar.binaries>target/classes</sonar.binaries>
+        <sonar.tests>src/test</sonar.tests>
+        <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
     <dependencies>
         <dependency>
