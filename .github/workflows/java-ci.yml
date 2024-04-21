@@ -184,13 +184,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-        args: |
-          -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION_KEY }}
-          -Dsonar.projectKey=${{ secrets.SONAR_PROJET_KEY }}
-          -Dsonar.sourceEncoding=UTF-8
-          -Dsonar.language=java
-          -Dsonar.verbose=true
-          -Dsonar.sources=**/src/main
-          -Dsonar.binaries=**/target/classes
-          -Dsonar.tests=**/src/test
-          -Dsonar.coverage.jacoco.xmlReportPaths=**/target/site/jacoco
