@@ -1,6 +1,6 @@
 package br.com.houseseeker.domain.jetimob.v1;
 
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyContract;
+import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;

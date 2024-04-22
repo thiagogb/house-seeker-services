@@ -1,6 +1,6 @@
 package br.com.houseseeker.service;
 
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMetadata;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import jakarta.validation.constraints.NotNull;
 
 public abstract class AbstractMedataTransfer<T> {

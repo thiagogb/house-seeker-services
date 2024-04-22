@@ -3,10 +3,10 @@ package br.com.houseseeker.service.v1;
 import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata;
 import br.com.houseseeker.domain.jetimob.v1.SearchPageMetadata;
+import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyContract;
 import br.com.houseseeker.service.AbstractDataScraperService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -128,7 +128,7 @@ public class DataScraperV1Service extends AbstractDataScraperService {
                                                     .setContract(searchPageMetadata.getContract())
                 ));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new ExtendedRuntimeException(e);
             }
         }
         return builder.build();

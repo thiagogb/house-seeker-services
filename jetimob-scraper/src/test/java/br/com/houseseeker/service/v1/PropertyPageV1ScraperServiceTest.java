@@ -39,7 +39,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given invalid property page when calls scrap then expects exception")
     void givenInvalidPropertyPage_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_EMPTY_DOCUMENT)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_EMPTY_DOCUMENT))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Location root element not found");
     }
@@ -47,7 +47,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page without characteristics container when calls scrap then expects exception")
     void givenPropertyPageWithoutCharacteristicsContainer_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_CHARACTERISTICS)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITHOUT_CHARACTERISTICS))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Characteristics root element not found");
     }
@@ -55,7 +55,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with unknown characteristic when calls scrap then expects exception")
     void givenPropertyPageWithUnknownCharacteristic_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_UNKNOWN_CHARACTERISTIC)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_UNKNOWN_CHARACTERISTIC))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Unknown characteristic class");
     }
@@ -63,7 +63,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with blank characteristic name when calls scrap then expects exception")
     void givenPropertyPageWithBlankCharacteristicName_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_BLANK_CHARACTERISTIC_NAME)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_BLANK_CHARACTERISTIC_NAME))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract characteristic name");
     }
@@ -71,7 +71,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with blank characteristic value when calls scrap then expects exception")
     void givenPropertyPageWithBlankCharacteristicValue_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_BLANK_CHARACTERISTIC_VALUE)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_BLANK_CHARACTERISTIC_VALUE))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract characteristic value");
     }
@@ -79,7 +79,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page without pricing container when calls scrap then expects exception")
     void givenPropertyPageWithoutPricingContainer_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_PRICING)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITHOUT_PRICING))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Pricing root element not found");
     }
@@ -87,7 +87,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with blank pricing name when calls scrap then expects exception")
     void givenPropertyPageWithBlankPricingName_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_BLANK_PRICING_NAME)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_BLANK_PRICING_NAME))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract pricing name");
     }
@@ -95,7 +95,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with blank pricing value when calls scrap then expects exception")
     void givenPropertyPageWithBlankPricingValue_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_BLANK_PRICING_VALUE)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_BLANK_PRICING_VALUE))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract pricing value");
     }
@@ -103,7 +103,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with invalid pricing type when calls scrap then expects exception")
     void givenPropertyPageWithInvalidPricingType_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_UNKNOWN_PRICING_TYPE)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_UNKNOWN_PRICING_TYPE))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Unknown pricing type");
     }
@@ -111,7 +111,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with invalid data media when calls scrap then expects exception")
     void givenPropertyPageWithInvalidDataMedia_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_INVALID_DATA_MEDIA)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITH_INVALID_DATA_MEDIA))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Content read failed");
     }
@@ -176,6 +176,10 @@ class PropertyPageV1ScraperServiceTest {
                                                         .items(List.of("Value 1", "Value 2"))
                                                         .build()
                 );
+    }
+
+    private PropertyInfoMetadata scrapWithSample(String sample) {
+        return propertyPageV1ScraperService.scrap(getTextFromResources(sample));
     }
 
 }

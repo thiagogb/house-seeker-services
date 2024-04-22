@@ -4,7 +4,7 @@ import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse.ErrorInfo;
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMetadata;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;

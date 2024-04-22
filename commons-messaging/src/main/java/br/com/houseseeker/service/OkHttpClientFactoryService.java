@@ -1,6 +1,5 @@
 package br.com.houseseeker.service;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import jakarta.validation.constraints.NotNull;
@@ -64,7 +63,8 @@ public class OkHttpClientFactoryService {
         try {
             Thread.sleep(providerParameters.getConnection().getRetryWait());
         } catch (InterruptedException e) {
-            throw new ExtendedRuntimeException(e, "Retry wait time failed for provider %s", providerMetadata.getName());
+            log.error("Retry wait time failed for provider {}", providerMetadata.getName(), e);
+            Thread.currentThread().interrupt();
         }
     }
 

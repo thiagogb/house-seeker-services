@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,6 +32,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNullElse;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 @RequiredArgsConstructor
@@ -184,35 +186,42 @@ public class PropertyPageV1ScraperService extends AbstractJsoupScraperService<Pr
         Convenience.ConvenienceBuilder builder = Convenience.builder();
         List<String> items = new LinkedList<>();
         JsoupUtils.getElementAtIndex(elements, 3)
-                  .ifPresent(e -> {
-                      e.select(".list-group-item").forEach(lgi -> {
-                          Optional.ofNullable(lgi.select(".section-subtitle").first())
-                                  .flatMap(JsoupUtils::getNonBlankHtml)
-                                  .ifPresent(st -> {
-                                      switch (st.toLowerCase().trim()) {
-                                          case "descrição":
-                                              builder.description(
-                                                      Optional.ofNullable(lgi.select("pre").first())
-                                                              .flatMap(JsoupUtils::getNonBlankHtml)
-                                                              .orElse(null)
-                                              );
-                                              break;
-                                          case "características":
-                                          case "comodidades":
-                                              items.addAll(
-                                                      lgi.select("li.list-item")
-                                                         .stream()
-                                                         .map(Element::html)
-                                                         .toList()
-                                              );
-                                              break;
-                                          default:
-                                              log.info("Unknown convenience subtitle {}", st);
-                                      }
-                                  });
-                      });
-                  });
+                  .ifPresent(e -> scrapConveniences(e).accept((a, b) -> {
+                      builder.description(a);
+                      items.addAll(b);
+                  }));
         return builder.items(items).build();
+    }
+
+    private Pair<String, List<String>> scrapConveniences(Element e) {
+        MutablePair<String, List<String>> result = new MutablePair<>(EMPTY, new LinkedList<>());
+        e.select(".list-group-item")
+         .forEach(lgi -> Optional.ofNullable(lgi.select(".section-subtitle").first())
+                                 .flatMap(JsoupUtils::getNonBlankHtml)
+                                 .ifPresent(st -> {
+                                     switch (st.toLowerCase().trim()) {
+                                         case "descrição":
+                                             result.setLeft(
+                                                     Optional.ofNullable(lgi.select("pre").first())
+                                                             .flatMap(JsoupUtils::getNonBlankHtml)
+                                                             .orElse(null)
+                                             );
+                                             break;
+                                         case "características", "comodidades":
+                                             result.getRight()
+                                                   .addAll(
+                                                           lgi.select("li.list-item")
+                                                              .stream()
+                                                              .map(Element::html)
+                                                              .toList()
+                                                   );
+                                             break;
+                                         default:
+                                             log.info("Unknown convenience subtitle {}", st);
+                                     }
+                                 })
+         );
+        return result;
     }
 
     private static final class MediaMetadata {

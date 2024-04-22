@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +41,7 @@ class JsoupUtilsTest {
     @MethodSource("elementAttributeSample")
     @DisplayName("given a element attribute when calls getNonBlankAttribute then expects")
     void givenAElementContent_whenCallsGetNonBlankAttribute_thenExpects(String attributeValue, String output) {
-        when(element.attr(eq("attr"))).thenReturn(attributeValue);
+        when(element.attr("attr")).thenReturn(attributeValue);
 
         assertThat(JsoupUtils.getNonBlankAttribute(element, "attr")).isEqualTo(Optional.ofNullable(output));
     }

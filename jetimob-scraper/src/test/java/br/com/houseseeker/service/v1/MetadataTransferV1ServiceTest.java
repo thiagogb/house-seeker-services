@@ -10,7 +10,7 @@ import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata.Media;
 import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata.Pricing;
 import br.com.houseseeker.domain.jetimob.v1.PropertyPricingType;
 import br.com.houseseeker.domain.jetimob.v1.SearchPageMetadata;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyContract;
+import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DisplayName;

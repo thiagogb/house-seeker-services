@@ -5,18 +5,19 @@ import br.com.houseseeker.domain.jetimob.v1.PropertyCharacteristicType;
 import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata;
 import br.com.houseseeker.domain.jetimob.v1.PropertyPricingType;
 import br.com.houseseeker.domain.jetimob.v1.SearchPageMetadata;
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMediaData;
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMetadata;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyContract;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyMediaType;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyStatus;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyType;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMediaData;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
+import br.com.houseseeker.domain.property.UrbanPropertyContract;
+import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
+import br.com.houseseeker.domain.property.UrbanPropertyStatus;
+import br.com.houseseeker.domain.property.UrbanPropertyType;
 import br.com.houseseeker.service.AbstractMedataTransfer;
 import br.com.houseseeker.util.ObjectMapperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -137,6 +138,7 @@ public class MetadataTransferV1Service extends AbstractMedataTransfer<Pair<Searc
             }
 
             @Override
+            @Nullable
             public Boolean isExchangeable() {
                 return null;
             }
@@ -155,6 +157,7 @@ public class MetadataTransferV1Service extends AbstractMedataTransfer<Pair<Searc
             }
 
             @Override
+            @Nullable
             public Boolean isOccupied() {
                 return null;
             }

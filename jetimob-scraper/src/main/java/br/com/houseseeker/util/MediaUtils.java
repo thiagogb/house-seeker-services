@@ -1,5 +1,6 @@
 package br.com.houseseeker.util;
 
+import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import jakarta.validation.constraints.NotNull;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FilenameUtils;
@@ -26,7 +27,7 @@ public class MediaUtils {
         try {
             return new URIBuilder(url).removeQuery().build().toString();
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Failed to clear query params from url", e);
+            throw new ExtendedRuntimeException(e, "Failed to clear query params from url");
         }
     }
 

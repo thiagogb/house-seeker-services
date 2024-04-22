@@ -1,12 +1,12 @@
 package br.com.houseseeker.service.v4;
 
 import br.com.houseseeker.domain.jetimob.v4.PropertyInfoResponse;
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMediaData;
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMetadata;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyContract;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyMediaType;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyStatus;
-import br.com.houseseeker.domain.urbanProperty.UrbanPropertyType;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMediaData;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
+import br.com.houseseeker.domain.property.UrbanPropertyContract;
+import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
+import br.com.houseseeker.domain.property.UrbanPropertyStatus;
+import br.com.houseseeker.domain.property.UrbanPropertyType;
 import br.com.houseseeker.service.AbstractMedataTransfer;
 import br.com.houseseeker.util.BigDecimalUtils;
 import br.com.houseseeker.util.MediaUtils;
@@ -14,6 +14,7 @@ import br.com.houseseeker.util.ObjectMapperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -149,6 +150,7 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
             }
 
             @Override
+            @Nullable
             public Boolean isOccupied() {
                 return null;
             }

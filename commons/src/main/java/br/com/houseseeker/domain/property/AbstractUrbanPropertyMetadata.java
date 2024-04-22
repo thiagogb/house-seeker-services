@@ -1,4 +1,4 @@
-package br.com.houseseeker.domain.urbanProperty;
+package br.com.houseseeker.domain.property;
 
 import java.math.BigDecimal;
 import java.util.List;

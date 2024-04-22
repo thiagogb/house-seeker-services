@@ -7,6 +7,10 @@ public class ExtendedRuntimeException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = -5876195348918179246L;
 
+    public ExtendedRuntimeException(Throwable cause) {
+        super(cause);
+    }
+
     public ExtendedRuntimeException(String message, Object... args) {
         super(String.format(message, args));
     }

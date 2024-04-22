@@ -1,4 +1,4 @@
-package br.com.houseseeker.domain.urbanProperty;
+package br.com.houseseeker.domain.property;
 
 public abstract class AbstractUrbanPropertyMediaData {
 

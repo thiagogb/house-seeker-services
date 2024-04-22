@@ -88,12 +88,19 @@ public class DataScraperV4Service extends AbstractDataScraperService {
     ) {
         log.info("Fetching details of {} properties", items.size());
         List<CompletableFuture<PropertyInfoResponse>> requestList = items.stream()
-                                                                         .map(sr -> CompletableFuture.supplyAsync(() -> {
-                                                                             return RetrofitUtils.executeCall(api.getProperty(sr.getCode()))
-                                                                                                 .setUrl(providerMetadata.getSiteUrl().concat(sr.getUrl()));
-                                                                         }))
+                                                                         .map(sr -> fetchPropertyData(api, providerMetadata, sr))
                                                                          .toList();
         return requestList.stream().map(CompletableFuture::join).toList();
+    }
+
+    private CompletableFuture<PropertyInfoResponse> fetchPropertyData(
+            Api api,
+            ProviderMetadata providerMetadata,
+            SearchPageResponse.Item item
+    ) {
+        return CompletableFuture.supplyAsync(() -> RetrofitUtils.executeCall(api.getProperty(item.getCode()))
+                                                                .setUrl(providerMetadata.getSiteUrl().concat(item.getUrl()))
+        );
     }
 
     private interface Api {

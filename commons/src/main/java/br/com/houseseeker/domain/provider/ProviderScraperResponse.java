@@ -1,6 +1,6 @@
 package br.com.houseseeker.domain.provider;
 
-import br.com.houseseeker.domain.urbanProperty.AbstractUrbanPropertyMetadata;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

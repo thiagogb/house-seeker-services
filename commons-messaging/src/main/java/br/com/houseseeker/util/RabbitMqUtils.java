@@ -11,10 +11,10 @@ import java.util.Map;
 public class RabbitMqUtils {
 
     public static Map<String, Object> getDeadLetterParamsUsingBinding(@NotNull Binding binding) {
-        return new HashMap<>() {{
-            put("x-dead-letter-exchange", binding.getExchange());
-            put("x-dead-letter-routing-key", binding.getRoutingKey());
-        }};
+        Map<String, Object> params = new HashMap<>();
+        params.put("x-dead-letter-exchange", binding.getExchange());
+        params.put("x-dead-letter-routing-key", binding.getRoutingKey());
+        return params;
     }
 
 }
