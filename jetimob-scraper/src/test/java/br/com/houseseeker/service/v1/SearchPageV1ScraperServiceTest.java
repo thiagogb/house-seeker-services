@@ -53,7 +53,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page with items without image container badges when calls scrap then expects exception")
     void givenSearchPageWithItemsWithoutImageContainerBadges_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> scrapWithSample(getTextFromResources(SAMPLE_WITHOUT_BADGES)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITHOUT_BADGES))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract subType");
     }
