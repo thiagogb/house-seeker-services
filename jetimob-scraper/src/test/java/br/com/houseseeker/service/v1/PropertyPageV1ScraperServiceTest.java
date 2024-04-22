@@ -119,7 +119,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with minimum data when calls scrap then expects property info metadata")
     void givenPropertyPageWithMinimumData_whenCallsScrap_thenExpectsPropertyInfoMetadata() {
-        assertThat(propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_MINIMUM_DATA)))
+        assertThat(scrapWithSample(SAMPLE_WITH_MINIMUM_DATA))
                 .hasFieldOrPropertyWithValue("contract", null)
                 .hasFieldOrPropertyWithValue("location", PropertyInfoMetadata.Location.builder().build())
                 .hasFieldOrPropertyWithValue("characteristics", Collections.emptyList())
@@ -131,7 +131,7 @@ class PropertyPageV1ScraperServiceTest {
     @Test
     @DisplayName("given property page with full data when calls scrap then expects property info metadata")
     void givenPropertyPageWithFullData_whenCallsScrap_thenExpectsPropertyInfoMetadata() {
-        assertThat(propertyPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_FULL_DATA)))
+        assertThat(scrapWithSample(SAMPLE_WITH_FULL_DATA))
                 .hasFieldOrPropertyWithValue("contract", null)
                 .extracting("location", "characteristics", "pricing", "medias", "convenience")
                 .containsExactly(

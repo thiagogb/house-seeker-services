@@ -29,7 +29,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page without items when calls scrap then expects exception")
     void givenSearchPageWithoutItems_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> searchPageV1ScraperService.scrap(getTextFromResources(SAMPLE_EMPTY_DOCUMENT)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_EMPTY_DOCUMENT))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract current page number");
     }
@@ -37,7 +37,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page with items without image container when calls scrap then expects exception")
     void givenSearchPageWithItemsWithoutImageContainer_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> searchPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_IMAGE_CONTAINER)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITHOUT_IMAGE_CONTAINER))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Image container element not found");
     }
@@ -45,7 +45,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page with items without image container href when calls scrap then expects exception")
     void givenSearchPageWithItemsWithoutImageContainerHref_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> searchPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_PAGE_LINK)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITHOUT_PAGE_LINK))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Required attribute href is blank");
     }
@@ -53,7 +53,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page with items without image container badges when calls scrap then expects exception")
     void givenSearchPageWithItemsWithoutImageContainerBadges_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> searchPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_BADGES)))
+        assertThatThrownBy(() -> scrapWithSample(getTextFromResources(SAMPLE_WITHOUT_BADGES)))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract subType");
     }
@@ -61,7 +61,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page with items without image container provider code when calls scrap then expects exception")
     void givenSearchPageWithItemsWithoutImageContainerProviderCode_whenCallsScrap_thenExpectsException() {
-        assertThatThrownBy(() -> searchPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_PROVIDER_CODE)))
+        assertThatThrownBy(() -> scrapWithSample(SAMPLE_WITHOUT_PROVIDER_CODE))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Failed to extract providerCode");
     }
@@ -69,7 +69,7 @@ class SearchPageV1ScraperServiceTest {
     @Test
     @DisplayName("given search page with two items when calls scrap then expects search page metadata")
     void givenSearchPageWithTwoItems_whenCallsScrap_thenExpectsSearchPageMetadata() {
-        assertThat(searchPageV1ScraperService.scrap(getTextFromResources(SAMPLE_WITH_TWO_ITEMS)))
+        assertThat(scrapWithSample(SAMPLE_WITH_TWO_ITEMS))
                 .hasFieldOrPropertyWithValue("contract", null)
                 .extracting("items", "pagination")
                 .containsExactly(
@@ -90,6 +90,10 @@ class SearchPageV1ScraperServiceTest {
                                                      .lastPage(2)
                                                      .build()
                 );
+    }
+
+    private SearchPageMetadata scrapWithSample(String sample) {
+        return searchPageV1ScraperService.scrap(getTextFromResources(sample));
     }
 
 }

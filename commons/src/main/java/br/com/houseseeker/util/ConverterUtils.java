@@ -4,7 +4,6 @@ import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -15,8 +14,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @UtilityClass
 public class ConverterUtils {
 
-    private static final Locale PT_BR_LOCALE = Locale.of("pt", "BR");
-    private static final Locale EN_US_LOCALE = Locale.of("en", "US");
+    private static final NumberFormat PT_BR_NUMBER_FORMAT = NumberFormat.getInstance(Locale.of("pt", "BR"));
+    private static final NumberFormat EN_US_NUMBER_FORMAT = NumberFormat.getInstance(Locale.of("en", "US"));
 
     public Optional<Integer> tryToInteger(@Nullable String value) {
         if (isBlank(value))
@@ -32,11 +31,11 @@ public class ConverterUtils {
     }
 
     public Optional<BigDecimal> tryToBigDecimalPtBR(@Nullable String value) {
-        return tryToBigDecimal(value, DecimalFormat.getInstance(PT_BR_LOCALE));
+        return tryToBigDecimal(value, PT_BR_NUMBER_FORMAT);
     }
 
     public Optional<BigDecimal> tryToBigDecimalEnUs(@Nullable String value) {
-        return tryToBigDecimal(value, DecimalFormat.getInstance(EN_US_LOCALE));
+        return tryToBigDecimal(value, EN_US_NUMBER_FORMAT);
     }
 
     private Optional<BigDecimal> tryToBigDecimal(
