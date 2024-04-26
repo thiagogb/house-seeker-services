@@ -1,6 +1,6 @@
 package br.com.houseseeker.domain.property;
 
-public abstract class AbstractUrbanPropertyMediaData {
+public abstract class AbstractUrbanPropertyMediaMetadata {
 
     public abstract String getLink();
 

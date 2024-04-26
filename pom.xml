@@ -17,6 +17,7 @@
         <module>commons</module>
         <module>commons-messaging</module>
         <module>jetimob-scraper</module>
+        <module>data</module>
     </modules>
     <properties>
         <java.version>21</java.version>
@@ -26,6 +27,8 @@
         <commons.io.version>2.15.1</commons.io.version>
         <commons.text.version>1.10.0</commons.text.version>
         <apache.httpcomponents.version>5.3.1</apache.httpcomponents.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <lombok.mapstruct.version>0.2.0</lombok.mapstruct.version>
         <guava.version>33.0.0-jre</guava.version>
         <okhttp.version>4.12.0</okhttp.version>
         <retrofit.version>2.9.0</retrofit.version>
@@ -110,6 +113,17 @@
             <version>${apache.httpcomponents.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
@@ -185,6 +199,37 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok.mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </compilerArg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

@@ -79,7 +79,7 @@ public abstract class AbstractUrbanPropertyMetadata {
 
     public abstract String getAreaUnit();
 
-    public abstract List<AbstractUrbanPropertyMediaData> getMedias();
+    public abstract List<AbstractUrbanPropertyMediaMetadata> getMedias();
 
     @Override
     public abstract String toString();

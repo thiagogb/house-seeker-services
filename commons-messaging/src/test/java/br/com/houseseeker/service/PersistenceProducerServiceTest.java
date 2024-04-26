@@ -30,8 +30,8 @@ class PersistenceProducerServiceTest implements RabbitMqIntegrationTest {
     private Binding persistenceQueueBinding;
 
     @Test
-    @DisplayName("given a scrapper response when calls produce then expects to send message to broker")
-    void givenAScrapperResponse_whenCallsProduce_thenSendMessageToBroker() {
+    @DisplayName("given a scrapper error response when calls produce then expects to send message to broker")
+    void givenAScrapperErrorResponse_whenCallsProduce_thenSendMessageToBroker() {
         ProviderScraperResponse providerScraperResponse = ProviderScraperResponse.builder()
                                                                                  .providerMetadata(
                                                                                          withUrlAndMechanism(
@@ -50,7 +50,7 @@ class PersistenceProducerServiceTest implements RabbitMqIntegrationTest {
 
         persistenceProducerService.produce(providerScraperResponse);
 
-        await().pollDelay(2, TimeUnit.SECONDS)
+        await().pollDelay(THREE_SECONDS_WAIT, TimeUnit.SECONDS)
                .untilAsserted(() -> assertThat(receivePersistenceMessage(rabbitTemplate, persistenceQueueBinding)).isEqualTo(providerScraperResponse));
     }
 

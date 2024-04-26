@@ -1,10 +1,11 @@
 package br.com.houseseeker.service;
 
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse.ErrorInfo;
-import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
+import br.com.houseseeker.util.StopWatchUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -35,6 +36,7 @@ public abstract class AbstractDataScraperService {
             stopWatch.stop();
         }
         log.info("Finished data scrapping on provider {}: {}", providerMetadata.getName(), stopWatch.shortSummary());
+        response.setStartAt(StopWatchUtils.getStart(stopWatch));
         return response;
     }
 
@@ -59,12 +61,12 @@ public abstract class AbstractDataScraperService {
         return ProviderScraperResponse.builder()
                                       .providerMetadata(providerMetadata)
                                       .errorInfo(
-                                               ErrorInfo.builder()
-                                                        .className(exception.getClass().getName())
-                                                        .message(exception.getMessage())
-                                                        .stackTrace(ExceptionUtils.getStackTrace(exception))
-                                                        .build()
-                                       )
+                                              ErrorInfo.builder()
+                                                       .className(exception.getClass().getName())
+                                                       .message(exception.getMessage())
+                                                       .stackTrace(ExceptionUtils.getStackTrace(exception))
+                                                       .build()
+                                      )
                                       .build();
     }
 

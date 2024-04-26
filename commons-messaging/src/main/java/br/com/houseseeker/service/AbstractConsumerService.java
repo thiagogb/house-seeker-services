@@ -12,6 +12,8 @@ import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.messaging.handler.annotation.Payload;
 import retrofit2.Retrofit;
 
+import java.util.concurrent.CompletableFuture;
+
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractConsumerService {
 
@@ -37,10 +39,12 @@ public abstract class AbstractConsumerService {
             @NotNull ProviderMetadata providerMetadata,
             @NotNull AbstractDataScraperService abstractDataScraperService
     ) {
-        ProviderParameters providerParameters = providerInspectorService.getParameters(providerMetadata);
-        Retrofit retrofit = retrofitFactoryService.configure(providerMetadata, providerParameters);
-        ProviderScraperResponse response = abstractDataScraperService.scrap(providerMetadata, providerParameters, retrofit);
-        persistenceProducerService.produce(response);
+        CompletableFuture.runAsync(() -> {
+            ProviderParameters providerParameters = providerInspectorService.getParameters(providerMetadata);
+            Retrofit retrofit = retrofitFactoryService.configure(providerMetadata, providerParameters);
+            ProviderScraperResponse response = abstractDataScraperService.scrap(providerMetadata, providerParameters, retrofit);
+            persistenceProducerService.produce(response);
+        });
     }
 
 }

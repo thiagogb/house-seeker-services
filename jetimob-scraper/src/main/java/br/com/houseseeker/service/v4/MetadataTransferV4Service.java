@@ -1,7 +1,7 @@
 package br.com.houseseeker.service.v4;
 
 import br.com.houseseeker.domain.jetimob.v4.PropertyInfoResponse;
-import br.com.houseseeker.domain.property.AbstractUrbanPropertyMediaData;
+import br.com.houseseeker.domain.property.AbstractUrbanPropertyMediaMetadata;
 import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
@@ -290,7 +290,7 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
             }
 
             @Override
-            public List<AbstractUrbanPropertyMediaData> getMedias() {
+            public List<AbstractUrbanPropertyMediaMetadata> getMedias() {
                 return Optional.ofNullable(metadata.getMedias())
                                .map(m -> transferMediaMetadata(m))
                                .orElse(Collections.emptyList());
@@ -311,9 +311,9 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
                         .orElse(null);
     }
 
-    private List<AbstractUrbanPropertyMediaData> transferMediaMetadata(List<PropertyInfoResponse.Media> mediaList) {
+    private List<AbstractUrbanPropertyMediaMetadata> transferMediaMetadata(List<PropertyInfoResponse.Media> mediaList) {
         return mediaList.stream()
-                        .map(m -> new AbstractUrbanPropertyMediaData() {
+                        .map(m -> new AbstractUrbanPropertyMediaMetadata() {
                             @Override
                             public String getLink() {
                                 return m.getLink();

@@ -40,6 +40,7 @@ jobs:
           gh actions-cache delete "commons-jacoco-report" --confirm
           gh actions-cache delete "commons-messaging-jacoco-report" --confirm
           gh actions-cache delete "jetimob-scraper-jacoco-report" --confirm
+          gh actions-cache delete "data-jacoco-report" --confirm
 
       - name: Caching Commons Jacoco Report
         uses: actions/cache@v4
@@ -58,6 +59,12 @@ jobs:
         with:
           path: jetimob-scraper/target/site/jacoco
           key: jetimob-scraper-jacoco-report
+
+      - name: Caching Data Jacoco Report
+        uses: actions/cache@v4
+        with:
+          path: data/target/site/jacoco
+          key: data-jacoco-report
 
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
@@ -118,6 +125,21 @@ jobs:
           coverage-badge-filename: jetimob-scraper-coverage-jacoco.svg
           branches-badge-filename: jetimob-scraper-branches-jacoco.svg
           workflow-summary-heading: Module Jetimob Scraper - JaCoCo Test Coverage Summary
+
+      - name: Restoring Data Jacoco Report
+        uses: actions/cache/restore@v4
+        with:
+          path: data/target/site/jacoco
+          key: data-jacoco-report
+
+      - name: Generate JaCoCo Badge - Data
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: data/target/site/jacoco/jacoco.csv
+          coverage-badge-filename: data-coverage-jacoco.svg
+          branches-badge-filename: data-branches-jacoco.svg
+          workflow-summary-heading: Module Data - JaCoCo Test Coverage Summary
 
       - name: JoCoco Badge Commit
         run: |

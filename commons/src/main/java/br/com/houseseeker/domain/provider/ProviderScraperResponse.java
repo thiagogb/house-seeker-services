@@ -1,11 +1,15 @@
 package br.com.houseseeker.domain.provider;
 
+import br.com.houseseeker.deserializer.AbstractUrbanPropertyMetadataDeserializer;
 import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,10 +19,13 @@ import java.util.List;
 @Builder
 public class ProviderScraperResponse {
 
+    @NotNull
     private ProviderMetadata providerMetadata;
     private ErrorInfo errorInfo;
     @Builder.Default
+    @JsonDeserialize(using = AbstractUrbanPropertyMetadataDeserializer.class)
     private List<AbstractUrbanPropertyMetadata> extractedData = new LinkedList<>();
+    private LocalDateTime startAt;
 
     @Data
     @AllArgsConstructor
