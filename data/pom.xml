@@ -52,5 +52,13 @@
             <artifactId>commons-messaging</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- tests -->
+        <dependency>
+            <groupId>br.com.houseseeker</groupId>
+            <artifactId>commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

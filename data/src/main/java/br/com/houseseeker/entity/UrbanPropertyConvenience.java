@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,6 +51,12 @@ public class UrbanPropertyConvenience implements Serializable {
     @Column(name = "description", nullable = false)
     @Setter
     private String description;
+
+    @Builder
+    public UrbanPropertyConvenience(UrbanProperty urbanProperty, String description) {
+        this.urbanProperty = urbanProperty;
+        this.description = description;
+    }
 
     @Override
     public final boolean equals(Object obj) {

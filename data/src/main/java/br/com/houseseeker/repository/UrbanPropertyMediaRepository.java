@@ -1,5 +1,7 @@
-package br.com.houseseeker.entity;
+package br.com.houseseeker.repository;
 
+import br.com.houseseeker.entity.Provider;
+import br.com.houseseeker.entity.UrbanPropertyMedia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

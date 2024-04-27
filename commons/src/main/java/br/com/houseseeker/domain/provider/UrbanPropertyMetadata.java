@@ -5,6 +5,8 @@ import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import br.com.houseseeker.domain.property.UrbanPropertyStatus;
 import br.com.houseseeker.domain.property.UrbanPropertyType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,9 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class UrbanPropertyMetadata extends AbstractUrbanPropertyMetadata {
 
     private String providerCode;

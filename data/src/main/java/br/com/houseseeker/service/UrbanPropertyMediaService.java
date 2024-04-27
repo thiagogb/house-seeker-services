@@ -2,7 +2,7 @@ package br.com.houseseeker.service;
 
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyMedia;
-import br.com.houseseeker.entity.UrbanPropertyMediaRepository;
+import br.com.houseseeker.repository.UrbanPropertyMediaRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

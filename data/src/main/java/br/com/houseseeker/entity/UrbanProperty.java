@@ -18,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -166,6 +167,63 @@ public class UrbanProperty implements Serializable {
     @Convert(converter = BooleanToVarCharConverter.class)
     @Setter
     private Boolean analyzable;
+
+    @Builder
+    public UrbanProperty(
+            Provider provider,
+            String providerCode,
+            String url,
+            UrbanPropertyContract contract,
+            UrbanPropertyType type,
+            String subType,
+            Integer dormitories,
+            Integer suites,
+            Integer bathrooms,
+            Integer garages,
+            BigDecimal sellPrice,
+            BigDecimal sellPriceVariation,
+            BigDecimal rentPrice,
+            BigDecimal rentPriceVariation,
+            BigDecimal condominiumPrice,
+            BigDecimal condominiumPriceVariation,
+            String condominiumName,
+            Boolean exchangeable,
+            UrbanPropertyStatus status,
+            Boolean financeable,
+            Boolean occupied,
+            String notes,
+            LocalDateTime creationDate,
+            LocalDateTime lastAnalysisDate,
+            LocalDateTime exclusionDate,
+            Boolean analyzable
+    ) {
+        this.provider = provider;
+        this.providerCode = providerCode;
+        this.url = url;
+        this.contract = contract;
+        this.type = type;
+        this.subType = subType;
+        this.dormitories = dormitories;
+        this.suites = suites;
+        this.bathrooms = bathrooms;
+        this.garages = garages;
+        this.sellPrice = sellPrice;
+        this.sellPriceVariation = sellPriceVariation;
+        this.rentPrice = rentPrice;
+        this.rentPriceVariation = rentPriceVariation;
+        this.condominiumPrice = condominiumPrice;
+        this.condominiumPriceVariation = condominiumPriceVariation;
+        this.condominiumName = condominiumName;
+        this.exchangeable = exchangeable;
+        this.status = status;
+        this.financeable = financeable;
+        this.occupied = occupied;
+        this.notes = notes;
+        this.creationDate = creationDate;
+        this.lastAnalysisDate = lastAnalysisDate;
+        this.exclusionDate = exclusionDate;
+        this.analyzable = analyzable;
+    }
 
     @Override
     public final boolean equals(Object obj) {

@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -75,6 +76,27 @@ public class Provider implements Serializable {
     @Convert(converter = BooleanToVarCharConverter.class)
     @Setter
     private Boolean active;
+
+    @Builder
+    public Provider(
+            String name,
+            String siteUrl,
+            String dataUrl,
+            ProviderMechanism mechanism,
+            String params,
+            String cronExpression,
+            byte[] logo,
+            Boolean active
+    ) {
+        this.name = name;
+        this.siteUrl = siteUrl;
+        this.dataUrl = dataUrl;
+        this.mechanism = mechanism;
+        this.params = params;
+        this.cronExpression = cronExpression;
+        this.logo = logo;
+        this.active = active;
+    }
 
     @Override
     public final boolean equals(Object obj) {

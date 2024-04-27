@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -83,6 +84,31 @@ public class UrbanPropertyLocation implements Serializable {
     @Column(name = "longitude", precision = 12, scale = 9)
     @Setter
     private BigDecimal longitude;
+
+    @Builder
+    public UrbanPropertyLocation(
+            UrbanProperty urbanProperty,
+            String state,
+            String city,
+            String district,
+            String zipCode,
+            String streetName,
+            Integer streetNumber,
+            String complement,
+            BigDecimal latitude,
+            BigDecimal longitude
+    ) {
+        this.urbanProperty = urbanProperty;
+        this.state = state;
+        this.city = city;
+        this.district = district;
+        this.zipCode = zipCode;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.complement = complement;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     @Override
     public final boolean equals(Object obj) {
