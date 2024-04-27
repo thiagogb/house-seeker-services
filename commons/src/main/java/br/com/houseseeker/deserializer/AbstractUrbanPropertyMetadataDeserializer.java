@@ -1,7 +1,6 @@
 package br.com.houseseeker.deserializer;
 
 import br.com.houseseeker.domain.provider.UrbanPropertyMetadata;
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -17,7 +16,7 @@ import java.util.List;
 public class AbstractUrbanPropertyMetadataDeserializer extends JsonDeserializer<List<UrbanPropertyMetadata>> {
 
     @Override
-    public List<UrbanPropertyMetadata> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public List<UrbanPropertyMetadata> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         ObjectCodec objectCodec = jsonParser.getCodec();
         JsonNode jsonNode = objectCodec.readTree(jsonParser);
         return deserializeNodes(objectCodec, jsonNode);

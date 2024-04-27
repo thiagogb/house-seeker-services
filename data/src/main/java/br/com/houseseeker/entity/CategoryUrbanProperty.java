@@ -68,11 +68,11 @@ public class CategoryUrbanProperty implements Serializable {
     public final boolean equals(Object obj) {
         if (this == obj) return true;
         if (isNull(obj)) return false;
-        Class<?> oEffectiveClass = obj instanceof HibernateProxy
-                ? ((HibernateProxy) obj).getHibernateLazyInitializer().getPersistentClass()
+        Class<?> oEffectiveClass = obj instanceof HibernateProxy hibernateProxy
+                ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass()
                 : obj.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy hibernateProxy
+                ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass()
                 : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
         CategoryUrbanProperty that = (CategoryUrbanProperty) obj;
@@ -81,8 +81,8 @@ public class CategoryUrbanProperty implements Serializable {
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
+        return this instanceof HibernateProxy hibernateProxy
+                ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass().hashCode()
                 : getClass().hashCode();
     }
 
