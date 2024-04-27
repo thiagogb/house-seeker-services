@@ -47,6 +47,7 @@
         <sonar.tests>src/test</sonar.tests>
         <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>/src/main/resources/db/migration/**/*.sql</sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
