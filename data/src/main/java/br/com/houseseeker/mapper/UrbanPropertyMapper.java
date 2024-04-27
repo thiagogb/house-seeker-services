@@ -8,7 +8,6 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Clock;
@@ -24,29 +23,25 @@ public abstract class UrbanPropertyMapper {
         this.clock = clock;
     }
 
-    @Mappings({
-            @Mapping(source = "provider", target = "provider"),
-            @Mapping(target = "analyzable", ignore = true),
-            @Mapping(target = "condominiumPriceVariation", ignore = true),
-            @Mapping(target = "creationDate", ignore = true),
-            @Mapping(target = "exclusionDate", ignore = true),
-            @Mapping(target = "lastAnalysisDate", ignore = true),
-            @Mapping(target = "rentPriceVariation", ignore = true),
-            @Mapping(target = "sellPriceVariation", ignore = true)
-    })
+    @Mapping(source = "provider", target = "provider")
+    @Mapping(target = "analyzable", ignore = true)
+    @Mapping(target = "condominiumPriceVariation", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "exclusionDate", ignore = true)
+    @Mapping(target = "lastAnalysisDate", ignore = true)
+    @Mapping(target = "rentPriceVariation", ignore = true)
+    @Mapping(target = "sellPriceVariation", ignore = true)
     public abstract UrbanProperty createEntity(@NotNull Provider provider, @NotNull AbstractUrbanPropertyMetadata source);
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "provider", ignore = true),
-            @Mapping(target = "sellPriceVariation", ignore = true),
-            @Mapping(target = "rentPriceVariation", ignore = true),
-            @Mapping(target = "condominiumPriceVariation", ignore = true),
-            @Mapping(target = "creationDate", ignore = true),
-            @Mapping(target = "lastAnalysisDate", ignore = true),
-            @Mapping(target = "exclusionDate", ignore = true),
-            @Mapping(target = "analyzable", ignore = true),
-    })
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "provider", ignore = true)
+    @Mapping(target = "sellPriceVariation", ignore = true)
+    @Mapping(target = "rentPriceVariation", ignore = true)
+    @Mapping(target = "condominiumPriceVariation", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "lastAnalysisDate", ignore = true)
+    @Mapping(target = "exclusionDate", ignore = true)
+    @Mapping(target = "analyzable", ignore = true)
     public abstract void copyToEntity(@NotNull AbstractUrbanPropertyMetadata source, @MappingTarget UrbanProperty target);
 
     @AfterMapping

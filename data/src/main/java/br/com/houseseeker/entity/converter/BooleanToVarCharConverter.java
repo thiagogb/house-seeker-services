@@ -12,7 +12,7 @@ public class BooleanToVarCharConverter implements AttributeConverter<Boolean, St
     @Override
     public String convertToDatabaseColumn(Boolean value) {
         return Optional.ofNullable(value)
-                       .map(v -> v ? "Y" : "N")
+                       .map(v -> Boolean.TRUE.equals(v) ? "Y" : "N")
                        .orElse(null);
     }
 
