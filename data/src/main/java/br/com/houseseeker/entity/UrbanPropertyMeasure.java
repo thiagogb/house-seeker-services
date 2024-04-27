@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -83,6 +84,31 @@ public class UrbanPropertyMeasure implements Serializable {
     @Column(name = "area_unit", length = 2)
     @Setter
     private String areaUnit;
+
+    @Builder
+    public UrbanPropertyMeasure(
+            UrbanProperty urbanProperty,
+            BigDecimal totalArea,
+            BigDecimal privateArea,
+            BigDecimal usableArea,
+            BigDecimal terrainTotalArea,
+            BigDecimal terrainFront,
+            BigDecimal terrainBack,
+            BigDecimal terrainLeft,
+            BigDecimal terrainRight,
+            String areaUnit
+    ) {
+        this.urbanProperty = urbanProperty;
+        this.totalArea = totalArea;
+        this.privateArea = privateArea;
+        this.usableArea = usableArea;
+        this.terrainTotalArea = terrainTotalArea;
+        this.terrainFront = terrainFront;
+        this.terrainBack = terrainBack;
+        this.terrainLeft = terrainLeft;
+        this.terrainRight = terrainRight;
+        this.areaUnit = areaUnit;
+    }
 
     @Override
     public final boolean equals(Object obj) {

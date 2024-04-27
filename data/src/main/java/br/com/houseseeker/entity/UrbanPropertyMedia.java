@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -66,6 +67,15 @@ public class UrbanPropertyMedia implements Serializable {
     @Column(name = "extension", nullable = false, length = 10)
     @Setter
     private String extension;
+
+    @Builder
+    public UrbanPropertyMedia(UrbanProperty urbanProperty, String link, String linkThumb, UrbanPropertyMediaType mediaType, String extension) {
+        this.urbanProperty = urbanProperty;
+        this.link = link;
+        this.linkThumb = linkThumb;
+        this.mediaType = mediaType;
+        this.extension = extension;
+    }
 
     @Override
     public final boolean equals(Object obj) {

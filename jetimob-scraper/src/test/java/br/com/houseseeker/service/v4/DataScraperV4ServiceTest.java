@@ -71,7 +71,7 @@ class DataScraperV4ServiceTest extends AbstractMockWebServerTest {
 
         assertRecordedRequests(RecordedRequest::getPath)
                 .hasSize(1)
-                .containsExactly("/api/frontend/real-estate-data/property/list?itemsPerPage=1&page=1");
+                .containsExactly("/api/frontend/real-estate-data/property/list?chunkSize=1&offset=0");
     }
 
     @Test
@@ -87,17 +87,17 @@ class DataScraperV4ServiceTest extends AbstractMockWebServerTest {
 
         assertRecordedRequests(RecordedRequest::getPath)
                 .hasSize(1)
-                .containsExactly("/api/frontend/real-estate-data/property/list?itemsPerPage=1&page=1");
+                .containsExactly("/api/frontend/real-estate-data/property/list?chunkSize=1&offset=0");
     }
 
     @Test
     @DisplayName("given search pages with one item on each page when calls scrap then expects response with two properties extracted")
     void givenSearchPagesWithOneItemOnEachPage_whenCallsScrap_thenExpectsResponseWithTwoPropertiesExtracted() {
         whenDispatch(recordedRequest -> {
-            if (requestHasPath(recordedRequest, "/api/frontend/real-estate-data/property/list?itemsPerPage=1&page=1"))
+            if (requestHasPath(recordedRequest, "/api/frontend/real-estate-data/property/list?chunkSize=1&offset=0"))
                 return new MockResponse().setBody(getTextFromResources(SAMPLE_TWO_ITEMS_PAGE_1));
 
-            if (requestHasPath(recordedRequest, "/api/frontend/real-estate-data/property/list?itemsPerPage=1&page=2"))
+            if (requestHasPath(recordedRequest, "/api/frontend/real-estate-data/property/list?chunkSize=1&offset=1"))
                 return new MockResponse().setBody(getTextFromResources(SAMPLE_TWO_ITEMS_PAGE_2));
 
             if (requestHasPath(recordedRequest, "/api/frontend/real-estate-data/property/2367172"))
@@ -118,8 +118,8 @@ class DataScraperV4ServiceTest extends AbstractMockWebServerTest {
         assertRecordedRequests(RecordedRequest::getPath)
                 .hasSize(4)
                 .containsExactlyInAnyOrder(
-                        "/api/frontend/real-estate-data/property/list?itemsPerPage=1&page=1",
-                        "/api/frontend/real-estate-data/property/list?itemsPerPage=1&page=2",
+                        "/api/frontend/real-estate-data/property/list?chunkSize=1&offset=0",
+                        "/api/frontend/real-estate-data/property/list?chunkSize=1&offset=1",
                         "/api/frontend/real-estate-data/property/2367172",
                         "/api/frontend/real-estate-data/property/2360531"
                 );

@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,11 +32,9 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "scanner")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @ToString
 @Accessors(chain = true)
-@Builder
 public class Scanner implements Serializable {
 
     @Serial
@@ -74,6 +71,23 @@ public class Scanner implements Serializable {
     @Column(name = "stack_trace")
     @Setter
     private String stackTrace;
+
+    @Builder
+    public Scanner(
+            Provider provider,
+            LocalDateTime creationDate,
+            LocalDateTime endDate,
+            ScannerStatus status,
+            String errorMessage,
+            String stackTrace
+    ) {
+        this.provider = provider;
+        this.creationDate = creationDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.errorMessage = errorMessage;
+        this.stackTrace = stackTrace;
+    }
 
     @Override
     public final boolean equals(Object obj) {

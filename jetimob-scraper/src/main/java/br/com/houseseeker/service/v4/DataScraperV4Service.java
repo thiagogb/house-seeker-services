@@ -31,7 +31,7 @@ public class DataScraperV4Service extends AbstractDataScraperService {
     private final MetadataTransferV4Service metadataTransferV4Service;
 
     @Value("${data.scraper.v4.page-size}")
-    private int pageSize;
+    private int chunkSize;
 
     @Override
     protected ProviderScraperResponse execute(
@@ -52,8 +52,8 @@ public class DataScraperV4Service extends AbstractDataScraperService {
 
     private Pair<SearchPageResponse, Integer> fetchFirstPageAndCalculateTotalOfPages(Api api, ProviderMetadata providerMetadata) {
         log.info("Calculating total of pages ...");
-        SearchPageResponse response = RetrofitUtils.executeCall(api.search(pageSize, 1));
-        int totalOfPages = Math.ceilDiv(response.getTotalItems(), pageSize);
+        SearchPageResponse response = RetrofitUtils.executeCall(api.search(chunkSize, 0));
+        int totalOfPages = Math.ceilDiv(response.getTotalItems(), chunkSize);
         log.info("Provider {} has a total of {} pages to fetch", providerMetadata.getName(), totalOfPages);
         return Pair.of(response, totalOfPages);
     }
@@ -72,7 +72,7 @@ public class DataScraperV4Service extends AbstractDataScraperService {
             int page = i;
             requestList.add(CompletableFuture.supplyAsync(() -> {
                 log.info("Provider {} requesting page {} of {} ...", providerMetadata.getName(), page, totalOfPages);
-                return RetrofitUtils.executeCall(api.search(pageSize, page));
+                return RetrofitUtils.executeCall(api.search(chunkSize, chunkSize * (page - 1)));
             }));
         }
 
@@ -107,8 +107,8 @@ public class DataScraperV4Service extends AbstractDataScraperService {
 
         @GET("api/frontend/real-estate-data/property/list")
         Call<SearchPageResponse> search(
-                @Query("itemsPerPage") Integer pageSize,
-                @Query("page") Integer page
+                @Query("chunkSize") Integer chunkSize,
+                @Query("offset") Integer offset
         );
 
         @GET("api/frontend/real-estate-data/property/{code}")
