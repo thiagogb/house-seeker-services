@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Service
@@ -18,13 +19,14 @@ import java.time.LocalDateTime;
 public class ScannerService {
 
     private final ScannerRepository scannerRepository;
+    private final Clock clock;
 
     public Scanner successful(@NotNull Provider provider, @NotNull LocalDateTime creationDate) {
         return scannerRepository.saveAndFlush(
                 Scanner.builder()
                        .provider(provider)
                        .creationDate(creationDate)
-                       .endDate(LocalDateTime.now())
+                       .endDate(LocalDateTime.now(clock))
                        .status(Scanner.ScannerStatus.SUCCESS)
                        .build()
         );
@@ -35,7 +37,7 @@ public class ScannerService {
                 Scanner.builder()
                        .provider(provider)
                        .creationDate(creationDate)
-                       .endDate(LocalDateTime.now())
+                       .endDate(LocalDateTime.now(clock))
                        .status(Scanner.ScannerStatus.FAILED)
                        .errorMessage(String.format("%s: %s", errorInfo.getClassName(), errorInfo.getMessage()))
                        .stackTrace(errorInfo.getStackTrace())
@@ -48,7 +50,7 @@ public class ScannerService {
                 Scanner.builder()
                        .provider(provider)
                        .creationDate(creationDate)
-                       .endDate(LocalDateTime.now())
+                       .endDate(LocalDateTime.now(clock))
                        .status(Scanner.ScannerStatus.FAILED)
                        .errorMessage(throwable.getMessage())
                        .stackTrace(ExceptionUtils.getStackTrace(throwable))

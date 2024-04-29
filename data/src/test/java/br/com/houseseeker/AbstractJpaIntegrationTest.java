@@ -26,24 +26,24 @@ public abstract class AbstractJpaIntegrationTest implements PostgreSQLIntegratio
 
     private TransactionStatus status;
 
+    @BeforeEach
+    public void setup() {
+        status = platformTransactionManager.getTransaction(TransactionDefinition.withDefaults());
+    }
+
+    @AfterEach
+    public void finish() {
+        platformTransactionManager.rollback(status);
+    }
+
     @BeforeAll
     static void setupBeforeClass() {
         POSTGRESQL_CONTAINER.start();
     }
 
-    @BeforeEach
-    void setup() {
-        status = platformTransactionManager.getTransaction(TransactionDefinition.withDefaults());
-    }
-
     @AfterAll
     static void finishAfterClass() {
         POSTGRESQL_CONTAINER.stop();
-    }
-
-    @AfterEach
-    void finish() {
-        platformTransactionManager.rollback(status);
     }
 
     protected final Provider findProviderById(int id) {
