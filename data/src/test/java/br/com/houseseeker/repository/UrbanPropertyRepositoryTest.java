@@ -1,5 +1,6 @@
 package br.com.houseseeker.repository;
 
+import br.com.houseseeker.AbstractJpaIntegrationTest;
 import br.com.houseseeker.entity.Provider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,9 @@ import static br.com.houseseeker.domain.property.UrbanPropertyType.RESIDENTIAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-class UrbanPropertyRepositoryTest extends AbstractRepositoryTest {
+class UrbanPropertyRepositoryTest extends AbstractJpaIntegrationTest {
 
-    private static final String PROVIDER_OLIVEIRA = "Oliveira Imóveis";
+    private static final int TEST_PROVIDER = 10000;
 
     @Autowired
     private UrbanPropertyRepository urbanPropertyRepository;
@@ -22,7 +23,7 @@ class UrbanPropertyRepositoryTest extends AbstractRepositoryTest {
     @Test
     @DisplayName("given a provider with existing properties when calls findAllByProvider then expects five rows")
     void givenAProviderWithExistingProperties_whenCallsFindAllByProvider_thenExpectFiveRows() {
-        Provider provider = findProviderByName(PROVIDER_OLIVEIRA);
+        Provider provider = findProviderById(TEST_PROVIDER);
 
         assertThat(urbanPropertyRepository.findAllByProvider(provider))
                 .extracting("providerCode", "contract", "type", "subType", "sellPrice", "rentPrice")

@@ -1,7 +1,5 @@
-package br.com.houseseeker.repository;
+package br.com.houseseeker;
 
-import br.com.houseseeker.DataApplication;
-import br.com.houseseeker.PostgreSQLIntegrationTest;
 import br.com.houseseeker.entity.Provider;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterAll;
@@ -17,7 +15,7 @@ import org.springframework.transaction.TransactionStatus;
 
 @SpringBootTest(classes = DataApplication.class)
 @DirtiesContext
-abstract class AbstractRepositoryTest implements PostgreSQLIntegrationTest {
+public abstract class AbstractJpaIntegrationTest implements PostgreSQLIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -47,9 +45,9 @@ abstract class AbstractRepositoryTest implements PostgreSQLIntegrationTest {
         platformTransactionManager.rollback(status);
     }
 
-    protected final Provider findProviderByName(String name) {
-        return entityManager.createQuery("select p from Provider p where p.name = :name", Provider.class)
-                            .setParameter("name", name)
+    protected final Provider findProviderById(int id) {
+        return entityManager.createQuery("select p from Provider p where p.id = :id", Provider.class)
+                            .setParameter("id", id)
                             .getSingleResult();
     }
 
