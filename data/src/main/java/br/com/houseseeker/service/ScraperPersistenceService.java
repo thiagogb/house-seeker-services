@@ -15,6 +15,8 @@ import org.springframework.util.StopWatch;
 
 import java.util.Map;
 
+import static java.util.Objects.isNull;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +30,16 @@ public class ScraperPersistenceService {
     @Transactional
     public void persists(@NotNull ProviderScraperResponse providerScraperResponse) {
         Provider provider = getProviderOrReject(providerScraperResponse.getProviderMetadata());
-        log.info("Starting provider {} persistence", provider.getName());
+        if (isNull(providerScraperResponse.getErrorInfo())) {
+            log.info("Starting provider {} persistence", provider.getName());
+            collectDataAndMerge(provider, providerScraperResponse);
+        } else {
+            log.info("Registering provider {} scraper error", provider.getName());
+            scannerService.failed(provider, providerScraperResponse.getStartAt(), providerScraperResponse.getErrorInfo());
+        }
+    }
+
+    private void collectDataAndMerge(Provider provider, ProviderScraperResponse providerScraperResponse) {
         StopWatch stopWatch = new StopWatch(getClass().getName());
         stopWatch.start();
         try {

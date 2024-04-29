@@ -51,7 +51,6 @@ class UrbanPropertyServiceIntegrationTest extends AbstractJpaIntegrationTest {
                                                                                      .providerCode(String.format("PC%d", i + 1))
                                                                                      .url(String.format("http://test.com/property/PC%d", i + 1))
                                                                                      .contract(SELL)
-                                                                                     .type(RESIDENTIAL)
                                                                                      .creationDate(LocalDateTime.now())
                                                                                      .analyzable(true)
                                                                                      .build()

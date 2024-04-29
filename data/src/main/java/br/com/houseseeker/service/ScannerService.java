@@ -1,5 +1,6 @@
 package br.com.houseseeker.service;
 
+import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.Scanner;
 import br.com.houseseeker.repository.ScannerRepository;
@@ -25,6 +26,19 @@ public class ScannerService {
                        .creationDate(creationDate)
                        .endDate(LocalDateTime.now())
                        .status(Scanner.ScannerStatus.SUCCESS)
+                       .build()
+        );
+    }
+
+    public Scanner failed(@NotNull Provider provider, @NotNull LocalDateTime creationDate, @NotNull ProviderScraperResponse.ErrorInfo errorInfo) {
+        return scannerRepository.saveAndFlush(
+                Scanner.builder()
+                       .provider(provider)
+                       .creationDate(creationDate)
+                       .endDate(LocalDateTime.now())
+                       .status(Scanner.ScannerStatus.FAILED)
+                       .errorMessage(String.format("%s: %s", errorInfo.getClassName(), errorInfo.getMessage()))
+                       .stackTrace(errorInfo.getStackTrace())
                        .build()
         );
     }

@@ -1,6 +1,7 @@
 package br.com.houseseeker;
 
 import br.com.houseseeker.entity.Provider;
+import br.com.houseseeker.entity.UrbanProperty;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -47,6 +48,12 @@ public abstract class AbstractJpaIntegrationTest implements PostgreSQLIntegratio
 
     protected final Provider findProviderById(int id) {
         return entityManager.createQuery("select p from Provider p where p.id = :id", Provider.class)
+                            .setParameter("id", id)
+                            .getSingleResult();
+    }
+
+    protected final UrbanProperty findUrbanPropertyById(int id) {
+        return entityManager.createQuery("select up from UrbanProperty up where up.id = :id", UrbanProperty.class)
                             .setParameter("id", id)
                             .getSingleResult();
     }
