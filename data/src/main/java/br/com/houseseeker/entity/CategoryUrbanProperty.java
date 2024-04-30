@@ -1,5 +1,6 @@
 package br.com.houseseeker.entity;
 
+import br.com.houseseeker.util.EntityUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,13 +17,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Entity
@@ -66,24 +65,12 @@ public class CategoryUrbanProperty implements Serializable {
 
     @Override
     public final boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (isNull(obj)) return false;
-        Class<?> oEffectiveClass = obj instanceof HibernateProxy hibernateProxy
-                ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass()
-                : obj.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy hibernateProxy
-                ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass()
-                : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
-        CategoryUrbanProperty that = (CategoryUrbanProperty) obj;
-        return nonNull(getId()) && Objects.equals(getId(), that.getId());
+        return EntityUtils.isEqual(this, obj, o -> nonNull(getId()) && Objects.equals(getId(), o.getId()));
     }
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy hibernateProxy
-                ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass().hashCode()
-                : getClass().hashCode();
+        return EntityUtils.hashCode(this);
     }
 
 }
