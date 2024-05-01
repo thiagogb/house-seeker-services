@@ -102,25 +102,13 @@ public class UrbanProperty implements Serializable {
     @Setter
     private BigDecimal sellPrice;
 
-    @Column(name = "sell_price_variation", precision = 8, scale = 2)
-    @Setter
-    private BigDecimal sellPriceVariation;
-
     @Column(name = "rent_price", precision = 11, scale = 2)
     @Setter
     private BigDecimal rentPrice;
 
-    @Column(name = "rent_price_variation", precision = 8, scale = 2)
-    @Setter
-    private BigDecimal rentPriceVariation;
-
     @Column(name = "condominium_price", precision = 11, scale = 2)
     @Setter
     private BigDecimal condominiumPrice;
-
-    @Column(name = "condominium_price_variation", precision = 8, scale = 2)
-    @Setter
-    private BigDecimal condominiumPriceVariation;
 
     @Column(name = "condominium_name")
     @Setter
@@ -180,11 +168,8 @@ public class UrbanProperty implements Serializable {
             Integer bathrooms,
             Integer garages,
             BigDecimal sellPrice,
-            BigDecimal sellPriceVariation,
             BigDecimal rentPrice,
-            BigDecimal rentPriceVariation,
             BigDecimal condominiumPrice,
-            BigDecimal condominiumPriceVariation,
             String condominiumName,
             Boolean exchangeable,
             UrbanPropertyStatus status,
@@ -207,11 +192,8 @@ public class UrbanProperty implements Serializable {
         this.bathrooms = bathrooms;
         this.garages = garages;
         this.sellPrice = sellPrice;
-        this.sellPriceVariation = sellPriceVariation;
         this.rentPrice = rentPrice;
-        this.rentPriceVariation = rentPriceVariation;
         this.condominiumPrice = condominiumPrice;
-        this.condominiumPriceVariation = condominiumPriceVariation;
         this.condominiumName = condominiumName;
         this.exchangeable = exchangeable;
         this.status = status;

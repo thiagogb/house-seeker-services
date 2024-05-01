@@ -25,19 +25,13 @@ public abstract class UrbanPropertyMapper {
 
     @Mapping(source = "provider", target = "provider")
     @Mapping(target = "analyzable", ignore = true)
-    @Mapping(target = "condominiumPriceVariation", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "exclusionDate", ignore = true)
     @Mapping(target = "lastAnalysisDate", ignore = true)
-    @Mapping(target = "rentPriceVariation", ignore = true)
-    @Mapping(target = "sellPriceVariation", ignore = true)
     public abstract UrbanProperty createEntity(@NotNull Provider provider, @NotNull AbstractUrbanPropertyMetadata source);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "provider", ignore = true)
-    @Mapping(target = "sellPriceVariation", ignore = true)
-    @Mapping(target = "rentPriceVariation", ignore = true)
-    @Mapping(target = "condominiumPriceVariation", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "lastAnalysisDate", ignore = true)
     @Mapping(target = "exclusionDate", ignore = true)

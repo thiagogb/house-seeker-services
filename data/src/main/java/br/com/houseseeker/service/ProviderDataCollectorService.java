@@ -6,6 +6,7 @@ import br.com.houseseeker.entity.UrbanPropertyConvenience;
 import br.com.houseseeker.entity.UrbanPropertyLocation;
 import br.com.houseseeker.entity.UrbanPropertyMeasure;
 import br.com.houseseeker.entity.UrbanPropertyMedia;
+import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -30,6 +31,7 @@ public class ProviderDataCollectorService {
     private final UrbanPropertyLocationService urbanPropertyLocationService;
     private final UrbanPropertyMeasureService urbanPropertyMeasureService;
     private final UrbanPropertyMediaService urbanPropertyMediaService;
+    private final UrbanPropertyPriceVariationService urbanPropertyPriceVariationService;
 
     @Transactional
     public Map<UrbanProperty, UrbanPropertyFullData> collect(@NotNull Provider provider) {
@@ -37,34 +39,46 @@ public class ProviderDataCollectorService {
         List<UrbanProperty> properties = urbanPropertyService.findAllByProvider(provider);
 
         log.info("Provider {}: collecting all properties conveniences  ...", provider.getName());
-        Map<UrbanProperty, List<UrbanPropertyConvenience>> conveniencesMap = urbanPropertyConvenienceService.findAllByProvider(provider)
-                                                                                                            .stream()
-                                                                                                            .collect(Collectors.groupingBy(
-                                                                                                                    UrbanPropertyConvenience::getUrbanProperty
-                                                                                                            ));
+        Map<UrbanProperty, List<UrbanPropertyConvenience>> conveniencesMap = urbanPropertyConvenienceService
+                .findAllByProvider(provider)
+                .stream()
+                .collect(Collectors.groupingBy(
+                        UrbanPropertyConvenience::getUrbanProperty
+                ));
 
         log.info("Provider {}: collecting all properties locations  ...", provider.getName());
-        Map<UrbanProperty, UrbanPropertyLocation> locationMap = urbanPropertyLocationService.findAllByProvider(provider)
-                                                                                            .stream()
-                                                                                            .collect(Collectors.toMap(
-                                                                                                    UrbanPropertyLocation::getUrbanProperty,
-                                                                                                    Function.identity()
-                                                                                            ));
+        Map<UrbanProperty, UrbanPropertyLocation> locationMap = urbanPropertyLocationService
+                .findAllByProvider(provider)
+                .stream()
+                .collect(Collectors.toMap(
+                        UrbanPropertyLocation::getUrbanProperty,
+                        Function.identity()
+                ));
 
         log.info("Provider {}: collecting all properties measures  ...", provider.getName());
-        Map<UrbanProperty, UrbanPropertyMeasure> measureMap = urbanPropertyMeasureService.findAllByProvider(provider)
-                                                                                         .stream()
-                                                                                         .collect(Collectors.toMap(
-                                                                                                 UrbanPropertyMeasure::getUrbanProperty,
-                                                                                                 Function.identity()
-                                                                                         ));
+        Map<UrbanProperty, UrbanPropertyMeasure> measureMap = urbanPropertyMeasureService
+                .findAllByProvider(provider)
+                .stream()
+                .collect(Collectors.toMap(
+                        UrbanPropertyMeasure::getUrbanProperty,
+                        Function.identity()
+                ));
 
         log.info("Provider {}: collecting all properties medias  ...", provider.getName());
-        Map<UrbanProperty, List<UrbanPropertyMedia>> mediasMap = urbanPropertyMediaService.findAllByProvider(provider)
-                                                                                          .stream()
-                                                                                          .collect(Collectors.groupingBy(
-                                                                                                  UrbanPropertyMedia::getUrbanProperty
-                                                                                          ));
+        Map<UrbanProperty, List<UrbanPropertyMedia>> mediasMap = urbanPropertyMediaService
+                .findAllByProvider(provider)
+                .stream()
+                .collect(Collectors.groupingBy(
+                        UrbanPropertyMedia::getUrbanProperty
+                ));
+
+        log.info("Provider {}: collecting all properties price variations  ...", provider.getName());
+        Map<UrbanProperty, List<UrbanPropertyPriceVariation>> priceVariationsMap = urbanPropertyPriceVariationService
+                .findAllByProvider(provider)
+                .stream()
+                .collect(Collectors.groupingBy(
+                        UrbanPropertyPriceVariation::getUrbanProperty
+                ));
 
         return properties.stream()
                          .collect(Collectors.toMap(
@@ -73,7 +87,8 @@ public class ProviderDataCollectorService {
                                          locationMap.get(urbanProperty),
                                          measureMap.get(urbanProperty),
                                          conveniencesMap.getOrDefault(urbanProperty, Collections.emptyList()),
-                                         mediasMap.getOrDefault(urbanProperty, Collections.emptyList())
+                                         mediasMap.getOrDefault(urbanProperty, Collections.emptyList()),
+                                         priceVariationsMap.getOrDefault(urbanProperty, Collections.emptyList())
                                  )
                          ));
     }
@@ -86,6 +101,7 @@ public class ProviderDataCollectorService {
         private final UrbanPropertyMeasure measure;
         private final List<UrbanPropertyConvenience> conveniences;
         private final List<UrbanPropertyMedia> medias;
+        private final List<UrbanPropertyPriceVariation> priceVariations;
 
     }
 

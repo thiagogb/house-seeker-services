@@ -28,11 +28,11 @@ class UrbanPropertyRepositoryTest extends AbstractJpaIntegrationTest {
         assertThat(urbanPropertyRepository.findAllByProvider(provider))
                 .extracting("providerCode", "contract", "type", "subType", "sellPrice", "rentPrice")
                 .containsExactly(
-                        tuple("145687", SELL, RESIDENTIAL, "Casa de Condomínio", new BigDecimal("1180000.00"), new BigDecimal("1180000.00")),
-                        tuple("2302", SELL, RESIDENTIAL, "Apartamento", new BigDecimal("1166000.00"), new BigDecimal("1166000.00")),
-                        tuple("3272", SELL, RESIDENTIAL, "Casa", new BigDecimal("1590000.00"), new BigDecimal("1590000.00")),
-                        tuple("500489", SELL, RESIDENTIAL, "Casa de Condomínio", new BigDecimal("1800000.00"), new BigDecimal("1800000.00")),
-                        tuple("98297", SELL, RESIDENTIAL, "Cobertura", new BigDecimal("960000.00"), new BigDecimal("960000.00"))
+                        tuple("145687", SELL, RESIDENTIAL, "Casa de Condomínio", new BigDecimal("1180000.00"), new BigDecimal("1180.00")),
+                        tuple("2302", SELL, RESIDENTIAL, "Apartamento", new BigDecimal("1166000.00"), new BigDecimal("1166.00")),
+                        tuple("3272", SELL, RESIDENTIAL, "Casa", new BigDecimal("1590000.00"), new BigDecimal("1590.00")),
+                        tuple("500489", SELL, RESIDENTIAL, "Casa de Condomínio", new BigDecimal("1800000.00"), new BigDecimal("1800.00")),
+                        tuple("98297", SELL, RESIDENTIAL, "Cobertura", new BigDecimal("960000.00"), new BigDecimal("960.00"))
                 );
     }
 

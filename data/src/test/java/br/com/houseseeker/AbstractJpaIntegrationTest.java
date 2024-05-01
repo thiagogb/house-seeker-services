@@ -3,20 +3,15 @@ package br.com.houseseeker;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanProperty;
 import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 
-@SpringBootTest(classes = DataApplication.class)
-@DirtiesContext
-public abstract class AbstractJpaIntegrationTest implements PostgreSQLIntegrationTest {
+public abstract class AbstractJpaIntegrationTest extends PostgreSQLIntegrationTest {
 
     @Autowired
     private EntityManager entityManager;
@@ -39,11 +34,6 @@ public abstract class AbstractJpaIntegrationTest implements PostgreSQLIntegratio
     @BeforeAll
     static void setupBeforeClass() {
         POSTGRESQL_CONTAINER.start();
-    }
-
-    @AfterAll
-    static void finishAfterClass() {
-        POSTGRESQL_CONTAINER.stop();
     }
 
     protected final Provider findProviderById(int id) {

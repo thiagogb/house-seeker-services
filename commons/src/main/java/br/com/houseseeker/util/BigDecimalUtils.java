@@ -4,15 +4,29 @@ import jakarta.validation.constraints.NotNull;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+
+import static java.math.BigDecimal.ZERO;
+import static java.math.RoundingMode.HALF_UP;
 
 @UtilityClass
 public class BigDecimalUtils {
 
-    private static final BigDecimal ONE_HUNDRED_DIVISOR = BigDecimal.valueOf(100);
+    public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
     public BigDecimal divideBy100AndRoundByTwo(@NotNull BigDecimal value) {
-        return value.divide(ONE_HUNDRED_DIVISOR, 2, RoundingMode.HALF_UP);
+        return divideByAndRoundByTwo(value, ONE_HUNDRED);
+    }
+
+    public BigDecimal divideByAndRoundByTwo(@NotNull BigDecimal value, @NotNull BigDecimal divisor) {
+        return value.divide(divisor, 2, HALF_UP);
+    }
+
+    public boolean isZero(@NotNull BigDecimal value) {
+        return isEqual(ZERO, value);
+    }
+
+    public boolean isEqual(@NotNull BigDecimal value1, @NotNull BigDecimal value2) {
+        return value1.compareTo(value2) == 0;
     }
 
 }

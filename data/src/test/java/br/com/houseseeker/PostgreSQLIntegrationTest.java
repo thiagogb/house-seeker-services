@@ -1,16 +1,16 @@
 package br.com.houseseeker;
 
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
-public interface PostgreSQLIntegrationTest {
+@SpringBootTest(classes = DataApplication.class)
+@DirtiesContext
+public abstract class PostgreSQLIntegrationTest {
 
-    @Container
-    PostgreSQLContainer<?> POSTGRESQL_CONTAINER = new PostgreSQLContainer<>("postgres:16.1-alpine");
+    static PostgreSQLContainer<?> POSTGRESQL_CONTAINER = new PostgreSQLContainer<>("postgres:16.1-alpine").withReuse(true);
 
     @DynamicPropertySource
     static void datasourceConfig(DynamicPropertyRegistry registry) {

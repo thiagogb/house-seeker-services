@@ -7,12 +7,14 @@ import br.com.houseseeker.entity.UrbanPropertyConvenience;
 import br.com.houseseeker.entity.UrbanPropertyLocation;
 import br.com.houseseeker.entity.UrbanPropertyMeasure;
 import br.com.houseseeker.entity.UrbanPropertyMedia;
+import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
 import br.com.houseseeker.mapper.UrbanPropertyConvenienceMapper;
 import br.com.houseseeker.mapper.UrbanPropertyLocationMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMeasureMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMediaMapper;
 import br.com.houseseeker.service.ProviderDataCollectorService.UrbanPropertyFullData;
+import br.com.houseseeker.service.calculator.PriceVariationCalculator;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +42,13 @@ public class ProviderDataMergeService {
     private final UrbanPropertyMeasureMapper urbanPropertyMeasureMapper;
     private final UrbanPropertyConvenienceMapper urbanPropertyConvenienceMapper;
     private final UrbanPropertyMediaMapper urbanPropertyMediaMapper;
+    private final PriceVariationCalculator priceVariationCalculator;
     private final UrbanPropertyService urbanPropertyService;
     private final UrbanPropertyLocationService urbanPropertyLocationService;
     private final UrbanPropertyMeasureService urbanPropertyMeasureService;
     private final UrbanPropertyConvenienceService urbanPropertyConvenienceService;
     private final UrbanPropertyMediaService urbanPropertyMediaService;
+    private final UrbanPropertyPriceVariationService urbanPropertyPriceVariationService;
 
     @Transactional
     public void merge(
@@ -74,17 +79,23 @@ public class ProviderDataMergeService {
         );
 
         log.info("Merging step 4 for provider {}: saving property conveniences ...", provider.getName());
-        createOrUpdateExistingPropertyConveniences(
+        recreatePropertyConveniences(
                 existingPropertiesByCodeMap,
                 groupByProviderCode(propertyFullDataMap, e -> e.getValue().getConveniences()),
                 extractedPropertiesByCodeMap
         );
 
         log.info("Merging step 5 for provider {}: saving property medias ...", provider.getName());
-        createOrUpdateExistingPropertyMedias(
+        recreatePropertyMedias(
                 existingPropertiesByCodeMap,
                 groupByProviderCode(propertyFullDataMap, e -> e.getValue().getMedias()),
                 extractedPropertiesByCodeMap
+        );
+
+        log.info("Merging step 6 for provider {}: saving property price variations ...", provider.getName());
+        registerPropertyVariations(
+                existingPropertiesByCodeMap,
+                groupByProviderCode(propertyFullDataMap, e -> e.getValue().getPriceVariations())
         );
     }
 
@@ -170,7 +181,7 @@ public class ProviderDataMergeService {
         urbanPropertyMeasureService.saveAll(propertyMeasuresMap.values());
     }
 
-    private void createOrUpdateExistingPropertyConveniences(
+    private void recreatePropertyConveniences(
             Map<String, UrbanProperty> existingPropertiesByCodeMap,
             Map<String, List<UrbanPropertyConvenience>> propertyConveniencesMap,
             Map<String, AbstractUrbanPropertyMetadata> extractedPropertiesByCodeMap
@@ -200,7 +211,7 @@ public class ProviderDataMergeService {
             urbanPropertyConvenienceService.deleteAll(exclusionList);
     }
 
-    private void createOrUpdateExistingPropertyMedias(
+    private void recreatePropertyMedias(
             Map<String, UrbanProperty> existingPropertiesByCodeMap,
             Map<String, List<UrbanPropertyMedia>> propertyMediasMap,
             Map<String, AbstractUrbanPropertyMetadata> extractedPropertiesByCodeMap
@@ -228,6 +239,21 @@ public class ProviderDataMergeService {
 
         if (!CollectionUtils.isEmpty(exclusionList))
             urbanPropertyMediaService.deleteAll(exclusionList);
+    }
+
+    private void registerPropertyVariations(
+            Map<String, UrbanProperty> existingPropertiesByCodeMap,
+            Map<String, List<UrbanPropertyPriceVariation>> propertyVariationsMap
+    ) {
+        List<UrbanPropertyPriceVariation> saveList = new LinkedList<>();
+        for (UrbanProperty urbanProperty : existingPropertiesByCodeMap.values())
+            saveList.addAll(
+                    priceVariationCalculator.calculate(
+                            urbanProperty,
+                            propertyVariationsMap.getOrDefault(urbanProperty.getProviderCode(), Collections.emptyList())
+                    )
+            );
+        urbanPropertyPriceVariationService.saveAll(saveList);
     }
 
 }
