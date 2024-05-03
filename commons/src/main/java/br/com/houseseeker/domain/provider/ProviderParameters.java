@@ -28,7 +28,7 @@ public class ProviderParameters {
     private static final int DEFAULT_RETRY_WAIT = 5000;
 
     @Builder.Default
-    private Connection connection = new Connection();
+    private Connection connection = Connection.builder().build();
     @Builder.Default
     private Map<String, ?> properties = new HashMap<>();
 
@@ -37,8 +37,8 @@ public class ProviderParameters {
             @JsonProperty("connection") Connection connection,
             @JsonProperty("properties") Map<String, ?> properties
     ) {
-        this.connection = connection;
-        this.properties = properties;
+        this.connection = Optional.ofNullable(connection).orElse(Connection.builder().build());
+        this.properties = Optional.ofNullable(properties).orElse(new HashMap<>());
     }
 
     @NoArgsConstructor

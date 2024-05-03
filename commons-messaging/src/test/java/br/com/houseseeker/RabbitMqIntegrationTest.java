@@ -1,6 +1,7 @@
 package br.com.houseseeker;
 
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
+import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Message;
@@ -11,19 +12,16 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.concurrent.TimeUnit;
 
-@Testcontainers
-public interface RabbitMqIntegrationTest {
+public abstract class RabbitMqIntegrationTest {
 
-    int THREE_SECONDS_WAIT = 3;
+    public static int THREE_SECONDS_WAIT = 3;
 
-    @Container
-    RabbitMQContainer RABBIT_MQ_CONTAINER = new RabbitMQContainer("rabbitmq:3.13.0-alpine")
-            .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(RabbitMqIntegrationTest.class)));
+    static RabbitMQContainer RABBIT_MQ_CONTAINER = new RabbitMQContainer("rabbitmq:3.13.0-alpine")
+            .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(RabbitMqIntegrationTest.class)))
+            .withReuse(true);
 
     @DynamicPropertySource
     static void registerProperties(DynamicPropertyRegistry registry) {
@@ -34,24 +32,29 @@ public interface RabbitMqIntegrationTest {
         registry.add("spring.rabbitmq.listener.simple.auto-startup", () -> "false");
     }
 
-    default void startListener(RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry, String id) {
+    @BeforeAll
+    static void setupBeforeClass() {
+        RABBIT_MQ_CONTAINER.start();
+    }
+
+    protected final void startListener(RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry, String id) {
         rabbitListenerEndpointRegistry.getListenerContainer(id).start();
     }
 
-    default void stopListener(RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry, String id) {
+    protected final void stopListener(RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry, String id) {
         rabbitListenerEndpointRegistry.getListenerContainer(id).stop();
     }
 
-    default <T> void sendMessage(RabbitTemplate rabbitTemplate, Binding binding, T message) {
+    protected final <T> void sendMessage(RabbitTemplate rabbitTemplate, Binding binding, T message) {
         rabbitTemplate.convertAndSend(binding.getExchange(), binding.getRoutingKey(), message);
     }
 
-    default ProviderScraperResponse receivePersistenceMessage(RabbitTemplate rabbitTemplate, Binding binding) {
+    protected final ProviderScraperResponse receivePersistenceMessage(RabbitTemplate rabbitTemplate, Binding binding) {
         return rabbitTemplate.receiveAndConvert(binding.getDestination(), TimeUnit.SECONDS.toMillis(THREE_SECONDS_WAIT), new ParameterizedTypeReference<>() {
         });
     }
 
-    default Message receiveMessage(RabbitTemplate rabbitTemplate, Binding binding) {
+    protected final Message receiveMessage(RabbitTemplate rabbitTemplate, Binding binding) {
         return rabbitTemplate.receive(binding.getDestination(), TimeUnit.SECONDS.toMillis(THREE_SECONDS_WAIT));
     }
 

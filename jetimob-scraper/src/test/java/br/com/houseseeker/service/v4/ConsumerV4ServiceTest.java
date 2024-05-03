@@ -36,7 +36,7 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 @SpringBootTest
 @ContextConfiguration(classes = JetimobScraperApplication.class)
 @ExtendWith(MockitoExtension.class)
-class ConsumerV4ServiceTest implements RabbitMqIntegrationTest {
+class ConsumerV4ServiceTest extends RabbitMqIntegrationTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;

@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @SpringBootTest
-class PersistenceProducerServiceTest implements RabbitMqIntegrationTest {
+class PersistenceProducerServiceTest extends RabbitMqIntegrationTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;

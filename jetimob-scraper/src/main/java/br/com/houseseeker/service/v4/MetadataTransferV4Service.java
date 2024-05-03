@@ -8,7 +8,6 @@ import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
 import br.com.houseseeker.domain.property.UrbanPropertyStatus;
 import br.com.houseseeker.domain.property.UrbanPropertyType;
 import br.com.houseseeker.service.AbstractMedataTransfer;
-import br.com.houseseeker.util.BigDecimalUtils;
 import br.com.houseseeker.util.MediaUtils;
 import br.com.houseseeker.util.ObjectMapperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +24,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static br.com.houseseeker.util.BigDecimalUtils.divideBy100AndRoundByTwo;
+import static br.com.houseseeker.util.BigDecimalUtils.ONE_HUNDRED;
+import static br.com.houseseeker.util.BigDecimalUtils.divideAndRoundByTwo;
 import static br.com.houseseeker.util.ConverterUtils.tryToBigDecimalEnUs;
 import static br.com.houseseeker.util.ConverterUtils.tryToInteger;
 import static java.util.Objects.nonNull;
@@ -124,7 +124,7 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
             public BigDecimal getCondominiumPrice() {
                 return Optional.ofNullable(metadata.getCondominiumPrice())
                                .flatMap(cp -> Optional.ofNullable(cp.getValue())
-                                                      .map(BigDecimalUtils::divideBy100AndRoundByTwo)
+                                                      .map(v -> divideAndRoundByTwo(v, ONE_HUNDRED))
                                )
                                .orElse(null);
             }
@@ -307,7 +307,7 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
         return contracts.stream()
                         .filter(c -> c.getId().equals(contractType) && nonNull(c.getPrice()) && nonNull(c.getPrice().getValue()))
                         .findFirst()
-                        .map(c -> divideBy100AndRoundByTwo(c.getPrice().getValue()))
+                        .map(c -> divideAndRoundByTwo(c.getPrice().getValue(), ONE_HUNDRED))
                         .orElse(null);
     }
 

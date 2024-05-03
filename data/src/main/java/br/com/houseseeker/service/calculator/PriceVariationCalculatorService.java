@@ -80,7 +80,7 @@ public class PriceVariationCalculatorService {
         BigDecimal previousPrice = !priceVariations.isEmpty() ? priceVariations.getLast().getPrice() : ZERO;
         BigDecimal currentPrice = type.getComparatorAttribute(urbanProperty);
         BigDecimal variation = !BigDecimalUtils.isZero(previousPrice)
-                ? BigDecimalUtils.divideByAndRoundByTwo(currentPrice.multiply(BigDecimalUtils.ONE_HUNDRED), previousPrice)
+                ? BigDecimalUtils.divideAndRoundByTwo(currentPrice.multiply(BigDecimalUtils.ONE_HUNDRED), previousPrice)
                                  .subtract(BigDecimalUtils.ONE_HUNDRED)
                 : ZERO;
         return UrbanPropertyPriceVariation.builder()

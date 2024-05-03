@@ -13,11 +13,7 @@ public class BigDecimalUtils {
 
     public static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
-    public BigDecimal divideBy100AndRoundByTwo(@NotNull BigDecimal value) {
-        return divideByAndRoundByTwo(value, ONE_HUNDRED);
-    }
-
-    public BigDecimal divideByAndRoundByTwo(@NotNull BigDecimal value, @NotNull BigDecimal divisor) {
+    public BigDecimal divideAndRoundByTwo(@NotNull BigDecimal value, @NotNull BigDecimal divisor) {
         return value.divide(divisor, 2, HALF_UP);
     }
 
