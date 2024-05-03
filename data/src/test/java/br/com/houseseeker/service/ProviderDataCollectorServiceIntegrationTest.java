@@ -41,7 +41,7 @@ class ProviderDataCollectorServiceIntegrationTest extends AbstractJpaIntegration
                                      .containsExactly(14, 7, 15, 22, 15);
 
         assertThat(response.values()).extracting(data -> data.getPriceVariations().size())
-                                     .containsExactly(0, 0, 0, 5, 0);
+                                     .containsExactly(2, 2, 2, 5, 2);
     }
 
 }

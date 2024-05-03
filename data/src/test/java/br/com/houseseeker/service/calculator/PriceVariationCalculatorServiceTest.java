@@ -32,15 +32,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = PriceVariationCalculator.class)
+@SpringBootTest(classes = PriceVariationCalculatorService.class)
 @ExtendWith(MockitoExtension.class)
-class PriceVariationCalculatorTest {
+class PriceVariationCalculatorServiceTest {
 
     private static final String[] EXTRACTED_ATTRIBUTES = new String[]{"analysisDate", "type", "price", "variation"};
     private static final LocalDateTime CLOCK_AT_ANALYSIS_DATE = LocalDateTime.of(2024, 1, 7, 12, 30, 45);
 
     @Autowired
-    private PriceVariationCalculator priceVariationCalculator;
+    private PriceVariationCalculatorService priceVariationCalculatorService;
 
     @MockBean
     private Clock clock;
@@ -63,7 +63,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(null);
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(null);
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations)).isEmpty();
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations)).isEmpty();
 
         verifyInteractions();
     }
@@ -77,7 +77,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(ZERO);
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(ZERO);
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations)).isEmpty();
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations)).isEmpty();
 
         verifyInteractions();
     }
@@ -108,7 +108,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(null);
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(null);
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations))
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations))
                 .extracting(EXTRACTED_ATTRIBUTES)
                 .containsExactlyInAnyOrder(
                         tuple(clockAt_20240101_123045, SELL, valueOf(100000), ZERO),
@@ -127,7 +127,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(null);
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(null);
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations))
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations))
                 .extracting(EXTRACTED_ATTRIBUTES)
                 .containsExactlyInAnyOrder(tuple(CLOCK_AT_ANALYSIS_DATE, SELL, valueOf(200000), ZERO));
 
@@ -160,7 +160,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(null);
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(null);
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations))
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations))
                 .extracting(EXTRACTED_ATTRIBUTES)
                 .containsExactlyInAnyOrder(
                         tuple(clockAt_20240101_123045, SELL, valueOf(100000), ZERO),
@@ -197,7 +197,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(null);
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(null);
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations))
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations))
                 .extracting(EXTRACTED_ATTRIBUTES)
                 .containsExactlyInAnyOrder(
                         tuple(clockAt_20240101_123045, SELL, valueOf(100000), ZERO),
@@ -255,7 +255,7 @@ class PriceVariationCalculatorTest {
         when(mockedUrbanProperty.getRentPrice()).thenReturn(valueOf(2125.33));
         when(mockedUrbanProperty.getCondominiumPrice()).thenReturn(valueOf(412.30));
 
-        assertThat(priceVariationCalculator.calculate(mockedUrbanProperty, priceVariations))
+        assertThat(priceVariationCalculatorService.calculate(mockedUrbanProperty, priceVariations))
                 .extracting(EXTRACTED_ATTRIBUTES)
                 .containsExactlyInAnyOrder(
                         tuple(clockAt_20240101_123045, RENT, valueOf(2000), ZERO),

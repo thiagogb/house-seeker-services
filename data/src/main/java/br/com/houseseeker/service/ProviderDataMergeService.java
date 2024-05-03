@@ -14,7 +14,7 @@ import br.com.houseseeker.mapper.UrbanPropertyMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMeasureMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMediaMapper;
 import br.com.houseseeker.service.ProviderDataCollectorService.UrbanPropertyFullData;
-import br.com.houseseeker.service.calculator.PriceVariationCalculator;
+import br.com.houseseeker.service.calculator.PriceVariationCalculatorService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -42,13 +43,14 @@ public class ProviderDataMergeService {
     private final UrbanPropertyMeasureMapper urbanPropertyMeasureMapper;
     private final UrbanPropertyConvenienceMapper urbanPropertyConvenienceMapper;
     private final UrbanPropertyMediaMapper urbanPropertyMediaMapper;
-    private final PriceVariationCalculator priceVariationCalculator;
+    private final PriceVariationCalculatorService priceVariationCalculatorService;
     private final UrbanPropertyService urbanPropertyService;
     private final UrbanPropertyLocationService urbanPropertyLocationService;
     private final UrbanPropertyMeasureService urbanPropertyMeasureService;
     private final UrbanPropertyConvenienceService urbanPropertyConvenienceService;
     private final UrbanPropertyMediaService urbanPropertyMediaService;
     private final UrbanPropertyPriceVariationService urbanPropertyPriceVariationService;
+    private final Clock clock;
 
     @Transactional
     public void merge(
@@ -138,7 +140,8 @@ public class ProviderDataMergeService {
     ) {
         existingPropertiesByCodeMap.forEach((key, value) -> {
             if (!extractedPropertiesByCodeMap.containsKey(key)) {
-                value.setExclusionDate(LocalDateTime.now());
+                value.setLastAnalysisDate(LocalDateTime.now(clock))
+                     .setExclusionDate(LocalDateTime.now(clock));
             }
         });
     }
@@ -248,7 +251,7 @@ public class ProviderDataMergeService {
         List<UrbanPropertyPriceVariation> saveList = new LinkedList<>();
         for (UrbanProperty urbanProperty : existingPropertiesByCodeMap.values())
             saveList.addAll(
-                    priceVariationCalculator.calculate(
+                    priceVariationCalculatorService.calculate(
                             urbanProperty,
                             propertyVariationsMap.getOrDefault(urbanProperty.getProviderCode(), Collections.emptyList())
                     )

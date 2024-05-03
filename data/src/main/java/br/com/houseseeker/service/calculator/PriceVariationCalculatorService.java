@@ -26,7 +26,7 @@ import static java.util.Objects.isNull;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class PriceVariationCalculator {
+public class PriceVariationCalculatorService {
 
     private final Clock clock;
 
