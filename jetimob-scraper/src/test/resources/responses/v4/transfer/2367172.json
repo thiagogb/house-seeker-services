@@ -1,0 +1,217 @@
+{
+  "areaUnit": "m²",
+  "bathrooms": 3,
+  "city": "Santa Maria",
+  "complement": null,
+  "condominiumName": null,
+  "condominiumPrice": null,
+  "contract": "SELL",
+  "conveniences": [
+    "Área de serviço",
+    "Banheiro auxiliar",
+    "Banheiro social",
+    "Churrasqueira",
+    "Closet",
+    "Cozinha",
+    "Espera para split",
+    "Lareira",
+    "Lavabo",
+    "Pátio",
+    "Sacada",
+    "Sala de estar",
+    "Sala de jantar"
+  ],
+  "district": "Camobi",
+  "dormitories": 3,
+  "exchangeable": false,
+  "financeable": false,
+  "garages": 2,
+  "latitude": -29.7065499,
+  "longitude": -53.7295815,
+  "medias": [
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exQRdKUt6PlGIkd9j-qyCMxPprfWfSdVmoGlav0j-HyKIv8Ueia7YpqyDkQogGM3-7R42VmkRb1kWvHSCv_zTXDCwCasT7NrcfIoUAkrodDp-CNICje-ra6KUv/whatsappimage20240323at112316jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqakfoTfCfX7lmkqe1RXorfd6Vi9mmJKForX7_vgLhrhkCmqkHJCgDgyh1GbVPWoWapXR8zl6LHSSU4iAnAwwujwYqK4ENBnM5pmroEeibUi3vIffbnn4/whatsappimage20240323at112316jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSbQNj4ewUfHWS3mbhtTJBCvomah0FlIKF2x6qhFtiqC3bCUgRsSmt-2ZngKyF_E3bntDDF3PlChmTu-PThRjH8TU84-JGJPwDOJsWaOWlg_w-6xErBsCt_iljMiWQ6NI_Xo9z0IdRHH2A7xqyVYADjhfIKGSfChbaXgQ/whatsappimage20240323at112318jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSnJUTHCdgyu_KGgk7XnpCE3Bzcsi4S8RLD8zTE8wQSEYB2pdkl_8i6tWEY5cK7UlBlQ5gOpFe8SjxlPxiNmJql4sWkD8hs4s1rZ5EUpAW9lThr3sP-uit_iliLFqMMXFfyVzK5EJOjlzcxXLoAILPWAJ1vGMEln_zX/whatsappimage20240323at112318jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSbQPgvVmT0Bp4zAgRNTJBCAIv6siMS8RLD87in44RKcCtgc979WK-CbkCgtGtF9Zkz6NC4Wl2R3wSp6L8GM8bkilwwK9gThrk73mpioeNbp4Y1Z4rv_l9F1QGpWrTvUSJ4ONDxAVssCQNThDPu71PVpB6UvYLv-F4eqFE/whatsappimage20240323at1123191jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqakfoTfCfX7lmkqe1RXorfd6Vi9mmJKForX7_vgLhrhkCmqkHJCgDgyh1GbVPWoWapXR8zl6LHSSUzjQT7tUPkB7KJJMf7Gz5g6ocKOSbUUXvLmn8PxU/whatsappimage20240323at1123191jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nRbVSFEU09NyW1_2JzA5ohHHrwKvDnFuHXVauCpa_bBrFnIzhURW2Bi-DJRDytBxJmL50nlYdxH1DT9u2MXNwZjkl4g8T1x9yirVw52EqepeJuBbQ3v_lMcIgbbfAvsUWJ4GBA0UjL8cCzZUP62CqcAkgqcu0TuZNZfujg/whatsappimage20240323at112319jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqakfoTfCfX7lmkqe1RXorfd6Vi9mmJKForX7_vgLhrhkCmqkHJCgDgyh1GbVPWoWapXR8zl6LHSRUycbF6AU0gCDh4EAnDGUBkoQfKOibXx_vqhvlT6Y/whatsappimage20240323at112319jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSb0gr42PoVuhPHnLhtMzCO3Lx6vSfFuHXVavgpC1pChTdBjONvDvju637rax5ueqLOOkyqUDRVgpizzVj4uUi9I065O9IgAmtPvw7IbwW7GYd9xvqOmQWUpeQPUdOgiAay0RCI99E6O1THajefDFL1pP4IPiduYviDCA/whatsappimage20240323at1123211jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBQ8qL8l64ySoCDw7eEJzPlMYrAiAz9U3b8SCtdcwNoqadLi2CxjsLkJ1zqBp0AVneyt-pZHBaZFFJeGed4pqVrAFpIAHZ2DRJ5RYiQYsdE-m3sMLDYs-J2hfJ7xfbGEXqKYvN7o52pATEO1E5hy8o40258h2KYvi3jVvfJ9KGX0WnUK-/whatsappimage20240323at1123211jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nTn-n-29FXLfM6s6VNb7tIv3ZARZ11zFL-JKAt6NyRNPXPGmRwznzbkShXjqvv2xtMvsUIIaRmE9hSDXgfuj0RXmY3MQTUPZLP6qiwO_lHclHsqBTjZr6OlBCu-HGgzIbf-xT39PK48kz5CX7-wDO0A6t-etVV5xQ/whatsappimage20240323at112321jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nTn-n8IklXLfM6s6VNb7tIv3ZARZ11zFL-JKAt6NyRNPXPGmRwznzbkShXjqvv2xtMvsUIIaRlMxyRavZYnU5Ol1alvk3bZaAtt1qblhZfMghGAIDD7TggLMSgIuraqcmYUh97-dkMltDkwBmau7ZvFUj54KeM0/whatsappimage20240323at112321jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nTn8ju29CYxI7d9CgBNHBbmB1MHozFrK7v5WMHeGcCu6_HZpytacyNgu2GHx-7bS_STmQid-ZBXjJAm0v_LJaLc4HjOgClWB5mbvhJyE6nMKxPjBoFH5UU1LAZb3_ArJOzg3TmhO67t0chbOgIMNs1XQGHcGUpyFcm2/whatsappimage20240323at1123221jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nRnasBXITxuwiGFUOZtrok4PY36Nmj9VSFIv5bcD-ofSfLPwvOHlsB2p-V0ORjVG8A8LqxpHhahhBBljCD8ELlN0QWm0OphN9tSFkZCpAUuZdMGdmdhYxpviliL1qFPehdN8JRz11nzbHbD27eocg2WE_-2PmCL-xM/whatsappimage20240323at1123221jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nTnRCLGeTzwdNXcrgFkz4WNHDFriRk3DCagPFPFmPEpazqjA9S5SiCg54dkpCJ_sv11VY8ogxjR_zZv9Ms7W9PoS0mj8F0l6ACGYCMJJZBKIplBINILnl6glRGFlis4cX5gERYww6hAaOx2sfw1HrzWfA2bvwjv3FWbjhI/whatsappimage20240323at112322jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nTnjMwLgnqeV3mtOaanpoWNHDFriRk3DCagPFPFmPEp6z2jQ9S5SiCg24dk5CJ_Ok3h8I57Vk_ItVBp2SCB7GwQ89dAOB70D4AArbxH_zaDV3ZiP_iljCHxJ4SezJHq5ZY42JeATp_iK6PBHsskYbSDn_b9_SaWzVCqlg/whatsappimage20240323at112322jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSbYkIvtahFnzgA87pssoFCvVDDB_krGhK-w1ybxqAJTXm068PGdLL4ytKPRZkXpfftV6Z_aHZnSh7vPA1PDdiCy-regU9H4rIYhKYl3vwo2G1EALGN2EaMD4vQKLW5fDLiT4oHXuJthnG8p8BSQfym6Lu2htJ8AlI/whatsappimage20240323at1123231jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSnJd3LGURv8OK7i9Hg2oKOllDDB_krGhK-w8Tq4ffv1cDWxZEkC9r1b3T0_QwJK2GZ9uQ3Rh8jlxSp7voqPx83bjJJJNeHIqkr5Nbo7BKraS7ijZ9NKZ4vd3iMnodRwRYYrdBdqRkp9SYIS0FOwxKZDOC2SAOcTIc/whatsappimage20240323at1123231jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSbItz4-Lj0eM5FX9Th2sSMlnCzNI88J0n1IJ00D8qb1pRxLEjGVg4YGl6X9T6RY3x8v0Os_gwlRE9pII1v_cgAw4v2M2_oN02IQ0pDqfTu2rqm61IboWEwf3GhhuL-IEtC-Hpys59zYSYpqnPHX6ZEcGGjGRLWD5co/whatsappimage20240323at112323jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSbItz4-Lj0eM5FX9Th2sSMlnCzNI88J0n1IJ00D8qb1pRxLEjGVg4YGl6X9T6RY3x8v0Os_gyl3Het7vqrMC9353n-QExGmpwm4c1fqwK9yD4YYn68saGlIKffhAMkooH5vqSC-jq3c2GbYdg1twTnFA631kuWQCA/whatsappimage20240323at112323jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBQEqL8l-42SoCDwnYHh-JUIuINmCRVmOS-RCgKuXj1nrbjjAa2FyOgOmNYWWSv0B23hC_wzVHwigrf2VVItouxip4zZvzMsU1jlMWnPQW-416Pkq4xL4LQHqdKfvBMKjzVGE2QGpHI0tDWFgXrVtUNvTOoPI5PdexLHFqA-bvrvv--sWZrw/whatsappimage20240323at1123241jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSnvTsJGtarwSnjzPzAeuAPtlMHojVrK7v5WGF8OxvkJfUeSwVA01hCPzNRHwu4i6WvlgnhafHhWgRgGckw5n1GeQug8N70aAseZ-iam6ShBmcM9bDRvKpjiliIHqMMehdNemMUkC4mnVdLF6U1SBY3gvD9TCa1XlMH0Q/whatsappimage20240323at1123241jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exQRdKUt6PlGIkd9j-qyCMxPprfWfSdVmoGlav0j-HyKIv8Ueia7YpqyDkQogGM3-7R42VmkRb1kWvHSCv_wjP0MM1liIwJbs5Pks8rI4v6IKrNIIVe8wjuSYF/whatsappimage20240323at112324jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqakfoTfCfX7lmkqe1RXorfd6Vi9mmJKForX7_vgLhrhkCmqkHJCgDgyh1GbVPWoWapXR8zl6LHSSU3jj77DvSac05J6cRyE8HklgODMGbUJfvA9HEelI/whatsappimage20240323at112324jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBQ8ub8l64yQoppK0kMR4YpmPRVkZrXVshRuezTPitqv-83K5_P93VxoJJEvIV4bZd34nbZwmPqMgaiyJu5VVfOD6YZAvsaoWRmmxyj8jK0CKe8OrBat-FiEt3LH4Hn3_r5eOv6f3zeBrQARFCy824YzyeSV09BaIsQk2CxWkuAbv-Oo_xMs/whatsappimage20240323at112325jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBQ8ub8l64yQophIcn8RvWZiPRVkZrXVshRuezTPitqv-83K5_P93VxoJJEvIV4bZd34nbZwmPqMgaiyJu5VVfOD6YZDli2fDjoJTwRpX9v51NchNtYIcJWoqe5NBINJj0V1EyQGpPqR6DcH0Ze2BF8lDa4lpSyNXb1Fbt4785ya6bsczfQ/whatsappimage20240323at112325jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBQ8ub8l64yQophK-RkTydC88o7i_OwKAeY81WRCINqv-83K5_P8H3Hc-N4ylQNQpRP_jnIlNSei0ixI8W6gH4RoJzyW_iIcXMwbnkn0k0Q0jgpnrjhL6LaHOG4MaLuw7wV0F1QGJTwuM2XtJpqzOClpt5SN9hOlxMV2egfINgydvTRieAw/whatsappimage20240323at1123271jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nRnjt23FDzwfl4qZYHO41gR0IncKCxVe_cTiQfTRHnK2OUGJGoYjE4qS7fiCrkkepeTVItog-zBWlxmme4z-v1GGQ1FF0CpNEICkvoirmIb5nIrpfTzfiE1IgbLPcuq84qg3Skg3AaHUovZmqRrzpR9QIPlGXzbHYLg/whatsappimage20240323at1123271jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSn8HaXFDzwfDkzcmr5buAPtlMn4ugd5YG5R20uUsxX_Gk0JOqH9Ls0cj0tc4xZSGd9CryRAEBd3QfHCamzlEH_1I5TOFmKe9uT_qA6obofZH-KJbwdrxd4b0LwPyOIRdtYCy_Q7RlGtg7tb31GnIhxwAOcvYPv8ZLFNzE/whatsappimage20240323at112327jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nRnYkBfqZsMJslY-0XL2qxH0DADnXk3DCagPFPJeeFqw1mrujs4U8Cg-_yMhSaLgw3hzoKIN8lIhVJx2WD8iq7cpw4_CV0glo2cpjfszGBA3WDgvea6rm2d2QViPAOqyJc42bELFAqhy5QNbG2B-1Q2hfD-ZCaz7e-S7g/whatsappimage20240323at112327jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBYM3L8l6o4ShAs46C7kJPELV3iDg9M-ZnqIkBQClpTVyoDh-z8Rm4kc1waDp0AVyFGinqLBspfw4nSPJOqQo-qZ1ggAvGckwdvxGGxtrr7KBoIOLx1Z6R70qpkhiBvqA4R9P2sQy-K0a6JcqmevWtNofL74LdEczOfAOnP4UEiYQ0nQ_Bw/whatsappimage20240323at112328jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSnIMQLFgAVQ4Qii9HYlMTCxoukkx1CvfgSlROA7ZV6eHa_UvR8Oyvg2pnAbyG7T74FNAPFhum-1heluzpc779OB0ZfW_rVowNvc0p3pnzf1nqW6xKpahAwf_UPn-1AwZqJTDol8ZhdVM7r_qc6fR14eJt2GJejAhmk/whatsappimage20240323at112328jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSb0u7xQQHlDxyOguj4nkEUVLYc2iBRrL50n56XFWzK2OXmngqG-7s0cn1hDbm3lQgIwAV9Fkf5lVbpqyFgNX5mJyv69yee0d4uvrhK6INbtADzKDzWre0vV6x1yBUCaLFbAV2DSKqvvPVnt2aGL5SmxQecoqbuwabxUlA/whatsappimage20240323at1123291jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqakfoTfCfX7lmkqe1RXorfd6Vi9mmJKForX7_vgLhrhkCmqkHJCgDgyh1GbVPWoWapXR8zl6LHSRUKdbuDiHUuQbm1HbczUIZlqDrycibRnnuN_4mdco/whatsappimage20240323at1123291jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nRb1dgveSEeldK3pt8VwcsuNpnvx_krGhK-w-RBhqrj9WMmOAnGcnIJudwtBSuRQ_x88rnGr1liSqJxKo9XfQhDy8rezAOZ7qILikWG_qAs--jHD71s1N6ND6--tIgMet07eVy9iejU9ERQxl3jKbVxAWkoGcAlKo-Q/whatsappimage20240323at112329jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nRnYjII-upl5ORLnbiN0RZW0BgNdwmOh7gNmaN57kqBsMuIgyX2cqinqLBsaZhHF4f3BrTu1hMABBXNEdmcg4Hi1-PeSe3brNAObYtWI5XAeSGgrC767K9wT9EipPGcRE_QlZ9EgTFeRyz5csmUr41ifIXhGZ7RVzXG/whatsappimage20240323at112329jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSb0kr4fBHuyH5NCwaNy3tPhbzWsi4S8RLD87TdPB6_5GhRtGpVduE0aDUKPzBgXvNYHcB9PPahQgyAzSD8-kjfq09ZO9YhDlrboipyEq8tW5MYioJJxW693gWi9PB4Dc0qcuWHSRCc-qIsblAFuO0rcs4KwSfpOv3iEw/whatsappimage20240323at1123301jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfUrb8l246Sh9nQHjmbGeZhPDoee8nXL5Fgt0Y0sojFrK7sA9H4snBQ-RoO1O9S5aqNg54Bk5OKLjcwt846LNqfR54ZnWVn8uU69IxYsht75NcBNtYIkJQiUEL9etOVjTVpF2QGpGA0qi83gzYWcnV_696JMblAF-GM7is72iCY3-qT1tQ/whatsappimage20240323at1123301jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBQ8qL8l64ySoCDynZHh-p22Wp9bHIrzD2xQXxdEotS0YvbUhdG7OQkN2OGmz_GkYCsIrSKuiCom3dW17Cr4pBwEVCwU0casuSiuxij9jr6Ib0RBJZODaO0yTaEJmaunoJe4OQ651iDHPwV5m60btwZzC2967meT-FDBPuQuEv27vkdrAy6g/whatsappimage20240323at112330jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBQ8ub8l64yQoppK0EA7kUy9gXUpNA-R5J6ZgAgoYt-iPVBH1ODeT2XY-B4zpp2d-aiCg23h05i77jczhsI6PF0fh7zVvWW6H7GwRN_fWRyC4OsnO5zaGNq1W2bB0CHQ8-g9D28QgtIlK85E42pmdWgxWRxaeTkkiGfRyvf78HyZTKJLBeQ/whatsappimage20240323at112330jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSbYnav1ZOsD5VxCgCNz8suNlmKh0FlIKF2x6oz7dfr1KQmvkjnfHpLQW3qDYEcol5IJ09Nw7I15qyiSc77CUr3RvtUb86GsPMG4uivju1XpjNtJqN-RjqIjbp7ycKiF4-Xo_S9_VCFmY00ssg3C2pigfYIpCe-FNch5g/whatsappimage20240323at112331jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBQMub8li4yQophJcRkISjrHfWFyexpFq-PFgPX1xd_k9F_RyA8RGNliyCX7Dqr9kG8rxYEk7bfwPJQtaFwYw1hsBhiTj9VjXJ5NY6xavMu-rN01KArZydcxYg2J27FGHbmMwf3EhHoBwIisizNjzgIxwLIxbuV2S1TJuQJ7MGU12YgMQ/whatsappimage20240323at112331jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBX8rb8lio2SlLUH7Bcz4fGp65HotOWNM2NpC0DHvdom2bnQvihns7niNPHaxdSVPDu5Qs9K2JManXrLOKkxK-uZtxBASwVnoi0j9K17ba-ag_JmEUPBkOy7V6Lw1lHu6UgD0peQHMssmEBgRzKL6CX_KagtNju3HSdMigvEDaiedYq0INg/whatsappimage20240323at112347jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBf8rb8l2o6Sh9nRnrjux1LJHb6eeYVzAeuAXhVJHvSXFuHXVaviuC_bAQmHI8BXFGK-SblDftHpH9ZWy58iblMdFjJxnuRpvbfVtXvUbr5HSQcpqvosUNWmiHmdskDxBl4tNmnQMtquyNZd7eagTShZS2fp_QdMqSQ1OYIW-GSLQNoFX/whatsappimage20240323at112347jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBQ8qL8l64ySoCDynJHx-l116QOW7r9XITwgSxu-9uwRJdAy1QMgmT-Ypgx-dr0fFA1oSb3Q8_Aw4MxmZd9Sz3ksVZMRlzzB5iK3nBMujyK-Ou7YQDKYpjoCgmAJEMb2s_ZB1jtOr_CHjQDdBjGs1VABhPwPgQTI2MSrn8Ge3_IN_qq4/whatsappimage20240323at112348jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBQ8qL8l64ySoCDynJvx_l116QOO7r9XIjwgixu-9qwRJdAy1wKsmDepSDT5hjkfHcnLJTsztRf0fpSuuF75OyxovlxSprjqqMC83ZnKZ6DOq1Igv4e3MiwK9iEkYdry9MaKlJKtaXEUiMbfHRD9sR70jn39ugUGkYRCZFKy3pnVElXs/whatsappimage20240323at112348jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSnjETPeTwIx_E58l6eza1eFpEcWqrccvcTiQfbHjUVCftTqCSij0pn7sGUKD-8EWg0jSe5ThjI93EhWKizWqA_E5ZROFiGeMuohNOONjiJab19TtjSV8BCp6n3TeF_QrF9S0MNV2Q-MaJ1RwCusaf8yA-auAfvuiM3xEM/whatsappimage20240323at112349jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfMrb8l6o4Sh9nSnJUQrIzWXl_NU3MpqyNq2kAjrbC5Ye_cTiQfbfDXxEQxD69vhF0kAxuq1kObFS2d_FLyJAEHdXgfH2TPCRoNb4BxHz1C24QOAYiMJ2xCcEE1psR8awV2F1QGpHSsoZ6ogDKqILCmx_fd8AvLWywhEhfb84CZ0BTHf9w/whatsappimage20240323at112349jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSbd0vGSKTwWKvMWdPIRQgusTCw9fruvgzT1ooGAE26skwyozwnTCK2reeiHeMcpl5LEHg0760mzrJ9ayIC2v8bQ3Y6N6ljlFsOFjBNqIN96T0oAemmv4l_mnQY-6SsKRlRDr_8yKLVX_3wVBIsv_0m1AmYs5Xv6XMTYsE/whatsappimage20240323at1123501jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnnAwYXphKBPiW3sr35S56TSBu59xTuwOiBGvJNNoNMd29yUZL3dr5Is9mHwU6exwRdqakfoTfCfX7lmkqe1RXorfd6Vi9mmJKForX7_vgLhrhkCmqkHJCgDgyh1GbVPWoWapXR8zl6LHSSU1iDlGuTNWe3JKl_QyaL6kas8BPSbV2zv3-alxyk/whatsappimage20240323at1123501jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBQEub8l-42QoppJExfZuESss5l723makRBmzrS-0vK9JPREvudLyl_hChDdDg504_866tUHdPHtBxInK5-GoGNEW10UFWVKJzW-xo0-_C9IgDqMYuA4o4MUiAUctaQ3v-FuE2QGpHI0tDY1gDcKxRJuuDyFT2ZS1miU_AQqYpZzvomoX60E/whatsappimage20240323at112350jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBQEub8l-42QoppJExdZqzbP3f1WqSZ9WVtnIdfGdr3Nzskg5DKLQhK_n9OM4OJkiF9pxkCq7fT4PrQtcg0gszTIlDBVVUpe4ifb3KxG54BOCt3tqk-V4aM1gYwJWCGNj7b8Pb_5upcH4Q6ME9cmImThe1xVhYqQvP9L1AJzGGLV8YjMb/whatsappimage20240323at112350jpeg.webp",
+      "mediaType": "IMAGE"
+    },
+    {
+      "extension": "webp",
+      "link": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nRbVaPB0kdx0WLPTdPIhRCBgJq0vWSYFMK5zNpYsDOGMihc9YFmB8q3cGmzbLgxY_hhsyniigU31sgEkbhulOw1QA3g2MmKN7Im6oz_7TSNcABrpMP2Ppl0jlN6zcOi948XoxayUohwP2Z2-ljzj5N1i_IIjCd0UfMM7w/whatsappimage20240323at112351jpeg.webp",
+      "linkThumb": "https://s01.jetimgs.com/tnkmBfUrb8lio6Sh9nSLwSJ7pd8ex2aOxt_llgI6MAGa50FlIKF2xyIiBloI9cdLi8diluiLKrAVJTgNPsB6FoRE5FevRnRpsMlcL6EcE83AzBuegoQBNenKH-Arw-A3DrWsHm5xT9FWjK37V3RuFmrxgXjlUxf442TsXWEEAZ7kGYsIHPMh/whatsappimage20240323at112351jpeg.webp",
+      "mediaType": "IMAGE"
+    }
+  ],
+  "notes": "Viva com luxo e conforto incomparáveis neste magnífico lar em um condomínio fechado em CAMOBI. Com espaços amplos e sofisticados, móveis planejados de alta qualidade, esta residência oferece o estilo de vida que você merece. Desfrute de segurança, privacidade e exclusividade nesse belo imóvel... Bem-vindo ao seu novo lar...",
+  "occupied": null,
+  "privateArea": 132,
+  "providerCode": "2367172",
+  "rentPrice": null,
+  "sellPrice": 849000.00,
+  "state": "RS",
+  "status": null,
+  "streetName": "Rua Quatro",
+  "streetNumber": null,
+  "subType": "Casa de Condomínio",
+  "suites": 1,
+  "terrainBack": null,
+  "terrainFront": null,
+  "terrainLeft": null,
+  "terrainRight": null,
+  "terrainTotalArea": null,
+  "totalArea": 137,
+  "type": "RESIDENTIAL",
+  "url": null,
+  "usableArea": null,
+  "zipCode": "97110770"
+}

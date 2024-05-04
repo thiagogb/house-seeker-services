@@ -1,6 +1,6 @@
 package br.com.houseseeker.service.v1;
 
-import br.com.houseseeker.TestUtils;
+import br.com.houseseeker.configuration.ObjectMapperConfiguration;
 import br.com.houseseeker.domain.jetimob.v1.PropertyCharacteristicType;
 import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata;
 import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata.Characteristics;
@@ -11,7 +11,6 @@ import br.com.houseseeker.domain.jetimob.v1.PropertyInfoMetadata.Pricing;
 import br.com.houseseeker.domain.jetimob.v1.PropertyPricingType;
 import br.com.houseseeker.domain.jetimob.v1.SearchPageMetadata;
 import br.com.houseseeker.domain.property.UrbanPropertyContract;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static br.com.houseseeker.TestUtils.getTextFromResources;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {
-        ObjectMapper.class,
+        ObjectMapperConfiguration.class,
         MetadataTransferV1Service.class
 })
 class MetadataTransferV1ServiceTest {
@@ -49,11 +49,7 @@ class MetadataTransferV1ServiceTest {
 
         assertThat(metadataTransferV1Service.transfer(Pair.of(ITEM_METADATA, pageMetadata)))
                 .extracting(Object::toString)
-                .satisfies(expected -> JSONAssert.assertEquals(
-                        expected,
-                        TestUtils.getTextFromResources(RESPONSE_WITH_MINIMUM_INFO),
-                        true
-                ));
+                .satisfies(expected -> JSONAssert.assertEquals(expected, getTextFromResources(RESPONSE_WITH_MINIMUM_INFO), true));
     }
 
     @Test
@@ -139,11 +135,7 @@ class MetadataTransferV1ServiceTest {
 
         assertThat(metadataTransferV1Service.transfer(Pair.of(ITEM_METADATA, pageMetadata)))
                 .extracting(Object::toString)
-                .satisfies(expected -> JSONAssert.assertEquals(
-                        expected,
-                        TestUtils.getTextFromResources(RESPONSE_WITH_FULL_INFO),
-                        true
-                ));
+                .satisfies(expected -> JSONAssert.assertEquals(expected, getTextFromResources(RESPONSE_WITH_FULL_INFO), true));
     }
 
 }

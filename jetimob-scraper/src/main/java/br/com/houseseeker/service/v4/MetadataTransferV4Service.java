@@ -17,30 +17,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static br.com.houseseeker.util.BigDecimalUtils.ONE_HUNDRED;
-import static br.com.houseseeker.util.BigDecimalUtils.divideAndRoundByTwo;
-import static br.com.houseseeker.util.ConverterUtils.tryToBigDecimalEnUs;
-import static br.com.houseseeker.util.ConverterUtils.tryToInteger;
-import static java.util.Objects.nonNull;
-import static org.apache.commons.lang3.StringUtils.SPACE;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Service
 @RequiredArgsConstructor
 public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyInfoResponse> {
-
-    private static final int CONTRACT_SELL_VALUE = 1;
-    private static final int CONTRACT_RENT_VALUE = 1;
-    private static final String COMMERCIAL_TYPE_SUFFIX = "comercial";
 
     private final ObjectMapper objectMapper;
 
@@ -59,29 +43,17 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
 
             @Override
             public UrbanPropertyContract getContract() {
-                if (isEmpty(metadata.getContracts()))
-                    return null;
-
-                if (metadata.getContracts().stream().anyMatch(c -> c.getId().equals(CONTRACT_SELL_VALUE)))
-                    return UrbanPropertyContract.SELL;
-
-                return UrbanPropertyContract.RENT;
+                return metadata.getMainContract();
             }
 
             @Override
             public UrbanPropertyType getType() {
-                if (isBlank(metadata.getType()))
-                    return null;
-
-                if (metadata.getType().trim().toLowerCase().endsWith(COMMERCIAL_TYPE_SUFFIX))
-                    return UrbanPropertyType.COMMERCIAL;
-
-                return UrbanPropertyType.RESIDENTIAL;
+                return metadata.getType();
             }
 
             @Override
             public String getSubType() {
-                return metadata.getType();
+                return metadata.getSubType();
             }
 
             @Override
@@ -106,32 +78,22 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
 
             @Override
             public BigDecimal getSellPrice() {
-                if (isEmpty(metadata.getContracts()))
-                    return null;
-
-                return getContractPrice(metadata.getContracts(), CONTRACT_SELL_VALUE);
+                return metadata.getSellPrice();
             }
 
             @Override
             public BigDecimal getRentPrice() {
-                if (isEmpty(metadata.getContracts()))
-                    return null;
-
-                return getContractPrice(metadata.getContracts(), CONTRACT_RENT_VALUE);
+                return metadata.getRentPrice();
             }
 
             @Override
             public BigDecimal getCondominiumPrice() {
-                return Optional.ofNullable(metadata.getCondominiumPrice())
-                               .flatMap(cp -> Optional.ofNullable(cp.getValue())
-                                                      .map(v -> divideAndRoundByTwo(v, ONE_HUNDRED))
-                               )
-                               .orElse(null);
+                return metadata.getCondominiumPrice();
             }
 
             @Override
             public String getCondominiumName() {
-                return "";
+                return null;
             }
 
             @Override
@@ -167,97 +129,67 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
 
             @Override
             public String getState() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .map(PropertyInfoResponse.Address::getState)
-                               .orElse(null);
+                return metadata.getState();
             }
 
             @Override
             public String getCity() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .map(PropertyInfoResponse.Address::getCity)
-                               .orElse(null);
+                return metadata.getCity();
             }
 
             @Override
             public String getDistrict() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .map(PropertyInfoResponse.Address::getDistrict)
-                               .orElse(null);
+                return metadata.getDistrict();
             }
 
             @Override
             public String getZipCode() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .map(PropertyInfoResponse.Address::getZipCode)
-                               .orElse(null);
+                return metadata.getZipCode();
             }
 
             @Override
             public String getStreetName() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .map(PropertyInfoResponse.Address::getStreetName)
-                               .orElse(null);
+                return metadata.getStreetName();
             }
 
             @Override
             public Integer getStreetNumber() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .flatMap(a -> tryToInteger(a.getStreetNumber()))
-                               .orElse(null);
+                return metadata.getStreetNumber();
             }
 
             @Override
             public String getComplement() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .map(PropertyInfoResponse.Address::getComplement)
-                               .orElse(null);
+                return metadata.getComplement();
             }
 
             @Override
             public BigDecimal getLatitude() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .flatMap(a -> Optional.ofNullable(a.getCoordinate())
-                                                     .flatMap(c -> tryToBigDecimalEnUs(c.getLatitude()))
-                               )
-                               .orElse(null);
+                return metadata.getLatitude();
             }
 
             @Override
             public BigDecimal getLongitude() {
-                return Optional.ofNullable(metadata.getAddress())
-                               .flatMap(a -> Optional.ofNullable(a.getCoordinate())
-                                                     .flatMap(c -> tryToBigDecimalEnUs(c.getLongitude()))
-                               )
-                               .orElse(null);
+                return metadata.getLongitude();
             }
 
             @Override
             public BigDecimal getTotalArea() {
-                return Optional.ofNullable(metadata.getTotalArea())
-                               .map(PropertyInfoResponse.Measure::getValue)
-                               .orElse(null);
+                return metadata.getTotalArea();
             }
 
             @Override
             public BigDecimal getPrivateArea() {
-                return Optional.ofNullable(metadata.getPrivateArea())
-                               .map(PropertyInfoResponse.Measure::getValue)
-                               .orElse(null);
+                return metadata.getPrivateArea();
             }
 
             @Override
             public BigDecimal getUsableArea() {
-                return Optional.ofNullable(metadata.getUsableArea())
-                               .map(PropertyInfoResponse.Measure::getValue)
-                               .orElse(null);
+                return metadata.getUsableArea();
             }
 
             @Override
             public BigDecimal getTerrainTotalArea() {
-                return Optional.ofNullable(metadata.getTerrainTotalArea())
-                               .map(PropertyInfoResponse.Measure::getValue)
-                               .orElse(null);
+                return metadata.getTerrainTotalArea();
             }
 
             @Override
@@ -282,11 +214,7 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
 
             @Override
             public String getAreaUnit() {
-                return Stream.of(metadata.getTotalArea(), metadata.getPrivateArea(), metadata.getUsableArea(), metadata.getTerrainTotalArea())
-                             .filter(m -> nonNull(m) && isNotBlank(m.getMeasureUnit()))
-                             .map(PropertyInfoResponse.Measure::getMeasureUnit)
-                             .findFirst()
-                             .orElse(null);
+                return metadata.getAreaUnit();
             }
 
             @Override
@@ -303,14 +231,6 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
         };
     }
 
-    private BigDecimal getContractPrice(List<PropertyInfoResponse.Contract> contracts, int contractType) {
-        return contracts.stream()
-                        .filter(c -> c.getId().equals(contractType) && nonNull(c.getPrice()) && nonNull(c.getPrice().getValue()))
-                        .findFirst()
-                        .map(c -> divideAndRoundByTwo(c.getPrice().getValue(), ONE_HUNDRED))
-                        .orElse(null);
-    }
-
     private List<AbstractUrbanPropertyMediaMetadata> transferMediaMetadata(List<PropertyInfoResponse.Media> mediaList) {
         return mediaList.stream()
                         .map(m -> new AbstractUrbanPropertyMediaMetadata() {
@@ -321,18 +241,7 @@ public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyIn
 
                             @Override
                             public String getLinkThumb() {
-                                if (isBlank(m.getLinkThumb()))
-                                    return null;
-
-                                List<String> thumbs = Arrays.asList(m.getLinkThumb().split(","));
-                                if (thumbs.isEmpty())
-                                    return null;
-
-                                List<String> firstThumbParts = Arrays.asList(thumbs.getFirst().split(SPACE));
-                                if (firstThumbParts.isEmpty())
-                                    return null;
-
-                                return firstThumbParts.getFirst().trim();
+                                return m.getLinkThumb();
                             }
 
                             @Override
