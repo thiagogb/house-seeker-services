@@ -18,7 +18,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(
         classes = WebDriverFactoryService.class,
-        properties = {"webdriver.retry-count=2", "webdriver.retry-wait=500"}
+        properties = {
+                "webdriver.retry-count=2",
+                "webdriver.retry-wait=500"
+        }
 )
 class AbstractWebDriverScraperServiceTest extends AbstractMockWebServerTest {
 
@@ -40,10 +43,12 @@ class AbstractWebDriverScraperServiceTest extends AbstractMockWebServerTest {
     @Test
     @DisplayName("given a test document when scrap then expects exception")
     void givenATestDocument_whenScrap_thenExpectsException() {
+        String baseUrl = getBaseUrl();
+
         whenDispatch(recordedRequest -> new MockResponse().setResponseCode(200).setBody(getTextFromResources(SAMPLE_TEST_PAGE)));
 
         try (var scraper = new TestWebDriverFailScraper(webDriverFactoryService)) {
-            assertThatThrownBy(() -> scraper.scrap(getBaseUrl()))
+            assertThatThrownBy(() -> scraper.scrap(baseUrl))
                     .isInstanceOf(ExtendedRuntimeException.class)
                     .hasMessage("Scraper fail using WebDriver");
         }
@@ -52,10 +57,12 @@ class AbstractWebDriverScraperServiceTest extends AbstractMockWebServerTest {
     @Test
     @DisplayName("given a request with response code 500 when scrap then expects exception")
     void givenARequestWithResponseCode500_whenScrap_thenExpectsException() {
+        String baseUrl = getBaseUrl();
+
         whenDispatch(recordedRequest -> new MockResponse().setResponseCode(500));
 
         try (var scraper = new TestWebDriverSuccessScraper(webDriverFactoryService)) {
-            assertThatThrownBy(() -> scraper.scrap(getBaseUrl()))
+            assertThatThrownBy(() -> scraper.scrap(baseUrl))
                     .isInstanceOf(ExtendedRuntimeException.class)
                     .hasMessage("Scraper fail using WebDriver");
         }

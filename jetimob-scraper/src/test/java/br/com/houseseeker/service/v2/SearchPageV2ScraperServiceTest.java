@@ -78,9 +78,11 @@ class SearchPageV2ScraperServiceTest extends AbstractMockWebServerTest {
     @Test
     @DisplayName("given a sample empty page when calls scrap then expects exception")
     void givenASampleEmptyPage_whenCallsScrap_thenExpectsException() {
+        String baseUrl = getBaseUrl();
+
         whenDispatch(recordedRequest -> new MockResponse().setResponseCode(200).setBody(getTextFromResources(SAMPLE_EMPTY)));
 
-        assertThatThrownBy(() -> searchPageV2ScraperService.scrap(getBaseUrl()))
+        assertThatThrownBy(() -> searchPageV2ScraperService.scrap(baseUrl))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Scraper fail using WebDriver");
     }
@@ -88,9 +90,11 @@ class SearchPageV2ScraperServiceTest extends AbstractMockWebServerTest {
     @Test
     @DisplayName("given a sample with empty provider code calls scrap then expects exception")
     void givenASampleWithEmptyProviderCode_whenCallsScrap_thenExpectsException() {
+        String baseUrl = getBaseUrl();
+
         whenDispatch(recordedRequest -> new MockResponse().setResponseCode(200).setBody(getTextFromResources(SAMPLE_EMPTY_PROVIDER_CODE)));
 
-        assertThatThrownBy(() -> searchPageV2ScraperService.scrap(getBaseUrl()))
+        assertThatThrownBy(() -> searchPageV2ScraperService.scrap(baseUrl))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Provider code element content is empty or invalid");
     }
@@ -98,9 +102,11 @@ class SearchPageV2ScraperServiceTest extends AbstractMockWebServerTest {
     @Test
     @DisplayName("given a sample with invalid provider code calls scrap then expects exception")
     void givenASampleWithInvalidProviderCode_whenCallsScrap_thenExpectsException() {
+        String baseUrl = getBaseUrl();
+
         whenDispatch(recordedRequest -> new MockResponse().setResponseCode(200).setBody(getTextFromResources(SAMPLE_INVALID_PROVIDER_CODE)));
 
-        assertThatThrownBy(() -> searchPageV2ScraperService.scrap(getBaseUrl()))
+        assertThatThrownBy(() -> searchPageV2ScraperService.scrap(baseUrl))
                 .isInstanceOf(ExtendedRuntimeException.class)
                 .hasMessage("Provider code is invalid");
     }

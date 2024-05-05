@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.lang.Nullable;
 
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static java.util.Objects.isNull;
 
@@ -13,11 +13,11 @@ import static java.util.Objects.isNull;
 public class EntityUtils {
 
     @SuppressWarnings("unchecked")
-    public <T> boolean isEqual(@NotNull T source, @Nullable Object target, @NotNull Function<T, Boolean> matcher) {
+    public <T> boolean isEqual(@NotNull T source, @Nullable Object target, @NotNull Predicate<T> predicate) {
         if (source == target) return true;
         if (isNull(target)) return false;
         if (getEffectiveClassOf(target) != getEffectiveClassOf(source)) return false;
-        return matcher.apply((T) target);
+        return predicate.test((T) target);
     }
 
     public <T> int hashCode(@NotNull T obj) {

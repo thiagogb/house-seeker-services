@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -235,16 +236,10 @@ public class PropertyInfoResponse {
     }
 
     public BigDecimal getSellPrice() {
-        if (isEmpty(contracts))
-            return null;
-
         return getContractPrice(contracts, CONTRACT_SELL_VALUE);
     }
 
     public BigDecimal getRentPrice() {
-        if (isEmpty(contracts))
-            return null;
-
         return getContractPrice(contracts, CONTRACT_RENT_VALUE);
     }
 
@@ -313,11 +308,12 @@ public class PropertyInfoResponse {
     }
 
     private BigDecimal getContractPrice(List<PropertyInfoResponse.Contract> contracts, int contractType) {
-        return contracts.stream()
-                        .filter(c -> c.getId().equals(contractType) && nonNull(c.getPrice()) && nonNull(c.getPrice().getValue()))
-                        .findFirst()
-                        .map(c -> extractPricingValue(c.getPrice()))
-                        .orElse(null);
+        return Optional.ofNullable(contracts).orElse(Collections.emptyList())
+                       .stream()
+                       .filter(c -> c.getId().equals(contractType) && nonNull(c.getPrice()) && nonNull(c.getPrice().getValue()))
+                       .findFirst()
+                       .map(c -> extractPricingValue(c.getPrice()))
+                       .orElse(null);
     }
 
     private BigDecimal extractPricingValue(Price price) {

@@ -17,7 +17,7 @@ public abstract class AbstractWebDriverScraperService<T> implements AutoCloseabl
     private final WebDriverFactoryService webDriverFactoryService;
     private WebDriver webDriver;
 
-    public AbstractWebDriverScraperService(WebDriverFactoryService webDriverFactoryService) {
+    protected AbstractWebDriverScraperService(WebDriverFactoryService webDriverFactoryService) {
         this.webDriverFactoryService = webDriverFactoryService;
     }
 

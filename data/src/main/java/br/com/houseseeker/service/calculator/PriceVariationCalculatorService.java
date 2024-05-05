@@ -44,7 +44,7 @@ public class PriceVariationCalculatorService {
             priceVariationsMap.computeIfAbsent(type, key -> new LinkedList<>())
                               .add(registerNewPriceVariation(urbanProperty, currentVariations, type));
         }
-        return priceVariationsMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+        return priceVariationsMap.values().stream().flatMap(Collection::stream).toList();
     }
 
     private Map<Type, List<UrbanPropertyPriceVariation>> groupByTypeOrderByAnalysisDate(

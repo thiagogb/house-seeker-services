@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 class EntityUtilsTest {
 
     @Mock
-    private Function<Object, Boolean> mockedMatcher;
+    private Predicate<Object> mockedPredicate;
 
     @Test
     @DisplayName("given the same source and target when calls isEqual then expects true")
@@ -32,9 +32,9 @@ class EntityUtilsTest {
         String source = "value";
         String target = "value";
 
-        assertThat(EntityUtils.isEqual(source, target, mockedMatcher)).isTrue();
+        assertThat(EntityUtils.isEqual(source, target, mockedPredicate)).isTrue();
 
-        verifyNoInteractions(mockedMatcher);
+        verifyNoInteractions(mockedPredicate);
     }
 
     @Test
@@ -42,9 +42,9 @@ class EntityUtilsTest {
     void givenANullTarget_whenCallsIsEqual_thenExpectsFalse() {
         String source = "value";
 
-        assertThat(EntityUtils.isEqual(source, null, mockedMatcher)).isFalse();
+        assertThat(EntityUtils.isEqual(source, null, mockedPredicate)).isFalse();
 
-        verifyNoInteractions(mockedMatcher);
+        verifyNoInteractions(mockedPredicate);
     }
 
     @Test
@@ -53,9 +53,9 @@ class EntityUtilsTest {
         String source = "value";
         Integer target = 1;
 
-        assertThat(EntityUtils.isEqual(source, target, mockedMatcher)).isFalse();
+        assertThat(EntityUtils.isEqual(source, target, mockedPredicate)).isFalse();
 
-        verifyNoInteractions(mockedMatcher);
+        verifyNoInteractions(mockedPredicate);
     }
 
     @Test
@@ -64,12 +64,12 @@ class EntityUtilsTest {
         BigDecimal source = BigDecimal.valueOf(100);
         BigDecimal target = new BigDecimal("100.00");
 
-        when(mockedMatcher.apply(any())).thenReturn(true);
+        when(mockedPredicate.test(any())).thenReturn(true);
 
-        assertThat(EntityUtils.isEqual(source, target, mockedMatcher)).isTrue();
+        assertThat(EntityUtils.isEqual(source, target, mockedPredicate)).isTrue();
 
-        verify(mockedMatcher, times(1)).apply(any());
-        verifyNoMoreInteractions(mockedMatcher);
+        verify(mockedPredicate, times(1)).test(any());
+        verifyNoMoreInteractions(mockedPredicate);
     }
 
     @Test
@@ -78,12 +78,12 @@ class EntityUtilsTest {
         BigDecimal source = BigDecimal.valueOf(100);
         BigDecimal target = new BigDecimal("100.00");
 
-        when(mockedMatcher.apply(any())).thenReturn(false);
+        when(mockedPredicate.test(any())).thenReturn(false);
 
-        assertThat(EntityUtils.isEqual(source, target, mockedMatcher)).isFalse();
+        assertThat(EntityUtils.isEqual(source, target, mockedPredicate)).isFalse();
 
-        verify(mockedMatcher, times(1)).apply(any());
-        verifyNoMoreInteractions(mockedMatcher);
+        verify(mockedPredicate, times(1)).test(any());
+        verifyNoMoreInteractions(mockedPredicate);
     }
 
     @Test
@@ -101,12 +101,12 @@ class EntityUtilsTest {
         when(sourceLazyInitializer.getPersistentClass()).thenAnswer(a -> String.class);
         when(targetLazyInitializer.getPersistentClass()).thenAnswer(a -> String.class);
 
-        when(mockedMatcher.apply(any())).thenReturn(true);
+        when(mockedPredicate.test(any())).thenReturn(true);
 
-        assertThat(EntityUtils.isEqual(source, target, mockedMatcher)).isTrue();
+        assertThat(EntityUtils.isEqual(source, target, mockedPredicate)).isTrue();
 
-        verify(mockedMatcher, times(1)).apply(any());
-        verifyNoMoreInteractions(mockedMatcher);
+        verify(mockedPredicate, times(1)).test(any());
+        verifyNoMoreInteractions(mockedPredicate);
     }
 
     @Test
