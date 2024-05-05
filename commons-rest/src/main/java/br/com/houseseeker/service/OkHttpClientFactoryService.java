@@ -2,6 +2,7 @@ package br.com.houseseeker.service;
 
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
+import br.com.houseseeker.util.ThreadUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
@@ -47,7 +48,7 @@ public class OkHttpClientFactoryService {
                         providerParameters.getConnection().getRetryCount()
                 );
 
-                waitIfTheresRetryRemaining(providerMetadata, providerParameters, ++attemptNumber);
+                waitIfTheresRetryRemaining(providerParameters, ++attemptNumber);
 
                 response.close();
                 response = chain.proceed(request);
@@ -56,16 +57,11 @@ public class OkHttpClientFactoryService {
         };
     }
 
-    private void waitIfTheresRetryRemaining(ProviderMetadata providerMetadata, ProviderParameters providerParameters, int attemptNumber) {
+    private void waitIfTheresRetryRemaining(ProviderParameters providerParameters, int attemptNumber) {
         if (attemptNumber >= providerParameters.getConnection().getRetryCount())
             return;
 
-        try {
-            Thread.sleep(providerParameters.getConnection().getRetryWait());
-        } catch (InterruptedException e) {
-            log.error("Retry wait time failed for provider {}", providerMetadata.getName(), e);
-            Thread.currentThread().interrupt();
-        }
+        ThreadUtils.sleep(providerParameters.getConnection().getRetryWait());
     }
 
 }

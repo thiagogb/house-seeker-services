@@ -8,11 +8,13 @@
         <artifactId>services</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>commons-messaging</artifactId>
+    <artifactId>commons-scraper</artifactId>
+    <name>Scraper Common Classes and Utilities</name>
     <packaging>jar</packaging>
-    <name>Messaging Common Classes and Utilities</name>
     <properties>
         <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+        <jsoup.version>1.17.2</jsoup.version>
+        <webdriver.manager.version>5.6.4</webdriver.manager.version>
     </properties>
     <dependencies>
         <dependency>
@@ -20,26 +22,17 @@
             <artifactId>commons</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>br.com.houseseeker</groupId>
-            <artifactId>commons-rest</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+         <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
         <dependency>
-            <groupId>br.com.houseseeker</groupId>
-            <artifactId>commons-scraper</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdriver.manager.version}</version>
         </dependency>
         <!-- tests -->
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>br.com.houseseeker</groupId>
             <artifactId>commons</artifactId>
@@ -49,7 +42,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>commons-messaging</finalName>
+        <finalName>commons-scraper</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

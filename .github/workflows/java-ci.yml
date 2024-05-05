@@ -38,6 +38,8 @@ jobs:
         run: |
           gh extension install actions/gh-actions-cache
           gh actions-cache delete "commons-jacoco-report" --confirm
+          gh actions-cache delete "commons-rest-jacoco-report" --confirm
+          gh actions-cache delete "commons-scraper-jacoco-report" --confirm
           gh actions-cache delete "commons-messaging-jacoco-report" --confirm
           gh actions-cache delete "jetimob-scraper-jacoco-report" --confirm
           gh actions-cache delete "data-jacoco-report" --confirm
@@ -47,6 +49,18 @@ jobs:
         with:
           path: commons/target/site/jacoco
           key: commons-jacoco-report
+
+      - name: Caching Commons Rest Jacoco Report
+        uses: actions/cache@v4
+        with:
+          path: commons-rest/target/site/jacoco
+          key: commons-rest-jacoco-report
+
+      - name: Caching Commons Scraper Jacoco Report
+        uses: actions/cache@v4
+        with:
+          path: commons-scraper/target/site/jacoco
+          key: commons-scraper-jacoco-report
 
       - name: Caching Commons Messaging Jacoco Report
         uses: actions/cache@v4
@@ -95,6 +109,36 @@ jobs:
           coverage-badge-filename: commons-coverage-jacoco.svg
           branches-badge-filename: commons-branches-jacoco.svg
           workflow-summary-heading: Module Commons - JaCoCo Test Coverage Summary
+
+      - name: Restoring Cached Commons Rest Jacoco Report
+        uses: actions/cache/restore@v4
+        with:
+          path: commons-rest/target/site/jacoco
+          key: commons-rest-jacoco-report
+
+      - name: Generate JaCoCo Badge - Commons Rest
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: commons-rest/target/site/jacoco/jacoco.csv
+          coverage-badge-filename: commons-rest-coverage-jacoco.svg
+          branches-badge-filename: commons-rest-branches-jacoco.svg
+          workflow-summary-heading: Module Commons Rest - JaCoCo Test Coverage Summary
+
+      - name: Restoring Cached Commons Scraper Jacoco Report
+        uses: actions/cache/restore@v4
+        with:
+          path: commons-scraper/target/site/jacoco
+          key: commons-scraper-jacoco-report
+
+      - name: Generate JaCoCo Badge - Commons Scraper
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: commons-scraper/target/site/jacoco/jacoco.csv
+          coverage-badge-filename: commons-scraper-coverage-jacoco.svg
+          branches-badge-filename: commons-scraper-branches-jacoco.svg
+          workflow-summary-heading: Module Commons Scraper - JaCoCo Test Coverage Summary
 
       - name: Restoring Commons Messaging Jacoco Report
         uses: actions/cache/restore@v4

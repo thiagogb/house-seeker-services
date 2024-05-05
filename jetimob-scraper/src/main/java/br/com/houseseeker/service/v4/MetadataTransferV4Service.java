@@ -7,7 +7,7 @@ import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
 import br.com.houseseeker.domain.property.UrbanPropertyStatus;
 import br.com.houseseeker.domain.property.UrbanPropertyType;
-import br.com.houseseeker.service.AbstractMedataTransfer;
+import br.com.houseseeker.service.AbstractMedataTransferService;
 import br.com.houseseeker.util.MediaUtils;
 import br.com.houseseeker.util.ObjectMapperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MetadataTransferV4Service extends AbstractMedataTransfer<PropertyInfoResponse> {
+public class MetadataTransferV4Service extends AbstractMedataTransferService<PropertyInfoResponse> {
 
     private final ObjectMapper objectMapper;
 

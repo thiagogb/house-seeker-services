@@ -14,11 +14,11 @@ import static br.com.houseseeker.util.StringUtils.getNonBlank;
 public class JsoupUtils {
 
     public Optional<String> getNonBlankHtml(@NotNull Element element) {
-        return getNonBlank(element.html());
+        return StringUtils.getNonBlank(element.html());
     }
 
     public Optional<String> getNonBlankAttribute(@NotNull Element element, @NotBlank String name) {
-        return getNonBlank(element.attr(name));
+        return StringUtils.getNonBlank(element.attr(name));
     }
 
     public Optional<Element> getElementAtIndex(@NotNull Elements elements, int index) {

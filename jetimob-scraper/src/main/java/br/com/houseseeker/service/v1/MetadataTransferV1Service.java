@@ -11,7 +11,7 @@ import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
 import br.com.houseseeker.domain.property.UrbanPropertyStatus;
 import br.com.houseseeker.domain.property.UrbanPropertyType;
-import br.com.houseseeker.service.AbstractMedataTransfer;
+import br.com.houseseeker.service.AbstractMedataTransferService;
 import br.com.houseseeker.util.ObjectMapperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +35,7 @@ import static br.com.houseseeker.util.StringUtils.keepOnlyNumericSymbols;
 
 @Service
 @RequiredArgsConstructor
-public class MetadataTransferV1Service extends AbstractMedataTransfer<Pair<SearchPageMetadata.Item, PropertyInfoMetadata>> {
+public class MetadataTransferV1Service extends AbstractMedataTransferService<Pair<SearchPageMetadata.Item, PropertyInfoMetadata>> {
 
     private final ObjectMapper objectMapper;
 

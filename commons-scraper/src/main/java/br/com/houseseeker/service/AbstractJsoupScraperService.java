@@ -12,5 +12,4 @@ public abstract class AbstractJsoupScraperService<T> {
 
     protected abstract T scrapDocument(Document document);
 
-
 }

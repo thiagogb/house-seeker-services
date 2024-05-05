@@ -22,6 +22,16 @@
         </dependency>
         <dependency>
             <groupId>br.com.houseseeker</groupId>
+            <artifactId>commons-rest</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>br.com.houseseeker</groupId>
+            <artifactId>commons-scraper</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>br.com.houseseeker</groupId>
             <artifactId>commons-messaging</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

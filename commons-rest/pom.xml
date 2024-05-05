@@ -8,9 +8,9 @@
         <artifactId>services</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>commons-messaging</artifactId>
+    <artifactId>commons-rest</artifactId>
+    <name>Rest Common Classes and Utilities</name>
     <packaging>jar</packaging>
-    <name>Messaging Common Classes and Utilities</name>
     <properties>
         <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
     </properties>
@@ -20,26 +20,7 @@
             <artifactId>commons</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>br.com.houseseeker</groupId>
-            <artifactId>commons-rest</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>br.com.houseseeker</groupId>
-            <artifactId>commons-scraper</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
         <!-- tests -->
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>br.com.houseseeker</groupId>
             <artifactId>commons</artifactId>
@@ -49,7 +30,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>commons-messaging</finalName>
+        <finalName>commons-rest</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
