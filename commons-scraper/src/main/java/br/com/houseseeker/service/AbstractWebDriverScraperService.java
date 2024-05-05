@@ -54,8 +54,12 @@ public abstract class AbstractWebDriverScraperService<T> implements AutoCloseabl
             }
         }
 
-        if (nonNull(lastError))
+        if (nonNull(lastError)) {
+            if (lastError instanceof ExtendedRuntimeException e)
+                throw e;
+
             throw new ExtendedRuntimeException(lastError, "Scraper fail using WebDriver");
+        }
 
         return result;
     }
