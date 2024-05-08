@@ -1,0 +1,39 @@
+FROM eclipse-temurin:21-jdk-alpine as build
+
+WORKDIR /workspace/app
+
+RUN apk add gcompat --no-check-certificate --no-cache
+
+COPY data/target/ target/
+RUN mkdir -p target/extracted
+RUN java -Djarmode=layertools -jar target/*.jar extract --destination target/extracted
+
+FROM eclipse-temurin:21-jre-alpine as runner
+
+RUN apk add gcompat tini --no-cache --no-check-certificate
+
+ENV LD_PRELOAD=/lib/libgcompat.so.0
+
+#We need to specify the user and group id so we make sure it is always known
+# and can be used in kubernetes when applying securityContext constraints
+RUN addgroup -g 1000 appgroup
+RUN adduser -D -u 1000 -G appgroup appuser
+RUN mkdir /app
+RUN chown appuser:appgroup /app
+USER appuser
+
+WORKDIR /app
+ARG EXTRACTED=/workspace/app/target/extracted
+COPY --from=build ${EXTRACTED}/dependencies/ ./
+COPY --from=build ${EXTRACTED}/spring-boot-loader/ ./
+COPY --from=build ${EXTRACTED}/snapshot-dependencies/ ./
+COPY --from=build ${EXTRACTED}/application/ ./
+
+# We use tiny to make sure the application will perform correctly when receivin sigterm
+# https://github.com/krallin/tini#remapping-exit-codes
+# Java exits with 143 when killed by SIGTERM, but SIGTERM means we intended for it to exit
+ENTRYPOINT ["tini", "-e", "143", "--"]
+
+HEALTHCHECK CMD curl --fail http://localhost:8082/actuator || exit 1
+
+CMD java ${EXTRA_JAVA_ARGS} -cp . org.springframework.boot.loader.launch.JarLauncher
