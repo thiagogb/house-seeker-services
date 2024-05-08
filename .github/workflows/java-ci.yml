@@ -12,8 +12,8 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  build:
-    name: Maven Build
+  mavenPackage:
+    name: Maven Package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +26,13 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B verify -DnvdApiKey=${{ secrets.NVD_API_KEY }} --file pom.xml
+
+      - name: Upload Dependency Check Report Artifact
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: target/dependency-check-report.html
 
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
@@ -103,7 +109,7 @@ jobs:
             git push
           fi
 
-  codeql:
+  codeQL:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
     strategy:
@@ -136,8 +142,8 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
-  sonarcloud:
-    name: Sonarcloud Analysis
+  sonarCloud:
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

@@ -38,6 +38,7 @@
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <jacoco.version>0.8.10</jacoco.version>
+        <owasp.dependency.check.version>9.1.0</owasp.dependency.check.version>
         <!-- sonarQube -->
         <sonar.organization>thiagogb</sonar.organization>
         <sonar.projectKey>thiagogb_house-seeker-services</sonar.projectKey>
@@ -255,6 +256,18 @@
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${owasp.dependency.check.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
