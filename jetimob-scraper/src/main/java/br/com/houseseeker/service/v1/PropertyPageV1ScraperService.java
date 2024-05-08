@@ -65,11 +65,11 @@ public class PropertyPageV1ScraperService extends AbstractJsoupScraperService<Pr
                                     .orElse(null);
 
         String district = JsoupUtils.getElementAtIndex(paragraphElements, 1)
-                                    .flatMap(e -> Optional.ofNullable(e.select("strong").first()))
+                                    .flatMap(e -> Optional.ofNullable(e.selectFirst("strong")))
                                     .map(Element::html)
                                     .orElse(null);
 
-        String condominiumName = Optional.ofNullable(rootElement.select("> strong").first())
+        String condominiumName = Optional.ofNullable(rootElement.selectFirst("> strong"))
                                          .map(Element::html)
                                          .orElse(null);
 
@@ -100,19 +100,19 @@ public class PropertyPageV1ScraperService extends AbstractJsoupScraperService<Pr
     }
 
     private Characteristics scrapCharacteristic(Element element) {
-        PropertyCharacteristicType type = Optional.ofNullable(element.select("i.imovel-icon").first())
+        PropertyCharacteristicType type = Optional.ofNullable(element.selectFirst("i.imovel-icon"))
                                                   .flatMap(e -> PropertyCharacteristicType.getByClasses(e.classNames()))
                                                   .orElseThrow(() -> new ExtendedRuntimeException("Unknown characteristic class"));
 
-        String name = Optional.ofNullable(element.select("small.text").first())
+        String name = Optional.ofNullable(element.selectFirst("small.text"))
                               .flatMap(JsoupUtils::getNonBlankHtml)
                               .orElseThrow(() -> new ExtendedRuntimeException("Failed to extract characteristic name"));
 
-        String value = Optional.ofNullable(element.select("strong.text").first())
+        String value = Optional.ofNullable(element.selectFirst("strong.text"))
                                .flatMap(JsoupUtils::getNonBlankHtml)
                                .orElseThrow(() -> new ExtendedRuntimeException("Failed to extract characteristic value"));
 
-        String additional = Optional.ofNullable(element.select("small:not(.text)").first())
+        String additional = Optional.ofNullable(element.selectFirst("small:not(.text)"))
                                     .flatMap(JsoupUtils::getNonBlankHtml)
                                     .orElse(null);
 
@@ -134,11 +134,11 @@ public class PropertyPageV1ScraperService extends AbstractJsoupScraperService<Pr
     }
 
     private Pricing scrapPricing(Element element) {
-        String name = Optional.ofNullable(element.select("small.text").first())
+        String name = Optional.ofNullable(element.selectFirst("small.text"))
                               .flatMap(JsoupUtils::getNonBlankHtml)
                               .orElseThrow(() -> new ExtendedRuntimeException("Failed to extract pricing name"));
 
-        String value = Optional.ofNullable(element.select("strong.text").first())
+        String value = Optional.ofNullable(element.selectFirst("strong.text"))
                                .flatMap(JsoupUtils::getNonBlankHtml)
                                .orElseThrow(() -> new ExtendedRuntimeException("Failed to extract pricing value"));
 
@@ -196,13 +196,13 @@ public class PropertyPageV1ScraperService extends AbstractJsoupScraperService<Pr
     private Pair<String, List<String>> scrapConveniences(Element e) {
         MutablePair<String, List<String>> result = new MutablePair<>(EMPTY, new LinkedList<>());
         e.select(".list-group-item")
-         .forEach(lgi -> Optional.ofNullable(lgi.select(".section-subtitle").first())
+         .forEach(lgi -> Optional.ofNullable(lgi.selectFirst(".section-subtitle"))
                                  .flatMap(JsoupUtils::getNonBlankHtml)
                                  .ifPresent(st -> {
                                      switch (st.toLowerCase().trim()) {
                                          case "descrição":
                                              result.setLeft(
-                                                     Optional.ofNullable(lgi.select("pre").first())
+                                                     Optional.ofNullable(lgi.selectFirst("pre"))
                                                              .flatMap(JsoupUtils::getNonBlankHtml)
                                                              .orElse(null)
                                              );

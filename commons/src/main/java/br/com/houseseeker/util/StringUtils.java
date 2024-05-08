@@ -23,4 +23,11 @@ public class StringUtils {
         return value.trim().replaceAll("[^0-9,.+-]", EMPTY);
     }
 
+    public String removeParentheses(@Nullable String value) {
+        if (isBlank(value))
+            return value;
+
+        return value.replaceAll("[()]", EMPTY);
+    }
+
 }
