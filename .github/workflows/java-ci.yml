@@ -29,7 +29,7 @@ jobs:
         run: mvn -B verify -DnvdApiKey=${{ secrets.NVD_API_KEY }} --file pom.xml
 
       - name: Upload Dependency Check Report Artifact
-      - uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
           path: target/dependency-check-report.html
