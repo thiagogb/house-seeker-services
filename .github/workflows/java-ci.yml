@@ -184,8 +184,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Compile with Maven
-        run: mvn -B compile --file pom.xml
+      - name: Package with Maven
+        run: mvn -B package -DskipTests --file pom.xml
 
       - name: Build Docker Image Jetimob-Scraper
         run: docker build . --file Dockerfile-jetimob-scraper --tag aquinate/house-seeker-jetimob-scraper:latest
