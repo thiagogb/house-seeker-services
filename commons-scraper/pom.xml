@@ -42,7 +42,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>commons-scraper</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

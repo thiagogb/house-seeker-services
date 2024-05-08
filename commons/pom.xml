@@ -15,7 +15,6 @@
         <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
     </properties>
     <build>
-        <finalName>commons</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
