@@ -237,11 +237,11 @@ jobs:
       - name: Upload Report Jetimob-Scrapper
         uses: actions/upload-artifact@v4
         with:
-          name: dependency-check-report
+          name: trivy-scan-report-jetimob-scraper.sarif
           path: trivy-scan-report-jetimob-scraper.sarif
 
       - name: Upload Report Data
         uses: actions/upload-artifact@v4
         with:
-          name: dependency-check-report
+          name: trivy-scan-report-data.sarif
           path: trivy-scan-report-data.sarif
