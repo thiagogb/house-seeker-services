@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
     <name>Jetimob Data Scraper Consumer</name>
     <properties>
-        <start-class>br.com.houseseeker.CommonsMessagingApplication</start-class>
+        <start-class>br.com.houseseeker.Application</start-class>
     </properties>
     <dependencies>
         <dependency>

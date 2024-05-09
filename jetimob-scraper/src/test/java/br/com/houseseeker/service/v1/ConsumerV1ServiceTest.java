@@ -1,6 +1,6 @@
 package br.com.houseseeker.service.v1;
 
-import br.com.houseseeker.JetimobScraperApplication;
+import br.com.houseseeker.Application;
 import br.com.houseseeker.RabbitMqIntegrationTest;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
@@ -17,7 +17,6 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +31,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
-@SpringBootTest
-@ContextConfiguration(classes = JetimobScraperApplication.class)
+@SpringBootTest(classes = Application.class)
 @ExtendWith(MockitoExtension.class)
 class ConsumerV1ServiceTest extends RabbitMqIntegrationTest {
 

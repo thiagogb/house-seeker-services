@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
     <name>Data Service</name>
     <properties>
-        <start-class>br.com.houseseeker.DataApplication</start-class>
+        <start-class>br.com.houseseeker.Application</start-class>
         <flyway.version>9.21.0</flyway.version>
         <postgresql.version>42.6.1</postgresql.version>
         <quartz.version>2.3.2</quartz.version>
@@ -20,22 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flyway.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -52,6 +37,11 @@
             <artifactId>commons-messaging</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>br.com.houseseeker</groupId>
+            <artifactId>commons-data</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- tests -->
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -62,6 +52,13 @@
         <dependency>
             <groupId>br.com.houseseeker</groupId>
             <artifactId>commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.houseseeker</groupId>
+            <artifactId>commons-data</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>

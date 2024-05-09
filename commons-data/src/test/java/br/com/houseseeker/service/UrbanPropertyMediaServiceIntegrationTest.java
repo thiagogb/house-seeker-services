@@ -5,6 +5,7 @@ import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyMedia;
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ class UrbanPropertyMediaServiceIntegrationTest extends AbstractJpaIntegrationTes
 
         urbanPropertyMediaService.deleteAll(mediasToDelete);
 
-        assertThat(findAllMediasByUrbanPropertyIds(List.of(10000, 10001))).isEmpty();
+        Assertions.assertThat(findAllMediasByUrbanPropertyIds(List.of(10000, 10001))).isEmpty();
     }
 
 

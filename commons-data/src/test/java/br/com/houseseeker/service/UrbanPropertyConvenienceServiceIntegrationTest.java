@@ -4,6 +4,7 @@ import br.com.houseseeker.AbstractJpaIntegrationTest;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyConvenience;
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ class UrbanPropertyConvenienceServiceIntegrationTest extends AbstractJpaIntegrat
 
         urbanPropertyConvenienceService.deleteAll(conveniencesToDelete);
 
-        assertThat(findAllConveniencesByUrbanPropertyIds(List.of(10000, 10001))).isEmpty();
+        Assertions.assertThat(findAllConveniencesByUrbanPropertyIds(List.of(10000, 10001))).isEmpty();
     }
 
 

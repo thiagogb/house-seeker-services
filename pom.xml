@@ -19,6 +19,7 @@
         <module>commons-scraper</module>
         <module>commons-messaging</module>
         <module>jetimob-scraper</module>
+        <module>commons-data</module>
         <module>data</module>
     </modules>
     <properties>
