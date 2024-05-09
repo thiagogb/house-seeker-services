@@ -19,18 +19,18 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-          
-      - name: Restore NVD OWASP
+
+      - name: Cache NVD OWASP
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository/org/owasp/dependency-check-data
-          key: ${{ runner.os }}-maven
-          restore-keys: ${{ runner.os }}-maven
+          key: ${{ runner.os }}-nvd-owasp
+          restore-keys: ${{ runner.os }}-nvd-owasp
 
       - name: Build with Maven
         run: mvn -DnvdApiKey=${{ secrets.NVD_API_KEY }} -B package dependency-check:aggregate --file pom.xml
@@ -140,7 +140,7 @@ jobs:
           fetch-depth: 2
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -167,7 +167,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -194,7 +194,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
