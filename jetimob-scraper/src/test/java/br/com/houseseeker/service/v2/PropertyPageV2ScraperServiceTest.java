@@ -37,19 +37,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-@SpringBootTest(classes = PropertyPageV4ScraperService.class)
-class PropertyPageV4ScraperServiceTest {
+@SpringBootTest(classes = PropertyPageV2ScraperService.class)
+class PropertyPageV2ScraperServiceTest {
 
     private static final String SAMPLE_WITH_FULL_DATA = "samples/v2/property/with-full-data.html";
     private static final String SAMPLE_WITHOUT_DATA = "samples/v2/property/without-data.html";
 
     @Autowired
-    private PropertyPageV4ScraperService propertyPageV4ScraperService;
+    private PropertyPageV2ScraperService propertyPageV2ScraperService;
 
     @Test
     @DisplayName("given a property page without data when scrap then expects")
     void givenAPropertyPageWithoutData_whenScrap_thenExpects() {
-        assertThat(propertyPageV4ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_DATA)))
+        assertThat(propertyPageV2ScraperService.scrap(getTextFromResources(SAMPLE_WITHOUT_DATA)))
                 .hasFieldOrPropertyWithValue("description", null)
                 .hasFieldOrPropertyWithValue("location", Location.builder().build())
                 .hasFieldOrPropertyWithValue("pricing", Pricing.builder().build())
@@ -62,7 +62,7 @@ class PropertyPageV4ScraperServiceTest {
     @Test
     @DisplayName("given a property page with full data when scrap then expects")
     void givenAPropertyPageWithFullData_whenScrap_thenExpects() {
-        assertThat(propertyPageV4ScraperService.scrap(getTextFromResources(SAMPLE_WITH_FULL_DATA)))
+        assertThat(propertyPageV2ScraperService.scrap(getTextFromResources(SAMPLE_WITH_FULL_DATA)))
                 .extracting("description", "location", "pricing", "characteristics", "medias", "details", "comforts")
                 .containsExactly(
                         "Casa com dois pavimentos sendo o, Térreo com dois dormitórios, banheiro, ampla sala de estar, " +
@@ -135,7 +135,7 @@ class PropertyPageV4ScraperServiceTest {
 
             mockedJsoup.when(() -> Jsoup.parse(anyString())).thenReturn(mockedDocument);
 
-            assertThatThrownBy(() -> propertyPageV4ScraperService.scrap(StringUtils.EMPTY))
+            assertThatThrownBy(() -> propertyPageV2ScraperService.scrap(StringUtils.EMPTY))
                     .isInstanceOf(ExtendedRuntimeException.class)
                     .hasMessage("Element container not found");
 

@@ -1,0 +1,176 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
+    <title>Sample With Full Data</title>
+</head>
+<body class="text-base antialiased bg-green-dark">
+<div data-phx-main="true"
+     data-phx-session="SFMyNTY.g2gDaAJhBXQAAAAIZAACaWRtAAAAFHBoeC1GODNPRU1uQlNTcFFKUUp4ZAAMbGl2ZV9zZXNzaW9uaAJkAAdkZWZhdWx0bggAk4djAeD3yxdkAApwYXJlbnRfcGlkZAADbmlsZAAIcm9vdF9waWRkAANuaWxkAAlyb290X3ZpZXdkAB1FbGl4aXIuTHVnYVNpdGVXZWIuU2VhcmNoTGl2ZWQABnJvdXRlcmQAGUVsaXhpci5MdWdhU2l0ZVdlYi5Sb3V0ZXJkAAdzZXNzaW9udAAAAABkAAR2aWV3ZAAdRWxpeGlyLkx1Z2FTaXRlV2ViLlNlYXJjaExpdmVuBgC28hRdjwFiAAFRgA.AU7kcU5C2eZwFAu8CRlCcWKaAMf-sQklKjvw3kqukwk"
+     data-phx-static="SFMyNTY.g2gDaAJhBXQAAAADZAAKYXNzaWduX25ld2pkAAVmbGFzaHQAAAAAZAACaWRtAAAAFHBoeC1GODNPRU1uQlNTcFFKUUp4bgYAtvIUXY8BYgABUYA.-ZfXcLEudBTokedQ8Zsi8bu5G0H1SVbIQ4P5QkzcuE0"
+     id="phx-F83OEMnBSSpQJQJx" data-phx-root-id="phx-F83OEMnBSSpQJQJx" class="phx-connected">
+    <main role="main" class="relative min-h-screen text-gray-900 pt-14 lg:pt-24">
+        <div class="fixed inset-0 z-50 flex items-end justify-end px-4 py-6 space-y-4 pointer-events-none sm:flex-col sm:p-6 sm:justify-start">
+
+        </div>
+        <div class="-mt-14 lg:-mt-24" x-data="{showModalPresentation: false, showMap: $persist(false)}" x-init="$watch('showMap', value => {
+    if(value) { $dispatch('rerender:map') }
+  })">
+            <div x-data="{showModalPresentation: false}" @hidden="showModalPresentation = false" x-on:show:filter.window="showModalPresentation = true"
+                 data-phx-component="6" id="phx-F83OEMnBSSpQJQJx-6-0">
+                <div x-show="showModalPresentation" x-ref="dialog" @keydown.window.escape="showModalPresentation = false" aria-labelledby="modal-title"
+                     aria-modal="true" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+                    <div class="flex items-end justify-center min-h-screen text-center sm:block sm:p-0">
+                        <div x-show="showModalPresentation" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+                             x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0" @click="showModalPresentation = false" aria-hidden="true"
+                             class="fixed inset-0 transition-opacity" style="display: none;">
+                            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                        </div>
+
+                        <!-- This element is to trick the browser into centering the modal contents. -->
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
+
+                        <div x-show="showModalPresentation" x-transition:enter="ease-out duration-300"
+                             x-transition:enter-start="opacity-0 translate-y-4 lg:translate-y-0 lg:scale-95"
+                             x-transition:enter-end="opacity-100 translate-y-0 lg:scale-100" x-transition:leave="ease-in duration-200"
+                             x-transition:leave-start="opacity-100 translate-y-0 lg:scale-100"
+                             x-transition:leave-end="opacity-0 translate-y-4 lg:translate-y-0 lg:scale-95"
+                             class="inline-block w-full overflow-hidden text-left align-bottom transition-all transform bg-white rounded-t-lg sm:rounded-lg shadow-xl sm:align-middle sm:max-w-xl h-[90vh] md:max-w-2xl"
+                             style="display: none;">
+
+                            <div class="flex flex-col h-full">
+                                <div class="justify-start flex-shrink-0 bg-orange-dark">
+                                    <div class="relative flex items-center justify-center pt-4 pb-4 lg:pt-6">
+                                        <h4 class="font-medium text-white lg:text-lg">
+                                            Mais Filtros
+                                        </h4>
+                                        <button type="button"
+                                                class="absolute flex items-center justify-center w-6 h-6 text-white rounded-full left-6 focus:outline-none focus:ring-2 focus:ring-white"
+                                                @click="showModalPresentation = false">
+                                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <div class="flex flex-col flex-1 min-h-0 pb-6 overflow-y-auto">
+                                    <form name="search" id="filter-form" phx-submit="search" phx-change="filter-changed" data-an-count="2"
+                                          data-an-form-handler="qyug9">
+                                        <div class="p-6 space-y-6 bg-white divide-y divide-gray-100">
+
+                                            <section class="space-y-6">
+                                                <h3 class="font-medium">Onde você deseja morar?</h3>
+                                                <div class="flex flex-col space-y-4 lg:space-y-0 lg:space-x-8 lg:flex-row">
+                                                    <div class="flex-1 space-y-1">
+                                                        <label class="block text-sm leading-5 text-gray-900" for="company_name">Cidade</label>
+                                                        <div class="relative">
+                                                            <select class="block rounded-md w-full py-2 pl-3 pr-10 text-base leading-6 border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50 lg:text-sm lg:leading-5 lg:w-72"
+                                                                    name="city">
+                                                                <option value="Agudo">Agudo, RS</option>
+                                                                <option value="Camboriú">Camboriú, SC</option>
+                                                                <option value="Caxias do Sul">Caxias do Sul, RS</option>
+                                                                <option value="Gramado">Gramado, RS</option>
+                                                                <option value="Santa Maria">Santa Maria, RS</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+
+                                            <section class="pt-6 space-y-6">
+                                                <h3 class="font-medium">Tipos de Imóvel</h3>
+                                                <div class="grid flex-1 grid-cols-2 space-y-1">
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Apartamento">
+                                                        <span class="block ml-2 text-sm text-gray-900">Apartamento</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Casa">
+                                                        <span class="block ml-2 text-sm text-gray-900">Casa</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Casa Comercial">
+                                                        <span class="block ml-2 text-sm text-gray-900">Casa Comercial</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Casa de Condomínio">
+                                                        <span class="block ml-2 text-sm text-gray-900">Casa de Condomínio</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Chácara">
+                                                        <span class="block ml-2 text-sm text-gray-900">Chácara</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Cobertura">
+                                                        <span class="block ml-2 text-sm text-gray-900">Cobertura</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Sala Comercial">
+                                                        <span class="block ml-2 text-sm text-gray-900">Sala Comercial</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Sobrado">
+                                                        <span class="block ml-2 text-sm text-gray-900">Sobrado</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Sítio">
+                                                        <span class="block ml-2 text-sm text-gray-900">Sítio</span>
+                                                    </label>
+
+                                                    <label class="flex items-center">
+                                                        <input class="w-4 h-4 border-gray-300 rounded text-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50"
+                                                               name="subtypes[]" type="checkbox" value="Terreno">
+                                                        <span class="block ml-2 text-sm text-gray-900">Terreno</span>
+                                                    </label>
+
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="flex items-center justify-between flex-shrink-0 px-4 py-4 border-t border-gray-200">
+                                    <button phx-click="reset-form" type="button"
+                                            class="block text-sm underline appearance-none focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50">
+                                        Limpar Filtros
+                                    </button>
+
+                                    <button @click="$dispatch('hidden')" phx-disable-with="Buscando..." form="filter-form"
+                                            class="block px-4 py-3 text-sm font-medium leading-5 text-white rounded-lg bg-orange-dark focus:outline-none focus:ring-2 focus:ring-orange-dark focus:ring-opacity-50 disabled:opacity-50">
+                                        Mostrar Resultado
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+</body>
+</html>

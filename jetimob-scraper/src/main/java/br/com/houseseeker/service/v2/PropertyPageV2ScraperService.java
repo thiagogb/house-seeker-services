@@ -34,7 +34,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PropertyPageV4ScraperService extends AbstractJsoupScraperService<PropertyInfoMetadata> {
+public class PropertyPageV2ScraperService extends AbstractJsoupScraperService<PropertyInfoMetadata> {
 
     private static final String PROPERTY_ABOUT_TITLE = "Sobre esse Imóvel";
     private static final String PROPERTY_PRICING_TITLE = "Oportunidade";
