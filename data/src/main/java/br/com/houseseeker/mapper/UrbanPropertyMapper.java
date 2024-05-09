@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
-@Mapper
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
+
+@Mapper(componentModel = SPRING)
 public abstract class UrbanPropertyMapper {
 
     private Clock clock;
