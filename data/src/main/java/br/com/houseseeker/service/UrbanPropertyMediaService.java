@@ -18,6 +18,7 @@ public class UrbanPropertyMediaService {
 
     private final UrbanPropertyMediaRepository urbanPropertyMediaRepository;
 
+    @Transactional
     public List<UrbanPropertyMedia> findAllByProvider(@NotNull Provider provider) {
         return urbanPropertyMediaRepository.findAllByProvider(provider);
     }

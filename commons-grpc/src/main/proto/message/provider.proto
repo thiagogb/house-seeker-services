@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+message ProviderData {
+  google.protobuf.Int32Value id = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.StringValue site_url = 3;
+  optional google.protobuf.StringValue data_url = 4;
+  google.protobuf.StringValue mechanism = 5;
+  optional google.protobuf.StringValue params = 6;
+  optional google.protobuf.StringValue cron_expression = 7;
+  optional google.protobuf.BytesValue logo = 8;
+  google.protobuf.BoolValue active = 9;
+}

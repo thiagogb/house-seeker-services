@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+message PaginationData {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+enum OrderDirectionData {
+  ASC = 0;
+  DESC = 1;
+}
+
+message OrderDetailsData {
+  int32 index = 1;
+  OrderDirectionData direction = 2;
+}

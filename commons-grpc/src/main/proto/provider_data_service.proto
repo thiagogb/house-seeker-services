@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+import "message/request_commons.proto";
+import "message/comparison_commons.proto";
+import "message/provider.proto";
+
+message GetProvidersDataRequest {
+  message ProjectionsData {
+    bool id = 1;
+    bool name = 2;
+    bool site_url = 3;
+    bool data_url = 4;
+    bool mechanism = 5;
+    bool params = 6;
+    bool cron_expression = 7;
+    bool logo = 8;
+    bool active = 9;
+  }
+  message ClausesData {
+    optional Int32ComparisonData id = 1;
+    optional StringComparisonData name = 2;
+    optional StringComparisonData site_url = 3;
+    optional StringComparisonData data_url = 4;
+    optional EnumComparisonData mechanism = 5;
+    optional StringComparisonData params = 6;
+    optional StringComparisonData cron_expression = 7;
+    optional BytesComparisonData logo = 8;
+    optional BoolComparisonData active = 9;
+  }
+  message OrdersData {
+    optional OrderDetailsData id = 1;
+    optional OrderDetailsData name = 2;
+    optional OrderDetailsData site_url = 3;
+    optional OrderDetailsData data_url = 4;
+    optional OrderDetailsData mechanism = 5;
+    optional OrderDetailsData active = 6;
+  }
+  optional ProjectionsData projections = 1;
+  optional ClausesData clauses = 2;
+  optional PaginationData pagination = 3;
+  optional OrdersData orders = 4;
+}
+
+message GetProvidersDataResponse {
+  repeated ProviderData providers = 1;
+  int32 total_rows = 2;
+}
+
+service ProviderDataService {
+  rpc GetProviders(GetProvidersDataRequest) returns (GetProvidersDataResponse);
+  rpc InsertProvider(ProviderData) returns (ProviderData);
+  rpc UpdateProvider(ProviderData) returns (ProviderData);
+}

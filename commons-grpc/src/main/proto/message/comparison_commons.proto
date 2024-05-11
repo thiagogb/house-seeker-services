@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+message BoolSingleComparisonData {
+  bool value = 1;
+}
+
+message BoolComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+    BoolSingleComparisonData is_equal = 3;
+    BoolSingleComparisonData is_not_equal = 4;
+  }
+}
+
+message Int32SingleComparisonData {
+  int32 value = 1;
+}
+
+message Int32IntervalComparisonData {
+  int32 start = 1;
+  int32 end = 2;
+}
+
+message Int32ListComparisonData {
+  repeated int32 values = 1;
+}
+
+message Int32ComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+    Int32SingleComparisonData is_equal = 3;
+    Int32SingleComparisonData is_not_equal = 4;
+    Int32SingleComparisonData is_greater = 5;
+    Int32SingleComparisonData is_greater_or_equal = 6;
+    Int32SingleComparisonData is_lesser = 7;
+    Int32SingleComparisonData is_lesser_or_equal = 8;
+    Int32IntervalComparisonData is_between = 9;
+    Int32IntervalComparisonData is_not_between = 10;
+    Int32ListComparisonData is_in = 11;
+    Int32ListComparisonData is_not_in = 12;
+  }
+}
+
+message StringSingleComparisonData {
+  string value = 1;
+}
+
+message StringListComparisonData {
+  repeated string values = 1;
+}
+
+message StringComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+    bool is_blank = 3;
+    bool is_not_blank = 4;
+    StringSingleComparisonData is_equal = 5;
+    StringSingleComparisonData is_not_equal = 6;
+    StringSingleComparisonData is_starting_with = 7;
+    StringSingleComparisonData is_not_starting_with = 8;
+    StringSingleComparisonData is_ending_with = 9;
+    StringSingleComparisonData is_not_ending_with = 10;
+    StringSingleComparisonData it_contains = 11;
+    StringSingleComparisonData it_not_contains = 12;
+    StringListComparisonData is_in = 13;
+    StringListComparisonData is_not_in = 14;
+  }
+}
+
+message EnumSingleComparisonData {
+  string value = 1;
+}
+
+message EnumListComparisonData {
+  repeated string values = 1;
+}
+
+message EnumComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+    EnumSingleComparisonData is_equal = 3;
+    EnumSingleComparisonData is_not_equal = 4;
+    EnumListComparisonData is_in = 5;
+    EnumListComparisonData is_not_in = 6;
+  }
+}
+
+message BytesComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+  }
+}

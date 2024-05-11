@@ -18,6 +18,7 @@ public class UrbanPropertyService {
 
     private final UrbanPropertyRepository urbanPropertyRepository;
 
+    @Transactional
     public List<UrbanProperty> findAllByProvider(@NotNull Provider provider) {
         return urbanPropertyRepository.findAllByProvider(provider);
     }

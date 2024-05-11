@@ -19,7 +19,6 @@
         <module>commons-scraper</module>
         <module>commons-messaging</module>
         <module>jetimob-scraper</module>
-        <module>commons-data</module>
         <module>data</module>
     </modules>
     <properties>
@@ -28,7 +27,6 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons.io.version>2.15.1</commons.io.version>
-        <commons.text.version>1.10.0</commons.text.version>
         <apache.httpcomponents.version>5.3.1</apache.httpcomponents.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok.mapstruct.version>0.2.0</lombok.mapstruct.version>
@@ -40,6 +38,7 @@
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <jacoco.version>0.8.10</jacoco.version>
         <owasp.dependency.check.version>9.1.0</owasp.dependency.check.version>
+        <grpc-starter.version>3.1.0.RELEASE</grpc-starter.version>
         <!-- sonarQube -->
         <sonar.organization>thiagogb</sonar.organization>
         <sonar.projectKey>thiagogb_house-seeker-services</sonar.projectKey>
@@ -108,11 +107,6 @@
             <version>${commons.io.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>${commons.text.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
             <version>${apache.httpcomponents.version}</version>
@@ -127,11 +121,6 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>

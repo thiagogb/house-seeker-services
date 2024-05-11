@@ -88,15 +88,6 @@ jobs:
           branches-badge-filename: commons-messaging-branches-jacoco.svg
           workflow-summary-heading: Module Commons Messaging - JaCoCo Test Coverage Summary
 
-      - name: Generate JaCoCo Badge - Commons Data
-        uses: cicirello/jacoco-badge-generator@v2
-        with:
-          generate-branches-badge: true
-          jacoco-csv-file: commons-data/target/site/jacoco/jacoco.csv
-          coverage-badge-filename: commons-data-coverage-jacoco.svg
-          branches-badge-filename: commons-data-branches-jacoco.svg
-          workflow-summary-heading: Module Commons Data - JaCoCo Test Coverage Summary
-
       - name: Generate JaCoCo Badge - Jetimob Scraper
         uses: cicirello/jacoco-badge-generator@v2
         with:

@@ -18,6 +18,7 @@ public class UrbanPropertyPriceVariationService {
 
     private final UrbanPropertyPriceVariationRepository urbanPropertyPriceVariationRepository;
 
+    @Transactional
     public List<UrbanPropertyPriceVariation> findAllByProvider(@NotNull Provider provider) {
         return urbanPropertyPriceVariationRepository.findAllByProvider(provider);
     }
