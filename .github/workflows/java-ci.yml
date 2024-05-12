@@ -54,6 +54,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Commons
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: commons/target/site/jacoco/jacoco.csv
@@ -63,6 +64,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Commons Rest
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: commons-rest/target/site/jacoco/jacoco.csv
@@ -72,6 +74,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Commons Scraper
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: commons-scraper/target/site/jacoco/jacoco.csv
@@ -81,6 +84,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Commons Messaging
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: commons-messaging/target/site/jacoco/jacoco.csv
@@ -90,6 +94,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Commons GRPC
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: commons-grpc/target/site/jacoco/jacoco.csv
@@ -99,6 +104,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Jetimob Scraper
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: jetimob-scraper/target/site/jacoco/jacoco.csv
@@ -108,6 +114,7 @@ jobs:
 
       - name: Generate JaCoCo Badge - Data
         uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
         with:
           generate-branches-badge: true
           jacoco-csv-file: data/target/site/jacoco/jacoco.csv
@@ -116,6 +123,7 @@ jobs:
           workflow-summary-heading: Module Data - JaCoCo Test Coverage Summary
 
       - name: JoCoco Badge Commit
+        if: github.event_name != 'pull_request'
         run: |
           if [[ `git status --porcelain` ]]; then
             git config --global user.name 'Thiago Gomes Borba'
@@ -128,6 +136,7 @@ jobs:
   codeQL:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     strategy:
       fail-fast: false
       matrix:
@@ -161,6 +170,7 @@ jobs:
   sonarCloud:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -190,6 +200,7 @@ jobs:
     name: Docker Build And Push
     runs-on: ubuntu-latest
     needs: mavenPackage
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
 
@@ -226,6 +237,7 @@ jobs:
     name: Trivy Container Scanner
     runs-on: ubuntu-latest
     needs: dockerBuild
+    if: github.event_name != 'pull_request'
     steps:
       - name: Log into docker.io
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
