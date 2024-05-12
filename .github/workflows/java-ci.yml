@@ -128,6 +128,7 @@ jobs:
   codeQL:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     strategy:
       fail-fast: false
       matrix:
@@ -161,6 +162,7 @@ jobs:
   sonarCloud:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -190,6 +192,7 @@ jobs:
     name: Docker Build And Push
     runs-on: ubuntu-latest
     needs: mavenPackage
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
 
@@ -226,6 +229,7 @@ jobs:
     name: Trivy Container Scanner
     runs-on: ubuntu-latest
     needs: dockerBuild
+    if: github.event_name != 'pull_request'
     steps:
       - name: Log into docker.io
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
