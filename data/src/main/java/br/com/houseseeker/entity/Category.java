@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,8 +24,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "category")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
+@Builder
 public class Category implements Serializable {
 
     @Serial
@@ -36,7 +41,6 @@ public class Category implements Serializable {
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 100)
-    @Setter
     private String name;
 
     @Override

@@ -1,4 +1,4 @@
-package br.com.houseseeker.service;
+package br.com.houseseeker.service.messaging;
 
 import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
 import br.com.houseseeker.entity.Provider;
@@ -13,7 +13,13 @@ import br.com.houseseeker.mapper.UrbanPropertyLocationMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMeasureMapper;
 import br.com.houseseeker.mapper.UrbanPropertyMediaMapper;
-import br.com.houseseeker.service.ProviderDataCollectorService.UrbanPropertyFullData;
+import br.com.houseseeker.service.UrbanPropertyConvenienceService;
+import br.com.houseseeker.service.UrbanPropertyLocationService;
+import br.com.houseseeker.service.UrbanPropertyMeasureService;
+import br.com.houseseeker.service.UrbanPropertyMediaService;
+import br.com.houseseeker.service.UrbanPropertyPriceVariationService;
+import br.com.houseseeker.service.UrbanPropertyService;
+import br.com.houseseeker.service.messaging.ProviderDataCollectorService.UrbanPropertyFullData;
 import br.com.houseseeker.service.calculator.PriceVariationCalculatorService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -140,8 +146,8 @@ public class ProviderDataMergeService {
     ) {
         existingPropertiesByCodeMap.forEach((key, value) -> {
             if (!extractedPropertiesByCodeMap.containsKey(key)) {
-                value.setLastAnalysisDate(LocalDateTime.now(clock))
-                     .setExclusionDate(LocalDateTime.now(clock));
+                value.setLastAnalysisDate(LocalDateTime.now(clock));
+                value.setExclusionDate(LocalDateTime.now(clock));
             }
         });
     }

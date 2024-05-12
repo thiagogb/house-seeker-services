@@ -19,12 +19,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -40,9 +40,11 @@ import static java.util.Objects.nonNull;
         uniqueConstraints = {@UniqueConstraint(name = "urban_property_uk_provider_code", columnNames = {"id_provider", "provider_code"})}
 )
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class UrbanProperty implements Serializable {
 
     @Serial
@@ -56,155 +58,81 @@ public class UrbanProperty implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_provider", nullable = false, updatable = false)
-    @Setter
     @ToString.Exclude
     private Provider provider;
 
     @Column(name = "provider_code", nullable = false, length = 50)
-    @Setter
     private String providerCode;
 
     @Column(name = "url", nullable = false)
-    @Setter
     private String url;
 
     @Column(name = "contract", nullable = false, length = 5)
     @Enumerated(EnumType.STRING)
-    @Setter
     private UrbanPropertyContract contract;
 
     @Column(name = "type", length = 25)
     @Enumerated(EnumType.STRING)
-    @Setter
     private UrbanPropertyType type;
 
     @Column(name = "sub_type", length = 100)
-    @Setter
     private String subType;
 
     @Column(name = "dormitories")
-    @Setter
     private Integer dormitories;
 
     @Column(name = "suites")
-    @Setter
     private Integer suites;
 
     @Column(name = "bathrooms")
-    @Setter
     private Integer bathrooms;
 
     @Column(name = "garages")
-    @Setter
     private Integer garages;
 
     @Column(name = "sell_price", precision = 11, scale = 2)
-    @Setter
     private BigDecimal sellPrice;
 
     @Column(name = "rent_price", precision = 11, scale = 2)
-    @Setter
     private BigDecimal rentPrice;
 
     @Column(name = "condominium_price", precision = 11, scale = 2)
-    @Setter
     private BigDecimal condominiumPrice;
 
     @Column(name = "condominium_name")
-    @Setter
     private String condominiumName;
 
     @Column(name = "exchangeable", length = 1)
     @Convert(converter = BooleanToVarCharConverter.class)
-    @Setter
     private Boolean exchangeable;
 
     @Column(name = "status", length = 10)
     @Enumerated(EnumType.STRING)
-    @Setter
     private UrbanPropertyStatus status;
 
     @Column(name = "financeable", length = 1)
     @Convert(converter = BooleanToVarCharConverter.class)
-    @Setter
     private Boolean financeable;
 
     @Column(name = "occupied", length = 1)
     @Convert(converter = BooleanToVarCharConverter.class)
-    @Setter
     private Boolean occupied;
 
     @Column(name = "notes")
-    @Setter
     private String notes;
 
     @Column(name = "creation_date", nullable = false, updatable = false)
-    @Setter
     private LocalDateTime creationDate;
 
     @Column(name = "last_analysis_date")
-    @Setter
     private LocalDateTime lastAnalysisDate;
 
     @Column(name = "exclusion_date")
-    @Setter
     private LocalDateTime exclusionDate;
 
     @Column(name = "analyzable", nullable = false, length = 1)
     @Convert(converter = BooleanToVarCharConverter.class)
-    @Setter
     private Boolean analyzable;
-
-    @Builder
-    public UrbanProperty(
-            Provider provider,
-            String providerCode,
-            String url,
-            UrbanPropertyContract contract,
-            UrbanPropertyType type,
-            String subType,
-            Integer dormitories,
-            Integer suites,
-            Integer bathrooms,
-            Integer garages,
-            BigDecimal sellPrice,
-            BigDecimal rentPrice,
-            BigDecimal condominiumPrice,
-            String condominiumName,
-            Boolean exchangeable,
-            UrbanPropertyStatus status,
-            Boolean financeable,
-            Boolean occupied,
-            String notes,
-            LocalDateTime creationDate,
-            LocalDateTime lastAnalysisDate,
-            LocalDateTime exclusionDate,
-            Boolean analyzable
-    ) {
-        this.provider = provider;
-        this.providerCode = providerCode;
-        this.url = url;
-        this.contract = contract;
-        this.type = type;
-        this.subType = subType;
-        this.dormitories = dormitories;
-        this.suites = suites;
-        this.bathrooms = bathrooms;
-        this.garages = garages;
-        this.sellPrice = sellPrice;
-        this.rentPrice = rentPrice;
-        this.condominiumPrice = condominiumPrice;
-        this.condominiumName = condominiumName;
-        this.exchangeable = exchangeable;
-        this.status = status;
-        this.financeable = financeable;
-        this.occupied = occupied;
-        this.notes = notes;
-        this.creationDate = creationDate;
-        this.lastAnalysisDate = lastAnalysisDate;
-        this.exclusionDate = exclusionDate;
-        this.analyzable = analyzable;
-    }
 
     @Override
     public final boolean equals(Object obj) {

@@ -1,9 +1,9 @@
-package br.com.houseseeker.service;
+package br.com.houseseeker.service.messaging;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanProperty;
-import br.com.houseseeker.service.ProviderDataCollectorService.UrbanPropertyFullData;
+import br.com.houseseeker.service.messaging.ProviderDataCollectorService.UrbanPropertyFullData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

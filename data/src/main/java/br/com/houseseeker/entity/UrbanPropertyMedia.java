@@ -14,12 +14,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -30,9 +30,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "urban_property_media")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class UrbanPropertyMedia implements Serializable {
 
     @Serial
@@ -46,35 +48,21 @@ public class UrbanPropertyMedia implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_urban_property", nullable = false, updatable = false)
-    @Setter
     @ToString.Exclude
     private UrbanProperty urbanProperty;
 
     @Column(name = "link", nullable = false, length = 1000)
-    @Setter
     private String link;
 
     @Column(name = "link_thumb", length = 1000)
-    @Setter
     private String linkThumb;
 
     @Column(name = "media_type", nullable = false, length = 5)
     @Enumerated(EnumType.STRING)
-    @Setter
     private UrbanPropertyMediaType mediaType;
 
     @Column(name = "extension", nullable = false, length = 10)
-    @Setter
     private String extension;
-
-    @Builder
-    public UrbanPropertyMedia(UrbanProperty urbanProperty, String link, String linkThumb, UrbanPropertyMediaType mediaType, String extension) {
-        this.urbanProperty = urbanProperty;
-        this.link = link;
-        this.linkThumb = linkThumb;
-        this.mediaType = mediaType;
-        this.extension = extension;
-    }
 
     @Override
     public final boolean equals(Object obj) {

@@ -11,12 +11,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -28,9 +28,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "urban_property_measure")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class UrbanPropertyMeasure implements Serializable {
 
     @Serial
@@ -44,70 +46,35 @@ public class UrbanPropertyMeasure implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_urban_property", nullable = false, updatable = false)
-    @Setter
     @ToString.Exclude
     private UrbanProperty urbanProperty;
 
     @Column(name = "total_area", precision = 11, scale = 2)
-    @Setter
     private BigDecimal totalArea;
 
     @Column(name = "private_area", precision = 11, scale = 2)
-    @Setter
     private BigDecimal privateArea;
 
     @Column(name = "usable_area", precision = 11, scale = 2)
-    @Setter
     private BigDecimal usableArea;
 
     @Column(name = "terrain_total_area", precision = 11, scale = 2)
-    @Setter
     private BigDecimal terrainTotalArea;
 
     @Column(name = "terrain_front", precision = 11, scale = 2)
-    @Setter
     private BigDecimal terrainFront;
 
     @Column(name = "terrain_back", precision = 11, scale = 2)
-    @Setter
     private BigDecimal terrainBack;
 
     @Column(name = "terrain_left", precision = 11, scale = 2)
-    @Setter
     private BigDecimal terrainLeft;
 
     @Column(name = "terrain_right", precision = 11, scale = 2)
-    @Setter
     private BigDecimal terrainRight;
 
     @Column(name = "area_unit", length = 2)
-    @Setter
     private String areaUnit;
-
-    @Builder
-    public UrbanPropertyMeasure(
-            UrbanProperty urbanProperty,
-            BigDecimal totalArea,
-            BigDecimal privateArea,
-            BigDecimal usableArea,
-            BigDecimal terrainTotalArea,
-            BigDecimal terrainFront,
-            BigDecimal terrainBack,
-            BigDecimal terrainLeft,
-            BigDecimal terrainRight,
-            String areaUnit
-    ) {
-        this.urbanProperty = urbanProperty;
-        this.totalArea = totalArea;
-        this.privateArea = privateArea;
-        this.usableArea = usableArea;
-        this.terrainTotalArea = terrainTotalArea;
-        this.terrainFront = terrainFront;
-        this.terrainBack = terrainBack;
-        this.terrainLeft = terrainLeft;
-        this.terrainRight = terrainRight;
-        this.areaUnit = areaUnit;
-    }
 
     @Override
     public final boolean equals(Object obj) {

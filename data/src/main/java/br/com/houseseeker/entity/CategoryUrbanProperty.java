@@ -12,11 +12,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -33,9 +34,11 @@ import static java.util.Objects.nonNull;
         }
 )
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class CategoryUrbanProperty implements Serializable {
 
     @Serial
@@ -49,18 +52,15 @@ public class CategoryUrbanProperty implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category", nullable = false)
-    @Setter
     @ToString.Exclude
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_urban_property", nullable = false)
-    @Setter
     @ToString.Exclude
     private UrbanProperty urbanProperty;
 
     @Column(name = "show_order", nullable = false)
-    @Setter
     private Integer showOrder;
 
     @Override

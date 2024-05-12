@@ -14,13 +14,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -33,9 +33,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "urban_property_price_variation")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class UrbanPropertyPriceVariation implements Serializable {
 
     @Serial
@@ -49,35 +51,21 @@ public class UrbanPropertyPriceVariation implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_urban_property", nullable = false, updatable = false)
-    @Setter
     @ToString.Exclude
     private UrbanProperty urbanProperty;
 
     @Column(name = "analysis_date", nullable = false)
-    @Setter
     private LocalDateTime analysisDate;
 
     @Column(name = "type", nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
-    @Setter
     private Type type;
 
     @Column(name = "price", precision = 11, scale = 2)
-    @Setter
     private BigDecimal price;
 
     @Column(name = "variation", precision = 8, scale = 2)
-    @Setter
     private BigDecimal variation;
-
-    @Builder
-    public UrbanPropertyPriceVariation(UrbanProperty urbanProperty, LocalDateTime analysisDate, Type type, BigDecimal price, BigDecimal variation) {
-        this.urbanProperty = urbanProperty;
-        this.analysisDate = analysisDate;
-        this.type = type;
-        this.price = price;
-        this.variation = variation;
-    }
 
     @Override
     public final boolean equals(Object obj) {

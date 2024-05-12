@@ -1,4 +1,4 @@
-package br.com.houseseeker.service;
+package br.com.houseseeker.service.messaging;
 
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanProperty;
@@ -7,6 +7,12 @@ import br.com.houseseeker.entity.UrbanPropertyLocation;
 import br.com.houseseeker.entity.UrbanPropertyMeasure;
 import br.com.houseseeker.entity.UrbanPropertyMedia;
 import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
+import br.com.houseseeker.service.UrbanPropertyConvenienceService;
+import br.com.houseseeker.service.UrbanPropertyLocationService;
+import br.com.houseseeker.service.UrbanPropertyMeasureService;
+import br.com.houseseeker.service.UrbanPropertyMediaService;
+import br.com.houseseeker.service.UrbanPropertyPriceVariationService;
+import br.com.houseseeker.service.UrbanPropertyService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

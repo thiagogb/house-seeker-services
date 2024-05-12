@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+message PaginationResponseData {
+  int32 pageSize = 1;
+  int32 pageNumber = 2;
+  int32 totalPages = 3;
+  int64 totalRows = 4;
+}

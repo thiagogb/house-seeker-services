@@ -1,4 +1,4 @@
-package br.com.houseseeker.service;
+package br.com.houseseeker.service.messaging;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
 import br.com.houseseeker.domain.property.AbstractUrbanPropertyMetadata;
@@ -15,7 +15,7 @@ import br.com.houseseeker.entity.UrbanPropertyLocation;
 import br.com.houseseeker.entity.UrbanPropertyMeasure;
 import br.com.houseseeker.entity.UrbanPropertyMedia;
 import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
-import br.com.houseseeker.service.ProviderDataCollectorService.UrbanPropertyFullData;
+import br.com.houseseeker.service.messaging.ProviderDataCollectorService.UrbanPropertyFullData;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;

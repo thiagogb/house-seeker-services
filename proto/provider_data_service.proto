@@ -5,6 +5,7 @@ option java_multiple_files = true;
 
 import "google/protobuf/empty.proto";
 import "message/request_commons.proto";
+import "message/response_commons.proto";
 import "message/comparison_commons.proto";
 import "message/provider.proto";
 
@@ -41,13 +42,13 @@ message GetProvidersDataRequest {
   }
   optional ProjectionsData projections = 1;
   optional ClausesData clauses = 2;
-  optional PaginationData pagination = 3;
+  optional PaginationRequestData pagination = 3;
   optional OrdersData orders = 4;
 }
 
 message GetProvidersDataResponse {
   repeated ProviderData providers = 1;
-  int32 total_rows = 2;
+  PaginationResponseData pagination = 2;
 }
 
 service ProviderDataService {

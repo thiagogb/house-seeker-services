@@ -1,4 +1,4 @@
-package br.com.houseseeker.service;
+package br.com.houseseeker.service.messaging;
 
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import jakarta.validation.Valid;

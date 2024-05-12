@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "provider", uniqueConstraints = {@UniqueConstraint(name = "provider_uk_name", columnNames = "name")})
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
+@Builder
 public class Provider implements Serializable {
 
     @Serial
@@ -43,59 +47,30 @@ public class Provider implements Serializable {
     private Integer id;
 
     @Column(name = "name", nullable = false)
-    @Setter
     private String name;
 
     @Column(name = "site_url", nullable = false)
-    @Setter
     private String siteUrl;
 
     @Column(name = "data_url")
-    @Setter
     private String dataUrl;
 
     @Column(name = "mechanism", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
-    @Setter
     private ProviderMechanism mechanism;
 
     @Column(name = "params")
-    @Setter
     private String params;
 
     @Column(name = "cron_expression")
-    @Setter
     private String cronExpression;
 
     @Column(name = "logo")
-    @Setter
     private byte[] logo;
 
     @Column(name = "active", nullable = false, length = 1)
     @Convert(converter = BooleanToVarCharConverter.class)
-    @Setter
     private Boolean active;
-
-    @Builder
-    public Provider(
-            String name,
-            String siteUrl,
-            String dataUrl,
-            ProviderMechanism mechanism,
-            String params,
-            String cronExpression,
-            byte[] logo,
-            Boolean active
-    ) {
-        this.name = name;
-        this.siteUrl = siteUrl;
-        this.dataUrl = dataUrl;
-        this.mechanism = mechanism;
-        this.params = params;
-        this.cronExpression = cronExpression;
-        this.logo = logo;
-        this.active = active;
-    }
 
     @Override
     public final boolean equals(Object obj) {

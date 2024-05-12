@@ -25,6 +25,7 @@ public abstract class UrbanPropertyMapper {
         this.clock = clock;
     }
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "provider", target = "provider")
     @Mapping(target = "analyzable", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
@@ -49,8 +50,8 @@ public abstract class UrbanPropertyMapper {
 
     @AfterMapping
     protected void afterCopyEntity(@MappingTarget UrbanProperty target) {
-        target.setLastAnalysisDate(LocalDateTime.now(clock))
-              .setExclusionDate(null);
+        target.setLastAnalysisDate(LocalDateTime.now(clock));
+        target.setExclusionDate(null);
     }
 
 }

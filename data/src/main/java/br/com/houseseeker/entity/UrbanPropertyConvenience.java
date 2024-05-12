@@ -11,12 +11,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -27,9 +27,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "urban_property_convenience")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class UrbanPropertyConvenience implements Serializable {
 
     @Serial
@@ -43,19 +45,11 @@ public class UrbanPropertyConvenience implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_urban_property", nullable = false, updatable = false)
-    @Setter
     @ToString.Exclude
     private UrbanProperty urbanProperty;
 
     @Column(name = "description", nullable = false)
-    @Setter
     private String description;
-
-    @Builder
-    public UrbanPropertyConvenience(UrbanProperty urbanProperty, String description) {
-        this.urbanProperty = urbanProperty;
-        this.description = description;
-    }
 
     @Override
     public final boolean equals(Object obj) {

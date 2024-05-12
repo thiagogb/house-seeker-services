@@ -11,12 +11,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -28,9 +28,11 @@ import static java.util.Objects.nonNull;
 @Entity
 @Table(name = "urban_property_location")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 @ToString
-@Accessors(chain = true)
+@Builder
 public class UrbanPropertyLocation implements Serializable {
 
     @Serial
@@ -44,70 +46,35 @@ public class UrbanPropertyLocation implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_urban_property", nullable = false, updatable = false)
-    @Setter
     @ToString.Exclude
     private UrbanProperty urbanProperty;
 
     @Column(name = "state", length = 2)
-    @Setter
     private String state;
 
     @Column(name = "city")
-    @Setter
     private String city;
 
     @Column(name = "district")
-    @Setter
     private String district;
 
     @Column(name = "zipcode", length = 8)
-    @Setter
     private String zipCode;
 
     @Column(name = "street_name")
-    @Setter
     private String streetName;
 
     @Column(name = "street_number")
-    @Setter
     private Integer streetNumber;
 
     @Column(name = "complement")
-    @Setter
     private String complement;
 
     @Column(name = "latitude", precision = 12, scale = 9)
-    @Setter
     private BigDecimal latitude;
 
     @Column(name = "longitude", precision = 12, scale = 9)
-    @Setter
     private BigDecimal longitude;
-
-    @Builder
-    public UrbanPropertyLocation(
-            UrbanProperty urbanProperty,
-            String state,
-            String city,
-            String district,
-            String zipCode,
-            String streetName,
-            Integer streetNumber,
-            String complement,
-            BigDecimal latitude,
-            BigDecimal longitude
-    ) {
-        this.urbanProperty = urbanProperty;
-        this.state = state;
-        this.city = city;
-        this.district = district;
-        this.zipCode = zipCode;
-        this.streetName = streetName;
-        this.streetNumber = streetNumber;
-        this.complement = complement;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
 
     @Override
     public final boolean equals(Object obj) {

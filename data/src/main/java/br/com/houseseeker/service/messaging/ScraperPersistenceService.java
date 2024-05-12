@@ -1,10 +1,12 @@
-package br.com.houseseeker.service;
+package br.com.houseseeker.service.messaging;
 
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanProperty;
-import br.com.houseseeker.service.ProviderDataCollectorService.UrbanPropertyFullData;
+import br.com.houseseeker.service.ProviderService;
+import br.com.houseseeker.service.ScannerService;
+import br.com.houseseeker.service.messaging.ProviderDataCollectorService.UrbanPropertyFullData;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
