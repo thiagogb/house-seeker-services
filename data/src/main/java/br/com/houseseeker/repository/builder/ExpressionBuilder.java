@@ -1,7 +1,8 @@
 package br.com.houseseeker.repository.builder;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
+import br.com.houseseeker.domain.exception.GrpcStatusException;
 import com.querydsl.core.types.Expression;
+import io.grpc.Status;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,16 +17,16 @@ public class ExpressionBuilder {
         return new ExpressionBuilder();
     }
 
-    public <T> ExpressionBuilder append(@NotNull Expression<T> path, boolean selected) {
+    public <T> ExpressionBuilder append(@NotNull Expression<T> expression, boolean selected) {
         if (selected)
-            projections = ArrayUtils.add(projections, path);
+            projections = ArrayUtils.add(projections, expression);
 
         return this;
     }
 
     public Expression<?>[] build() {
         if (ArrayUtils.isEmpty(projections))
-            throw new ExtendedRuntimeException("At least one projection must be defined");
+            throw new GrpcStatusException(Status.INVALID_ARGUMENT, "At least one projection must be defined");
 
         return projections;
     }

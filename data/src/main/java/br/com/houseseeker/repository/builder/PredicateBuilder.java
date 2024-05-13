@@ -1,6 +1,6 @@
 package br.com.houseseeker.repository.builder;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
+import br.com.houseseeker.domain.exception.GrpcStatusException;
 import br.com.houseseeker.domain.proto.BoolComparisonData;
 import br.com.houseseeker.domain.proto.BoolSingleComparisonData;
 import br.com.houseseeker.domain.proto.BytesComparisonData;
@@ -20,6 +20,7 @@ import com.querydsl.core.types.dsl.BooleanPath;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
+import io.grpc.Status;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -47,7 +48,7 @@ public class PredicateBuilder {
             case 2 -> appendIsNotNull(path, comparisonData.getIsNotNull());
             case 3 -> appendIsEqual(path, comparisonData.getIsEqual());
             case 4 -> appendIsNotEqual(path, comparisonData.getIsNotEqual());
-            default -> throw new ExtendedRuntimeException("Unknown comparison case");
+            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
         };
     }
 
@@ -70,7 +71,7 @@ public class PredicateBuilder {
             case 10 -> appendIsNotBetween(path, comparisonData.getIsNotBetween());
             case 11 -> appendIsIn(path, comparisonData.getIsIn());
             case 12 -> appendIsNotIn(path, comparisonData.getIsNotIn());
-            default -> throw new ExtendedRuntimeException("Unknown comparison case");
+            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
         };
     }
 
@@ -95,7 +96,7 @@ public class PredicateBuilder {
             case 12 -> appendItNotContains(path, comparisonData.getItNotContains());
             case 13 -> appendIsIn(path, comparisonData.getIsIn());
             case 14 -> appendIsNotIn(path, comparisonData.getIsNotIn());
-            default -> throw new ExtendedRuntimeException("Unknown comparison case");
+            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
         };
     }
 
@@ -116,7 +117,7 @@ public class PredicateBuilder {
             case 4 -> appendIsNotEqual(path, comparisonData.getIsNotEqual(), valueResolver);
             case 5 -> appendIsIn(path, comparisonData.getIsIn(), valueResolver);
             case 6 -> appendIsNotIn(path, comparisonData.getIsNotIn(), valueResolver);
-            default -> throw new ExtendedRuntimeException("Unknown comparison case");
+            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
         };
     }
 
@@ -129,7 +130,7 @@ public class PredicateBuilder {
         return switch (oneOfCase) {
             case 1 -> appendIsNull(path, comparisonData.getIsNull());
             case 2 -> appendIsNotNull(path, comparisonData.getIsNotNull());
-            default -> throw new ExtendedRuntimeException("Unknown comparison case");
+            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
         };
     }
 

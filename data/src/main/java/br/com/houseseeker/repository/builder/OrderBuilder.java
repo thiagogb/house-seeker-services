@@ -1,11 +1,13 @@
 package br.com.houseseeker.repository.builder;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
+import br.com.houseseeker.domain.exception.GrpcStatusException;
 import br.com.houseseeker.domain.proto.OrderDetailsData;
 import br.com.houseseeker.domain.proto.OrderDirectionData;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import io.grpc.Status;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,10 +26,10 @@ public class OrderBuilder {
         return new OrderBuilder();
     }
 
-    public <T extends Comparable<?>> OrderBuilder append(Expression<T> expression, OrderDetailsData orderDetailsData) {
+    public <T extends Comparable<?>> OrderBuilder append(@NotNull Expression<T> expression, @NotNull OrderDetailsData orderDetailsData) {
         if (orderDetailsData.getIndex() > 0) {
             if (orderSpecifierMap.containsKey(orderDetailsData.getIndex()))
-                throw new ExtendedRuntimeException("There's already an order specifier with index %d" + orderDetailsData.getIndex());
+                throw new GrpcStatusException(Status.INVALID_ARGUMENT, "There's already an order specifier with index %d", orderDetailsData.getIndex());
 
             orderSpecifierMap.put(
                     orderDetailsData.getIndex(),
@@ -50,11 +52,7 @@ public class OrderBuilder {
     }
 
     private Order getOrderDirection(OrderDirectionData orderDirectionData) {
-        return switch (orderDirectionData) {
-            case ASC -> Order.ASC;
-            case DESC -> Order.DESC;
-            default -> throw new ExtendedRuntimeException("Unknown order direction order");
-        };
+        return orderDirectionData.equals(OrderDirectionData.ASC) ? Order.ASC : Order.DESC;
     }
 
 }

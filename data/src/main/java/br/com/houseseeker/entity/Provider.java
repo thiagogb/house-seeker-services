@@ -34,7 +34,7 @@ import static java.util.Objects.nonNull;
 @Getter
 @Setter
 @ToString
-@Builder
+@Builder(toBuilder = true)
 public class Provider implements Serializable {
 
     @Serial
