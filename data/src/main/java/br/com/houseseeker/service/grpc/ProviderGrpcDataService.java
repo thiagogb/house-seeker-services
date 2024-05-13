@@ -7,13 +7,14 @@ import br.com.houseseeker.service.ProviderService;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest;
 import br.com.houseseeker.service.proto.GetProvidersDataResponse;
 import br.com.houseseeker.service.proto.ProviderDataServiceGrpc;
-import br.com.houseseeker.util.GrpcUtils;
 import br.com.houseseeker.util.PaginationUtils;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.data.domain.Page;
+
+import static br.com.houseseeker.util.GrpcServiceUtils.execute;
 
 @GrpcService
 @RequiredArgsConstructor
@@ -26,43 +27,25 @@ public class ProviderGrpcDataService extends ProviderDataServiceGrpc.ProviderDat
     @Override
     public void getProviders(GetProvidersDataRequest request, StreamObserver<GetProvidersDataResponse> responseObserver) {
         log.info("GRPC: executing getProviders ...");
-        try {
+        execute(responseObserver, () -> {
             Page<Provider> result = providerService.findBy(request);
-            responseObserver.onNext(
-                    GetProvidersDataResponse.newBuilder()
-                                            .addAllProviders(providerMapper.toProto(result.getContent()))
-                                            .setPagination(PaginationUtils.toPaginationResponseData(result))
-                                            .build()
-            );
-            responseObserver.onCompleted();
-        } catch (Throwable e) {
-            log.error("GRPC: failed executing getProviders", e);
-            responseObserver.onError(GrpcUtils.fromThrowable(e));
-        }
+            return GetProvidersDataResponse.newBuilder()
+                                           .addAllProviders(providerMapper.toProto(result.getContent()))
+                                           .setPagination(PaginationUtils.toPaginationResponseData(result))
+                                           .build();
+        });
     }
 
     @Override
     public void insertProvider(ProviderData request, StreamObserver<ProviderData> responseObserver) {
         log.info("GRPC: executing insertProvider ...");
-        try {
-            responseObserver.onNext(providerMapper.toProto(providerService.insert(request)));
-            responseObserver.onCompleted();
-        } catch (Throwable e) {
-            log.error("GRPC: failed executing insertProvider", e);
-            responseObserver.onError(GrpcUtils.fromThrowable(e));
-        }
+        execute(responseObserver, () -> providerMapper.toProto(providerService.insert(request)));
     }
 
     @Override
     public void updateProvider(ProviderData request, StreamObserver<ProviderData> responseObserver) {
         log.info("GRPC: executing updateProvider ...");
-        try {
-            responseObserver.onNext(providerMapper.toProto(providerService.update(request)));
-            responseObserver.onCompleted();
-        } catch (Throwable e) {
-            log.error("GRPC: failed executing updateProvider", e);
-            responseObserver.onError(GrpcUtils.fromThrowable(e));
-        }
+        execute(responseObserver, () -> providerMapper.toProto(providerService.update(request)));
     }
 
 }

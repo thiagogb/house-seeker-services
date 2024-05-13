@@ -1,9 +1,12 @@
 package br.com.houseseeker.service;
 
+import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.entity.Provider;
+import br.com.houseseeker.mapper.ProviderMapper;
 import br.com.houseseeker.repository.ProviderRepository;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest;
+import br.com.houseseeker.util.ProtoWrapperUtils;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import java.util.Optional;
 public class ProviderService {
 
     private final ProviderRepository providerRepository;
+    private final ProviderMapper providerMapper;
 
     @Transactional
     public Optional<Provider> findById(int id) {
@@ -32,12 +36,15 @@ public class ProviderService {
 
     @Transactional
     public Provider insert(@NotNull ProviderData providerData) {
-        return null;
+        return providerRepository.save(providerMapper.createEntity(providerData));
     }
 
     @Transactional
     public Provider update(@NotNull ProviderData providerData) {
-        return null;
+        int id = ProtoWrapperUtils.getValue(providerData.getId());
+        Provider provider = findById(id).orElseThrow(() -> new ExtendedRuntimeException("Provider %d not found", id));
+        providerMapper.copyToEntity(providerData, provider);
+        return providerRepository.save(provider);
     }
 
 }

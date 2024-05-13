@@ -22,6 +22,11 @@ abstract class AbstractProtoMapper {
         return Optional.ofNullable(value).map(StringValue::of).orElse(StringValue.getDefaultInstance());
     }
 
+    @Named("stringValueToString")
+    protected String stringValueToString(@Nullable StringValue value) {
+        return Optional.ofNullable(value).map(StringValue::getValue).orElse(null);
+    }
+
     @Named("bytesToBytesValue")
     protected BytesValue bytesToBytesValue(@Nullable byte[] value) {
         return Optional.ofNullable(value)
@@ -30,9 +35,21 @@ abstract class AbstractProtoMapper {
                        .orElse(BytesValue.getDefaultInstance());
     }
 
+    @Named("bytesValueToBytes")
+    protected byte[] bytesValueToBytes(@Nullable BytesValue value) {
+        return Optional.ofNullable(value)
+                       .map(v -> v.getValue().toByteArray())
+                       .orElse(null);
+    }
+
     @Named("boolToBoolValue")
     protected BoolValue boolToBoolValue(@Nullable Boolean value) {
         return Optional.ofNullable(value).map(BoolValue::of).orElse(BoolValue.getDefaultInstance());
+    }
+
+    @Named("boolValueToBool")
+    protected Boolean boolValueToBool(@Nullable BoolValue value) {
+        return Optional.ofNullable(value).map(BoolValue::getValue).orElse(null);
     }
 
     private ByteString bytesToByteString(byte[] value) {

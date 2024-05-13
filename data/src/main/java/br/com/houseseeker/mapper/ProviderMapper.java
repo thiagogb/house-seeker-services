@@ -7,6 +7,7 @@ import com.google.protobuf.StringValue;
 import jakarta.validation.constraints.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.lang.Nullable;
 
@@ -32,9 +33,36 @@ public abstract class ProviderMapper extends AbstractProtoMapper {
     @Mapping(source = "active", target = "active", qualifiedByName = "boolToBoolValue")
     public abstract ProviderData toProto(@NotNull Provider provider);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "name", target = "name", qualifiedByName = "stringValueToString")
+    @Mapping(source = "siteUrl", target = "siteUrl", qualifiedByName = "stringValueToString")
+    @Mapping(source = "dataUrl", target = "dataUrl", qualifiedByName = "stringValueToString")
+    @Mapping(source = "mechanism", target = "mechanism", qualifiedByName = "stringValueToMechanism")
+    @Mapping(source = "params", target = "params", qualifiedByName = "stringValueToString")
+    @Mapping(source = "cronExpression", target = "cronExpression", qualifiedByName = "stringValueToString")
+    @Mapping(source = "logo", target = "logo", qualifiedByName = "bytesValueToBytes")
+    @Mapping(source = "active", target = "active", qualifiedByName = "boolValueToBool")
+    public abstract Provider createEntity(@NotNull ProviderData providerData);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "name", target = "name", qualifiedByName = "stringValueToString")
+    @Mapping(source = "siteUrl", target = "siteUrl", qualifiedByName = "stringValueToString")
+    @Mapping(source = "dataUrl", target = "dataUrl", qualifiedByName = "stringValueToString")
+    @Mapping(source = "mechanism", target = "mechanism", qualifiedByName = "stringValueToMechanism")
+    @Mapping(source = "params", target = "params", qualifiedByName = "stringValueToString")
+    @Mapping(source = "cronExpression", target = "cronExpression", qualifiedByName = "stringValueToString")
+    @Mapping(source = "logo", target = "logo", qualifiedByName = "bytesValueToBytes")
+    @Mapping(source = "active", target = "active", qualifiedByName = "boolValueToBool")
+    public abstract void copyToEntity(@NotNull ProviderData providerData, @MappingTarget Provider target);
+
     @Named("mechanismToStringValue")
     protected StringValue mechanismToStringValue(@Nullable ProviderMechanism value) {
         return Optional.ofNullable(value).map(v -> StringValue.of(v.name())).orElse(StringValue.getDefaultInstance());
+    }
+
+    @Named("stringValueToMechanism")
+    protected ProviderMechanism stringValueToMechanism(@Nullable StringValue value) {
+        return Optional.ofNullable(value).map(v -> ProviderMechanism.valueOf(v.getValue())).orElse(null);
     }
 
 }
