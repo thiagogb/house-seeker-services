@@ -7,16 +7,22 @@ import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse.ErrorInfo;
 import br.com.houseseeker.util.StopWatchUtils;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.util.StopWatch;
 import retrofit2.Retrofit;
 
+import java.time.Clock;
 import java.util.List;
 import java.util.function.Function;
 
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
 public abstract class AbstractDataScraperService {
+
+    private final Clock clock;
 
     public final ProviderScraperResponse scrap(
             @NotNull ProviderMetadata providerMetadata,
@@ -36,7 +42,7 @@ public abstract class AbstractDataScraperService {
             stopWatch.stop();
         }
         log.info("Finished data scrapping on provider {}: {}", providerMetadata.getName(), stopWatch.shortSummary());
-        response.setStartAt(StopWatchUtils.getStart(stopWatch));
+        response.setStartAt(StopWatchUtils.getStart(clock, stopWatch));
         return response;
     }
 

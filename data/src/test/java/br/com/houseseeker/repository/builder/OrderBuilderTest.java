@@ -48,10 +48,10 @@ class OrderBuilderTest {
     @Test
     @DisplayName("given a builder with repeated order indexes when calls build when expects exception")
     void givenABuilderWithRepeatedOrderIndexes_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> OrderBuilder.newInstance()
-                                             .append(mockedNumberPath, OrderDetailsData.newBuilder().setIndex(1).build())
-                                             .append(mockedStringPath, OrderDetailsData.newBuilder().setIndex(1).build())
-                                             .build())
+        OrderDetailsData orderDetailsData = OrderDetailsData.newBuilder().setIndex(1).build();
+        OrderBuilder builder = OrderBuilder.newInstance().append(mockedNumberPath, orderDetailsData);
+
+        assertThatThrownBy(() -> builder.append(mockedStringPath, orderDetailsData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("There's already an order specifier with index 1");

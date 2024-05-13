@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.LongSupplier;
 
 import static org.springframework.data.support.PageableExecutionUtils.getPage;
 
@@ -30,9 +30,9 @@ public class PaginationUtils {
     public <T> Page<T> collectPaginationMetadata(
             @NotNull List<T> rows,
             @NotNull PaginationRequestData paginationData,
-            @NotNull Supplier<Long> totalSupplier
+            @NotNull LongSupplier totalSupplier
     ) {
-        return getPage(rows, calculatePageResponse(paginationData), totalSupplier::get);
+        return getPage(rows, calculatePageResponse(paginationData), totalSupplier);
     }
 
     public <T> PaginationResponseData toPaginationResponseData(@NotNull Page<T> page) {

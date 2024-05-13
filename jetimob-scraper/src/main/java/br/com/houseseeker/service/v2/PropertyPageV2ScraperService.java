@@ -61,9 +61,9 @@ public class PropertyPageV2ScraperService extends AbstractJsoupScraperService<Pr
     }
 
     private String extractDescriptionData(Element element) {
-        Element rootElement = Optional.ofNullable(element.selectXpath(String.format("//h3[text()='%s']", PROPERTY_ABOUT_TITLE)).first())
-                                      .map(Element::parent)
-                                      .orElse(null);
+        Element rootElement = findH3ByText(element, PROPERTY_ABOUT_TITLE)
+                .map(Element::parent)
+                .orElse(null);
 
         if (isNull(rootElement))
             return null;
@@ -169,9 +169,9 @@ public class PropertyPageV2ScraperService extends AbstractJsoupScraperService<Pr
     private List<PropertyDetail> extractDetailsData(Element element) {
         List<PropertyDetail> result = new LinkedList<>();
 
-        Element rootElement = Optional.ofNullable(element.selectXpath(String.format("//h3[text()='%s']", PROPERTY_DETAILS_TITLE)).first())
-                                      .map(Element::parent)
-                                      .orElse(null);
+        Element rootElement = findH3ByText(element, PROPERTY_DETAILS_TITLE)
+                .map(Element::parent)
+                .orElse(null);
 
         if (nonNull(rootElement)) {
             rootElement.select("> div > div > h4")
@@ -202,9 +202,9 @@ public class PropertyPageV2ScraperService extends AbstractJsoupScraperService<Pr
     private List<String> extractComfortsData(Element element) {
         List<String> result = new LinkedList<>();
 
-        Element rootElement = Optional.ofNullable(element.selectXpath(String.format("//h3[text()='%s']", PROPERTY_COMFORTS_TITLE)).first())
-                                      .map(Element::parent)
-                                      .orElse(null);
+        Element rootElement = findH3ByText(element, PROPERTY_COMFORTS_TITLE)
+                .map(Element::parent)
+                .orElse(null);
 
         if (nonNull(rootElement)) {
             rootElement.select("> div > div > span")
@@ -215,6 +215,10 @@ public class PropertyPageV2ScraperService extends AbstractJsoupScraperService<Pr
         }
 
         return result;
+    }
+
+    private Optional<Element> findH3ByText(Element element, String text) {
+        return Optional.ofNullable(element.selectXpath(String.format("//h3[text()='%s']", text)).first());
     }
 
 }

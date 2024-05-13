@@ -8,7 +8,6 @@ import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.service.AbstractDataScraperService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.ResponseBody;
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,6 +19,7 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
@@ -29,7 +29,6 @@ import static br.com.houseseeker.util.RetrofitUtils.executeCall;
 import static java.util.Objects.isNull;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class DataScraperV1Service extends AbstractDataScraperService {
 
@@ -38,6 +37,18 @@ public class DataScraperV1Service extends AbstractDataScraperService {
     private final SearchPageV1ScraperService searchPageV1ScraperService;
     private final PropertyPageV1ScraperService propertyPageV1ScraperService;
     private final MetadataTransferV1Service metadataTransferV1Service;
+
+    public DataScraperV1Service(
+            Clock clock,
+            SearchPageV1ScraperService searchPageV1ScraperService,
+            PropertyPageV1ScraperService propertyPageV1ScraperService,
+            MetadataTransferV1Service metadataTransferV1Service
+    ) {
+        super(clock);
+        this.searchPageV1ScraperService = searchPageV1ScraperService;
+        this.propertyPageV1ScraperService = propertyPageV1ScraperService;
+        this.metadataTransferV1Service = metadataTransferV1Service;
+    }
 
     @Override
     protected ProviderScraperResponse execute(

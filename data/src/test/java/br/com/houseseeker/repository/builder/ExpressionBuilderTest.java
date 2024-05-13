@@ -34,10 +34,11 @@ class ExpressionBuilderTest {
     @Test
     @DisplayName("given a builder with appended expressions not selected when calls build then expects exception")
     void givenABuilderWithAppendedExpressionsNotSelected_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> ExpressionBuilder.newInstance()
-                                                  .append(mockedNumberPath, false)
-                                                  .append(mockedStringPath, false)
-                                                  .build())
+        ExpressionBuilder builder = ExpressionBuilder.newInstance()
+                                                     .append(mockedNumberPath, false)
+                                                     .append(mockedStringPath, false);
+
+        assertThatThrownBy(builder::build)
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("At least one projection must be defined");

@@ -7,7 +7,6 @@ import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.service.AbstractDataScraperService;
 import br.com.houseseeker.util.RetrofitUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,13 +17,13 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import java.time.Clock;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class DataScraperV4Service extends AbstractDataScraperService {
 
@@ -32,6 +31,11 @@ public class DataScraperV4Service extends AbstractDataScraperService {
 
     @Value("${data.scraper.v4.page-size}")
     private int chunkSize;
+
+    public DataScraperV4Service(Clock clock, MetadataTransferV4Service metadataTransferV4Service) {
+        super(clock);
+        this.metadataTransferV4Service = metadataTransferV4Service;
+    }
 
     @Override
     protected ProviderScraperResponse execute(

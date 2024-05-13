@@ -2,6 +2,7 @@ package br.com.houseseeker.service.v1;
 
 import br.com.houseseeker.AbstractMockWebServerTest;
 import br.com.houseseeker.configuration.ObjectMapperConfiguration;
+import br.com.houseseeker.configuration.TimeZoneConfiguration;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.service.OkHttpClientFactoryService;
@@ -24,6 +25,7 @@ import static br.com.houseseeker.mock.ProviderMetadataMocks.withUrlAndMechanism;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {
+        TimeZoneConfiguration.class,
         ObjectMapperConfiguration.class,
         OkHttpClientFactoryService.class,
         RetrofitFactoryService.class,

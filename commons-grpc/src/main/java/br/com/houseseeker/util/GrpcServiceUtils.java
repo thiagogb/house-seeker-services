@@ -19,7 +19,7 @@ public class GrpcServiceUtils {
         } catch (GrpcStatusException e) {
             log.error("GRPC: execution failure", e);
             streamObserver.onError(GrpcExceptionUtils.fromGrpcException(e));
-        } catch (Throwable e) {
+        } catch (Exception e) {
             log.error("GRPC: execution failure", e);
             streamObserver.onError(GrpcExceptionUtils.fromThrowable(e));
         }

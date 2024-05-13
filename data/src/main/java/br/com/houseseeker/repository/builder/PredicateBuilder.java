@@ -31,6 +31,8 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PredicateBuilder {
 
+    private static final GrpcStatusException INVALID_CASE_EXCEPTION = new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
+
     private Predicate[] predicates = new Predicate[]{};
 
     public static PredicateBuilder newInstance() {
@@ -48,7 +50,7 @@ public class PredicateBuilder {
             case 2 -> appendIsNotNull(path, comparisonData.getIsNotNull());
             case 3 -> appendIsEqual(path, comparisonData.getIsEqual());
             case 4 -> appendIsNotEqual(path, comparisonData.getIsNotEqual());
-            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
+            default -> throw INVALID_CASE_EXCEPTION;
         };
     }
 
@@ -71,7 +73,7 @@ public class PredicateBuilder {
             case 10 -> appendIsNotBetween(path, comparisonData.getIsNotBetween());
             case 11 -> appendIsIn(path, comparisonData.getIsIn());
             case 12 -> appendIsNotIn(path, comparisonData.getIsNotIn());
-            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
+            default -> throw INVALID_CASE_EXCEPTION;
         };
     }
 
@@ -96,7 +98,7 @@ public class PredicateBuilder {
             case 12 -> appendItNotContains(path, comparisonData.getItNotContains());
             case 13 -> appendIsIn(path, comparisonData.getIsIn());
             case 14 -> appendIsNotIn(path, comparisonData.getIsNotIn());
-            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
+            default -> throw INVALID_CASE_EXCEPTION;
         };
     }
 
@@ -117,7 +119,7 @@ public class PredicateBuilder {
             case 4 -> appendIsNotEqual(path, comparisonData.getIsNotEqual(), valueResolver);
             case 5 -> appendIsIn(path, comparisonData.getIsIn(), valueResolver);
             case 6 -> appendIsNotIn(path, comparisonData.getIsNotIn(), valueResolver);
-            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
+            default -> throw INVALID_CASE_EXCEPTION;
         };
     }
 
@@ -130,7 +132,7 @@ public class PredicateBuilder {
         return switch (oneOfCase) {
             case 1 -> appendIsNull(path, comparisonData.getIsNull());
             case 2 -> appendIsNotNull(path, comparisonData.getIsNotNull());
-            default -> throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Unknown comparison case");
+            default -> throw INVALID_CASE_EXCEPTION;
         };
     }
 

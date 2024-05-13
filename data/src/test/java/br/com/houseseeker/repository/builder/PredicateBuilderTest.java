@@ -157,9 +157,9 @@ class PredicateBuilderTest {
     @Test
     @DisplayName("given a builder with a unknown boolean case comparison appended when calls build then expects exception")
     void givenABuilderWithAUnknownBooleanCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> PredicateBuilder.newInstance()
-                                                 .append(QProvider.provider.active, mockedBoolComparisonData)
-                                                 .build())
+        PredicateBuilder builder = PredicateBuilder.newInstance();
+
+        assertThatThrownBy(() -> builder.append(QProvider.provider.active, mockedBoolComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -382,9 +382,9 @@ class PredicateBuilderTest {
     @Test
     @DisplayName("given a builder with a unknown integer case comparison appended when calls build then expects exception")
     void givenABuilderWithAUnknownIntegerCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> PredicateBuilder.newInstance()
-                                                 .append(QProvider.provider.id, mockedIntegerComparisonData)
-                                                 .build())
+        PredicateBuilder builder = PredicateBuilder.newInstance();
+
+        assertThatThrownBy(() -> builder.append(QProvider.provider.id, mockedIntegerComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -625,9 +625,9 @@ class PredicateBuilderTest {
     @Test
     @DisplayName("given a builder with a unknown string case comparison appended when calls build then expects exception")
     void givenABuilderWithAUnknownStringCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> PredicateBuilder.newInstance()
-                                                 .append(QProvider.provider.name, mockedStringComparisonData)
-                                                 .build())
+        PredicateBuilder builder = PredicateBuilder.newInstance();
+
+        assertThatThrownBy(() -> builder.append(QProvider.provider.name, mockedStringComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -756,9 +756,9 @@ class PredicateBuilderTest {
     @Test
     @DisplayName("given a builder with a unknown enum case comparison appended when calls build then expects exception")
     void givenABuilderWithAUnknownEnumCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> PredicateBuilder.newInstance()
-                                                 .append(QProvider.provider.mechanism, mockedEnumComparisonData, ProviderMechanism::valueOf)
-                                                 .build())
+        PredicateBuilder builder = PredicateBuilder.newInstance();
+
+        assertThatThrownBy(() -> builder.append(QProvider.provider.mechanism, mockedEnumComparisonData, ProviderMechanism::valueOf))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -803,9 +803,9 @@ class PredicateBuilderTest {
     @Test
     @DisplayName("given a builder with a unknown array case comparison appended when calls build then expects exception")
     void givenABuilderWithAUnknownArrayCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> PredicateBuilder.newInstance()
-                                                 .append(QProvider.provider.logo, mockedBytesComparisonData)
-                                                 .build())
+        PredicateBuilder builder = PredicateBuilder.newInstance();
+
+        assertThatThrownBy(() -> builder.append(QProvider.provider.logo, mockedBytesComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
