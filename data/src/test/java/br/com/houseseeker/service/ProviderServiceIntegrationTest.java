@@ -11,15 +11,12 @@ import br.com.houseseeker.domain.proto.OrderDirectionData;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.entity.Provider;
+import br.com.houseseeker.mock.ProviderDataMocks;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.ClausesData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.ProjectionsData;
-import com.google.protobuf.BoolValue;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.BytesValue;
 import com.google.protobuf.Int32Value;
-import com.google.protobuf.StringValue;
 import io.grpc.Status;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +26,6 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import static br.com.houseseeker.domain.provider.ProviderMechanism.JETIMOB_V2;
@@ -42,16 +38,7 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
 
     private static final int TEST_PROVIDER_ID = 10002;
 
-    private static final ProviderData TEST_PROVIDER_DATA = ProviderData.newBuilder()
-                                                                       .setName(StringValue.of("Test Provider 1"))
-                                                                       .setSiteUrl(StringValue.of("http://test.provider.com/1"))
-                                                                       .setDataUrl(StringValue.of("http://test.provider.com/1/api"))
-                                                                       .setMechanism(StringValue.of("JETIMOB_V1"))
-                                                                       .setParams(StringValue.of("{\"connection\":{}}"))
-                                                                       .setCronExpression(StringValue.of("0 0 9 ? * MON,WED,FRI *"))
-                                                                       .setLogo(BytesValue.of(ByteString.copyFrom("logo1", StandardCharsets.UTF_8)))
-                                                                       .setActive(BoolValue.of(true))
-                                                                       .build();
+    private static final ProviderData TEST_PROVIDER_DATA = ProviderDataMocks.testProviderWithId(1);
 
     private static final String[] EXTRACTED_ATTRIBUTES = new String[]{
             "name", "siteUrl", "dataUrl", "mechanism", "params", "cronExpression", "logo", "active"

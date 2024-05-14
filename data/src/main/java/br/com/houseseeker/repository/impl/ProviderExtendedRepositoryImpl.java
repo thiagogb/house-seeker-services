@@ -79,6 +79,7 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
                                .append(QProvider.provider.dataUrl, clausesData.getDataUrl())
                                .append(QProvider.provider.mechanism, clausesData.getMechanism(), ProviderMechanism::valueOf)
                                .append(QProvider.provider.cronExpression, clausesData.getCronExpression())
+                               .append(QProvider.provider.params, clausesData.getParams())
                                .append(QProvider.provider.logo, clausesData.getLogo())
                                .append(QProvider.provider.active, clausesData.getActive())
                                .build();

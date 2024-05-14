@@ -3,6 +3,8 @@ package br.com.houseseeker.mapper;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.entity.Provider;
+import br.com.houseseeker.mock.ProviderDataMocks;
+import br.com.houseseeker.mock.ProviderMocks;
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.BytesValue;
@@ -13,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,41 +27,9 @@ class ProviderMapperTest {
             "id", "name", "siteUrl", "dataUrl", "mechanism", "params", "cronExpression", "logo", "active"
     };
 
-    private static final Provider TEST_PROVIDER_ENTITY_1 = Provider.builder()
-                                                                   .id(1)
-                                                                   .name("Test Provider 1")
-                                                                   .siteUrl("http://test.provider.com/1")
-                                                                   .dataUrl("http://test.provider.com/1/api")
-                                                                   .mechanism(ProviderMechanism.JETIMOB_V1)
-                                                                   .params("{\"connection\":{}}")
-                                                                   .cronExpression("0 0 9 ? * MON,WED,FRI *")
-                                                                   .logo("logo1".getBytes(StandardCharsets.UTF_8))
-                                                                   .active(true)
-                                                                   .build();
-
-    private static final Provider TEST_PROVIDER_ENTITY_2 = Provider.builder()
-                                                                   .id(2)
-                                                                   .name("Test Provider 2")
-                                                                   .siteUrl("http://test.provider.com/2")
-                                                                   .dataUrl("http://test.provider.com/2/api")
-                                                                   .mechanism(ProviderMechanism.JETIMOB_V2)
-                                                                   .params("{\"connection\":{}}")
-                                                                   .cronExpression("0 0 9 ? * MON,WED,FRI *")
-                                                                   .logo("logo2".getBytes(StandardCharsets.UTF_8))
-                                                                   .active(false)
-                                                                   .build();
-
-    private static final ProviderData TEST_PROVIDER_DATA = ProviderData.newBuilder()
-                                                                       .setId(Int32Value.of(1))
-                                                                       .setName(StringValue.of("Test Provider 1"))
-                                                                       .setSiteUrl(StringValue.of("http://test.provider.com/1"))
-                                                                       .setDataUrl(StringValue.of("http://test.provider.com/1/api"))
-                                                                       .setMechanism(StringValue.of("JETIMOB_V1"))
-                                                                       .setParams(StringValue.of("{\"connection\":{}}"))
-                                                                       .setCronExpression(StringValue.of("0 0 9 ? * MON,WED,FRI *"))
-                                                                       .setLogo(BytesValue.of(ByteString.copyFrom("logo1", StandardCharsets.UTF_8)))
-                                                                       .setActive(BoolValue.of(true))
-                                                                       .build();
+    private static final Provider TEST_PROVIDER_ENTITY_1 = ProviderMocks.testProviderWithIdAndMechanism(1, ProviderMechanism.JETIMOB_V1);
+    private static final Provider TEST_PROVIDER_ENTITY_2 = ProviderMocks.testProviderWithIdAndMechanism(1, ProviderMechanism.JETIMOB_V2);
+    private static final ProviderData TEST_PROVIDER_DATA = ProviderDataMocks.testProviderWithId(1);
 
     @Autowired
     private ProviderMapper providerMapper;
