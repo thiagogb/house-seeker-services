@@ -1,9 +1,10 @@
 package br.com.houseseeker.util;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
+import br.com.houseseeker.domain.exception.GrpcStatusException;
 import br.com.houseseeker.domain.proto.PaginationRequestData;
 import br.com.houseseeker.domain.proto.PaginationResponseData;
 import com.querydsl.jpa.impl.JPAQuery;
+import io.grpc.Status;
 import jakarta.validation.constraints.NotNull;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class PaginationUtils {
 
     public <T> PaginationResponseData toPaginationResponseData(@NotNull Page<T> page) {
         return PaginationResponseData.newBuilder()
-                                     .setPageNumber(page.getNumber() + 1)
+                                     .setPageNumber(page.getNumber() + DEFAULT_OFFSET_DEVIATION)
                                      .setPageSize(page.getSize())
                                      .setTotalPages(page.getTotalPages())
                                      .setTotalRows(page.getTotalElements())
@@ -47,10 +48,10 @@ public class PaginationUtils {
 
     private void validatePagination(PaginationRequestData paginationData) {
         if (paginationData.getPageNumber() < 0)
-            throw new ExtendedRuntimeException("Page number must be greater than zero");
+            throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Page number must be greater than zero");
 
         if (paginationData.getPageSize() < 0)
-            throw new ExtendedRuntimeException("Page size must be greater than zero");
+            throw new GrpcStatusException(Status.INVALID_ARGUMENT, "Page size must be greater than zero");
     }
 
     private PageRequest calculatePageRequest(PaginationRequestData paginationData) {

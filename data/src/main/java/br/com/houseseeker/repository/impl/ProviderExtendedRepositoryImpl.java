@@ -12,7 +12,6 @@ import br.com.houseseeker.service.proto.GetProvidersDataRequest.ClausesData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.ProjectionsData;
 import br.com.houseseeker.util.PaginationUtils;
-import br.com.houseseeker.util.QueryDslUtils;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -32,13 +31,13 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
     @Override
     public Page<Provider> findBy(GetProvidersDataRequest getProvidersDataRequest) {
         return PaginationUtils.collectPaginationMetadata(
-                configureQuery(getProvidersDataRequest).fetch(),
+                configureBaseQuery(getProvidersDataRequest).fetch(),
                 getProvidersDataRequest.getPagination(),
-                () -> QueryDslUtils.count(jpaQueryFactory, QProvider.provider)
+                () -> configureCountQuery(getProvidersDataRequest).fetchFirst()
         );
     }
 
-    private JPAQuery<Provider> configureQuery(GetProvidersDataRequest getProvidersDataRequest) {
+    private JPAQuery<Provider> configureBaseQuery(GetProvidersDataRequest getProvidersDataRequest) {
         JPAQuery<Provider> query = jpaQueryFactory.select(
                                                           Projections.bean(
                                                                   Provider.class,
@@ -50,6 +49,12 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
                                                   .orderBy(buildOrderSpecifiers(getProvidersDataRequest.getOrders()));
         PaginationUtils.paginateQuery(query, getProvidersDataRequest.getPagination());
         return query;
+    }
+
+    private JPAQuery<Long> configureCountQuery(GetProvidersDataRequest getProvidersDataRequest) {
+        return jpaQueryFactory.select(QProvider.provider.count())
+                              .from(QProvider.provider)
+                              .where(buildWherePredicates(getProvidersDataRequest.getClauses()));
     }
 
     private Expression<?>[] buildProjectionExpressions(ProjectionsData projectionsData) {
