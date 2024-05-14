@@ -14,12 +14,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.URL;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -47,22 +51,31 @@ public class Provider implements Serializable {
     private Integer id;
 
     @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(max = 255)
     private String name;
 
     @Column(name = "site_url", nullable = false)
+    @NotBlank
+    @URL
+    @Size(max = 255)
     private String siteUrl;
 
     @Column(name = "data_url")
+    @URL
+    @Size(max = 255)
     private String dataUrl;
 
     @Column(name = "mechanism", nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
+    @NotNull
     private ProviderMechanism mechanism;
 
     @Column(name = "params")
     private String params;
 
     @Column(name = "cron_expression")
+    @Size(max = 255)
     private String cronExpression;
 
     @Column(name = "logo")
@@ -70,6 +83,7 @@ public class Provider implements Serializable {
 
     @Column(name = "active", nullable = false, length = 1)
     @Convert(converter = BooleanToVarCharConverter.class)
+    @NotNull
     private Boolean active;
 
     @Override

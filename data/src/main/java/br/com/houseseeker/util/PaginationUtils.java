@@ -17,7 +17,8 @@ import static org.springframework.data.support.PageableExecutionUtils.getPage;
 @UtilityClass
 public class PaginationUtils {
 
-    private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final int DEFAULT_OFFSET = 0;
+    private static final int DEFAULT_OFFSET_DEVIATION = 1;
     private static final int DEFAULT_PAGE_SIZE = 50;
 
     public <T> void paginateQuery(@NotNull JPAQuery<T> jpaQuery, @NotNull PaginationRequestData paginationData) {
@@ -59,7 +60,7 @@ public class PaginationUtils {
 
         int pageNumber = paginationData.getPageNumber() > 0
                 ? calculateOffset(paginationData.getPageNumber(), pageSize)
-                : DEFAULT_PAGE_NUMBER;
+                : DEFAULT_OFFSET;
 
         return PageRequest.of(pageNumber, pageSize);
     }
@@ -69,11 +70,11 @@ public class PaginationUtils {
                 ? paginationData.getPageSize()
                 : DEFAULT_PAGE_SIZE;
 
-        return PageRequest.of(Math.max(0, paginationData.getPageNumber() - 1), pageSize);
+        return PageRequest.of(Math.max(0, paginationData.getPageNumber() - DEFAULT_OFFSET_DEVIATION), pageSize);
     }
 
     private int calculateOffset(int pageNumber, int pageSize) {
-        return Math.max(0, pageNumber - 1) * pageSize;
+        return Math.max(0, pageNumber - DEFAULT_OFFSET_DEVIATION) * pageSize;
     }
 
 }
