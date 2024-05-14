@@ -246,6 +246,9 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgs>
+                        <arg>-Aquerydsl.prefix=QDsl</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -283,6 +286,7 @@
                 <configuration>
                     <excludes>
                         <exclude>br/com/houseseeker/**/proto/*.class</exclude>
+                        <exclude>br/com/houseseeker/**/QDsl*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

@@ -2,7 +2,7 @@ package br.com.houseseeker.repository.impl;
 
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.entity.Provider;
-import br.com.houseseeker.entity.QProvider;
+import br.com.houseseeker.entity.QDslProvider;
 import br.com.houseseeker.repository.ProviderExtendedRepository;
 import br.com.houseseeker.repository.builder.ExpressionBuilder;
 import br.com.houseseeker.repository.builder.OrderBuilder;
@@ -44,7 +44,7 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
                                                                   buildProjectionExpressions(getProvidersDataRequest.getProjections())
                                                           )
                                                   )
-                                                  .from(QProvider.provider)
+                                                  .from(QDslProvider.provider)
                                                   .where(buildWherePredicates(getProvidersDataRequest.getClauses()))
                                                   .orderBy(buildOrderSpecifiers(getProvidersDataRequest.getOrders()));
         PaginationUtils.paginateQuery(query, getProvidersDataRequest.getPagination());
@@ -52,47 +52,47 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
     }
 
     private JPAQuery<Long> configureCountQuery(GetProvidersDataRequest getProvidersDataRequest) {
-        return jpaQueryFactory.select(QProvider.provider.count())
-                              .from(QProvider.provider)
+        return jpaQueryFactory.select(QDslProvider.provider.count())
+                              .from(QDslProvider.provider)
                               .where(buildWherePredicates(getProvidersDataRequest.getClauses()));
     }
 
     private Expression<?>[] buildProjectionExpressions(ProjectionsData projectionsData) {
         return ExpressionBuilder.newInstance()
-                                .append(QProvider.provider.id, projectionsData.getId())
-                                .append(QProvider.provider.name, projectionsData.getName())
-                                .append(QProvider.provider.siteUrl, projectionsData.getSiteUrl())
-                                .append(QProvider.provider.dataUrl, projectionsData.getDataUrl())
-                                .append(QProvider.provider.mechanism, projectionsData.getMechanism())
-                                .append(QProvider.provider.params, projectionsData.getParams())
-                                .append(QProvider.provider.cronExpression, projectionsData.getCronExpression())
-                                .append(QProvider.provider.logo, projectionsData.getLogo())
-                                .append(QProvider.provider.active, projectionsData.getActive())
+                                .append(QDslProvider.provider.id, projectionsData.getId())
+                                .append(QDslProvider.provider.name, projectionsData.getName())
+                                .append(QDslProvider.provider.siteUrl, projectionsData.getSiteUrl())
+                                .append(QDslProvider.provider.dataUrl, projectionsData.getDataUrl())
+                                .append(QDslProvider.provider.mechanism, projectionsData.getMechanism())
+                                .append(QDslProvider.provider.params, projectionsData.getParams())
+                                .append(QDslProvider.provider.cronExpression, projectionsData.getCronExpression())
+                                .append(QDslProvider.provider.logo, projectionsData.getLogo())
+                                .append(QDslProvider.provider.active, projectionsData.getActive())
                                 .build();
     }
 
     private Predicate[] buildWherePredicates(ClausesData clausesData) {
         return PredicateBuilder.newInstance()
-                               .append(QProvider.provider.id, clausesData.getId())
-                               .append(QProvider.provider.name, clausesData.getName())
-                               .append(QProvider.provider.siteUrl, clausesData.getSiteUrl())
-                               .append(QProvider.provider.dataUrl, clausesData.getDataUrl())
-                               .append(QProvider.provider.mechanism, clausesData.getMechanism(), ProviderMechanism::valueOf)
-                               .append(QProvider.provider.cronExpression, clausesData.getCronExpression())
-                               .append(QProvider.provider.params, clausesData.getParams())
-                               .append(QProvider.provider.logo, clausesData.getLogo())
-                               .append(QProvider.provider.active, clausesData.getActive())
+                               .append(QDslProvider.provider.id, clausesData.getId())
+                               .append(QDslProvider.provider.name, clausesData.getName())
+                               .append(QDslProvider.provider.siteUrl, clausesData.getSiteUrl())
+                               .append(QDslProvider.provider.dataUrl, clausesData.getDataUrl())
+                               .append(QDslProvider.provider.mechanism, clausesData.getMechanism(), ProviderMechanism::valueOf)
+                               .append(QDslProvider.provider.cronExpression, clausesData.getCronExpression())
+                               .append(QDslProvider.provider.params, clausesData.getParams())
+                               .append(QDslProvider.provider.logo, clausesData.getLogo())
+                               .append(QDslProvider.provider.active, clausesData.getActive())
                                .build();
     }
 
     private OrderSpecifier<?>[] buildOrderSpecifiers(OrdersData ordersData) {
         return OrderBuilder.newInstance()
-                           .append(QProvider.provider.id, ordersData.getId())
-                           .append(QProvider.provider.name, ordersData.getName())
-                           .append(QProvider.provider.siteUrl, ordersData.getSiteUrl())
-                           .append(QProvider.provider.dataUrl, ordersData.getDataUrl())
-                           .append(QProvider.provider.mechanism, ordersData.getMechanism())
-                           .append(QProvider.provider.active, ordersData.getActive())
+                           .append(QDslProvider.provider.id, ordersData.getId())
+                           .append(QDslProvider.provider.name, ordersData.getName())
+                           .append(QDslProvider.provider.siteUrl, ordersData.getSiteUrl())
+                           .append(QDslProvider.provider.dataUrl, ordersData.getDataUrl())
+                           .append(QDslProvider.provider.mechanism, ordersData.getMechanism())
+                           .append(QDslProvider.provider.active, ordersData.getActive())
                            .build();
     }
 

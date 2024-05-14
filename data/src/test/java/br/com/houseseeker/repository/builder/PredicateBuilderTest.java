@@ -15,7 +15,7 @@ import br.com.houseseeker.domain.proto.StringComparisonData;
 import br.com.houseseeker.domain.proto.StringListComparisonData;
 import br.com.houseseeker.domain.proto.StringSingleComparisonData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
-import br.com.houseseeker.entity.QProvider;
+import br.com.houseseeker.entity.QDslProvider;
 import com.querydsl.core.types.Predicate;
 import io.grpc.Status;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +92,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a boolean not chosen comparison appended when calls build then expects empty")
     void givenABuilderWithABooleanNotChosenComparisonAppended_whenCallsBuild_thenExpectsEmpty() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.active, BoolComparisonData.getDefaultInstance())
+                                             .append(QDslProvider.provider.active, BoolComparisonData.getDefaultInstance())
                                              .build();
 
         assertThat(result).isEmpty();
@@ -102,7 +102,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a boolean is null comparison appended when calls build then expects")
     void givenABuilderWithABooleanIsNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.active, BoolComparisonData.newBuilder().setIsNull(true).build())
+                                             .append(QDslProvider.provider.active, BoolComparisonData.newBuilder().setIsNull(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("provider.active is null");
@@ -112,7 +112,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a boolean is not null comparison appended when calls build then expects")
     void givenABuilderWithABooleanIsNotNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.active, BoolComparisonData.newBuilder().setIsNotNull(true).build())
+                                             .append(QDslProvider.provider.active, BoolComparisonData.newBuilder().setIsNotNull(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("provider.active is not null");
@@ -123,7 +123,7 @@ class PredicateBuilderTest {
     void givenABuilderWithABooleanIsEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.active,
+                                                     QDslProvider.provider.active,
                                                      BoolComparisonData.newBuilder()
                                                                        .setIsEqual(
                                                                                BoolSingleComparisonData.newBuilder()
@@ -141,7 +141,7 @@ class PredicateBuilderTest {
     void givenABuilderWithABooleanIsNotEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.active,
+                                                     QDslProvider.provider.active,
                                                      BoolComparisonData.newBuilder()
                                                                        .setIsNotEqual(
                                                                                BoolSingleComparisonData.newBuilder()
@@ -159,7 +159,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAUnknownBooleanCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
         PredicateBuilder builder = PredicateBuilder.newInstance();
 
-        assertThatThrownBy(() -> builder.append(QProvider.provider.active, mockedBoolComparisonData))
+        assertThatThrownBy(() -> builder.append(QDslProvider.provider.active, mockedBoolComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -169,7 +169,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a integer not chosen comparison appended when calls build then expects empty")
     void givenABuilderWithAIntegerNotChosenComparisonAppended_whenCallsBuild_thenExpectsEmpty() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.id, Int32ComparisonData.getDefaultInstance())
+                                             .append(QDslProvider.provider.id, Int32ComparisonData.getDefaultInstance())
                                              .build();
 
         assertThat(result).isEmpty();
@@ -179,7 +179,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a integer is null comparison appended when calls build then expects")
     void givenABuilderWithAIntegerIsNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.id, Int32ComparisonData.newBuilder().setIsNull(true).build())
+                                             .append(QDslProvider.provider.id, Int32ComparisonData.newBuilder().setIsNull(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("provider.id is null");
@@ -189,7 +189,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a integer is not null comparison appended when calls build then expects")
     void givenABuilderWithAIntegerIsNotNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.id, Int32ComparisonData.newBuilder().setIsNotNull(true).build())
+                                             .append(QDslProvider.provider.id, Int32ComparisonData.newBuilder().setIsNotNull(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("provider.id is not null");
@@ -200,7 +200,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsEqual(
                                                                                 Int32SingleComparisonData.newBuilder()
@@ -218,7 +218,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsNotEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsNotEqual(
                                                                                 Int32SingleComparisonData.newBuilder()
@@ -236,7 +236,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsGreaterComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsGreater(
                                                                                 Int32SingleComparisonData.newBuilder()
@@ -254,7 +254,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsGreaterOrEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsGreaterOrEqual(
                                                                                 Int32SingleComparisonData.newBuilder()
@@ -272,7 +272,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsLesserComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsLesser(
                                                                                 Int32SingleComparisonData.newBuilder()
@@ -290,7 +290,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsLesserOrEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsLesserOrEqual(
                                                                                 Int32SingleComparisonData.newBuilder()
@@ -308,7 +308,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsBetweenComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsBetween(
                                                                                 Int32IntervalComparisonData.newBuilder()
@@ -327,7 +327,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsNotBetweenComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsNotBetween(
                                                                                 Int32IntervalComparisonData.newBuilder()
@@ -346,7 +346,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsInComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsIn(
                                                                                 Int32ListComparisonData.newBuilder()
@@ -365,7 +365,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAIntegerIsNotInComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.id,
+                                                     QDslProvider.provider.id,
                                                      Int32ComparisonData.newBuilder()
                                                                         .setIsNotIn(
                                                                                 Int32ListComparisonData.newBuilder()
@@ -384,7 +384,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAUnknownIntegerCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
         PredicateBuilder builder = PredicateBuilder.newInstance();
 
-        assertThatThrownBy(() -> builder.append(QProvider.provider.id, mockedIntegerComparisonData))
+        assertThatThrownBy(() -> builder.append(QDslProvider.provider.id, mockedIntegerComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -394,7 +394,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a string not chosen comparison appended when calls build then expects empty")
     void givenABuilderWithAStringNotChosenComparisonAppended_whenCallsBuild_thenExpectsEmpty() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.name, StringComparisonData.getDefaultInstance())
+                                             .append(QDslProvider.provider.name, StringComparisonData.getDefaultInstance())
                                              .build();
 
         assertThat(result).isEmpty();
@@ -404,7 +404,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a string is null comparison appended when calls build then expects")
     void givenABuilderWithAStringIsNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.name, StringComparisonData.newBuilder().setIsNull(true).build())
+                                             .append(QDslProvider.provider.name, StringComparisonData.newBuilder().setIsNull(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("provider.name is null");
@@ -414,7 +414,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a string is not null comparison appended when calls build then expects")
     void givenABuilderWithAStringIsNotNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.name, StringComparisonData.newBuilder().setIsNotNull(true).build())
+                                             .append(QDslProvider.provider.name, StringComparisonData.newBuilder().setIsNotNull(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("provider.name is not null");
@@ -424,7 +424,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a string is blank comparison appended when calls build then expects")
     void givenABuilderWithAStringIsBlankComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.name, StringComparisonData.newBuilder().setIsBlank(true).build())
+                                             .append(QDslProvider.provider.name, StringComparisonData.newBuilder().setIsBlank(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("empty(provider.name)");
@@ -434,7 +434,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a string is not blank comparison appended when calls build then expects")
     void givenABuilderWithAStringIsNotBlankComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.name, StringComparisonData.newBuilder().setIsNotBlank(true).build())
+                                             .append(QDslProvider.provider.name, StringComparisonData.newBuilder().setIsNotBlank(true).build())
                                              .build();
 
         assertThat(result).extracting(Objects::toString).containsExactly("!empty(provider.name)");
@@ -445,7 +445,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsEqual(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -463,7 +463,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsNotEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsNotEqual(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -481,7 +481,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsStartingWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsStartingWith(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -499,7 +499,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsNotStartingWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsNotStartingWith(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -517,7 +517,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsEndingWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsEndingWith(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -535,7 +535,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsNotEndingWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsNotEndingWith(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -553,7 +553,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringItContainsWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setItContains(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -571,7 +571,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringItNotContainsWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setItNotContains(
                                                                                  StringSingleComparisonData.newBuilder()
@@ -589,7 +589,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsInWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsIn(
                                                                                  StringListComparisonData.newBuilder()
@@ -608,7 +608,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAStringIsNotInWithComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.name,
+                                                     QDslProvider.provider.name,
                                                      StringComparisonData.newBuilder()
                                                                          .setIsNotIn(
                                                                                  StringListComparisonData.newBuilder()
@@ -627,7 +627,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAUnknownStringCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
         PredicateBuilder builder = PredicateBuilder.newInstance();
 
-        assertThatThrownBy(() -> builder.append(QProvider.provider.name, mockedStringComparisonData))
+        assertThatThrownBy(() -> builder.append(QDslProvider.provider.name, mockedStringComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -637,7 +637,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a enum not chosen comparison appended when calls build then expects empty")
     void givenABuilderWithAEnumNotChosenComparisonAppended_whenCallsBuild_thenExpectsEmpty() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.mechanism, EnumComparisonData.getDefaultInstance(), ProviderMechanism::valueOf)
+                                             .append(QDslProvider.provider.mechanism, EnumComparisonData.getDefaultInstance(), ProviderMechanism::valueOf)
                                              .build();
 
         assertThat(result).isEmpty();
@@ -648,7 +648,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAEnumIsNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.mechanism,
+                                                     QDslProvider.provider.mechanism,
                                                      EnumComparisonData.newBuilder().setIsNull(true).build(),
                                                      ProviderMechanism::valueOf
                                              )
@@ -662,7 +662,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAEnumIsNotNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.mechanism,
+                                                     QDslProvider.provider.mechanism,
                                                      EnumComparisonData.newBuilder().setIsNotNull(true).build(),
                                                      ProviderMechanism::valueOf
                                              )
@@ -676,7 +676,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAEnumIsEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.mechanism,
+                                                     QDslProvider.provider.mechanism,
                                                      EnumComparisonData.newBuilder()
                                                                        .setIsEqual(
                                                                                EnumSingleComparisonData.newBuilder()
@@ -696,7 +696,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAEnumIsNotEqualComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.mechanism,
+                                                     QDslProvider.provider.mechanism,
                                                      EnumComparisonData.newBuilder()
                                                                        .setIsNotEqual(
                                                                                EnumSingleComparisonData.newBuilder()
@@ -716,7 +716,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAEnumIsInComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.mechanism,
+                                                     QDslProvider.provider.mechanism,
                                                      EnumComparisonData.newBuilder()
                                                                        .setIsIn(
                                                                                EnumListComparisonData.newBuilder()
@@ -737,7 +737,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAEnumIsNotInComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.mechanism,
+                                                     QDslProvider.provider.mechanism,
                                                      EnumComparisonData.newBuilder()
                                                                        .setIsNotIn(
                                                                                EnumListComparisonData.newBuilder()
@@ -758,7 +758,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAUnknownEnumCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
         PredicateBuilder builder = PredicateBuilder.newInstance();
 
-        assertThatThrownBy(() -> builder.append(QProvider.provider.mechanism, mockedEnumComparisonData, ProviderMechanism::valueOf))
+        assertThatThrownBy(() -> builder.append(QDslProvider.provider.mechanism, mockedEnumComparisonData, ProviderMechanism::valueOf))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
@@ -768,7 +768,7 @@ class PredicateBuilderTest {
     @DisplayName("given a builder with a array not chosen comparison appended when calls build then expects empty")
     void givenABuilderWithAArrayNotChosenComparisonAppended_whenCallsBuild_thenExpectsEmpty() {
         Predicate[] result = PredicateBuilder.newInstance()
-                                             .append(QProvider.provider.logo, BytesComparisonData.newBuilder().build())
+                                             .append(QDslProvider.provider.logo, BytesComparisonData.newBuilder().build())
                                              .build();
 
         assertThat(result).isEmpty();
@@ -779,7 +779,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAArrayIsNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.logo,
+                                                     QDslProvider.provider.logo,
                                                      BytesComparisonData.newBuilder().setIsNull(true).build()
                                              )
                                              .build();
@@ -792,7 +792,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAArrayIsNotNullComparisonAppended_whenCallsBuild_thenExpects() {
         Predicate[] result = PredicateBuilder.newInstance()
                                              .append(
-                                                     QProvider.provider.logo,
+                                                     QDslProvider.provider.logo,
                                                      BytesComparisonData.newBuilder().setIsNotNull(true).build()
                                              )
                                              .build();
@@ -805,7 +805,7 @@ class PredicateBuilderTest {
     void givenABuilderWithAUnknownArrayCaseComparisonAppended_whenCallsBuild_thenExpectsException() {
         PredicateBuilder builder = PredicateBuilder.newInstance();
 
-        assertThatThrownBy(() -> builder.append(QProvider.provider.logo, mockedBytesComparisonData))
+        assertThatThrownBy(() -> builder.append(QDslProvider.provider.logo, mockedBytesComparisonData))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("Unknown comparison case");
