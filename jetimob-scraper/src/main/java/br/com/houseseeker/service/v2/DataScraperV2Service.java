@@ -3,6 +3,7 @@ package br.com.houseseeker.service.v2;
 import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.jetimob.v2.FilterOptionsMetadata;
 import br.com.houseseeker.domain.jetimob.v2.PropertyInfoMetadata;
+import br.com.houseseeker.domain.jetimob.v2.ScraperAnalysisProperties;
 import br.com.houseseeker.domain.jetimob.v2.SearchPageMetadata;
 import br.com.houseseeker.domain.property.UrbanPropertyContract;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
@@ -71,7 +72,9 @@ public class DataScraperV2Service extends AbstractDataScraperService {
             Retrofit retrofit
     ) {
         Api api = retrofit.create(Api.class);
-        Map<String, FilterOptionsMetadata> filterOptionsBySegmentMap = fetchSegmentsFilterOptions(api, providerMetadata);
+        ScraperAnalysisProperties scraperAnalysisProperties = providerParameters.getPropertyAs("analysisScope", ScraperAnalysisProperties.class)
+                                                                                .orElse(ScraperAnalysisProperties.DEFAULT);
+        Map<String, FilterOptionsMetadata> filterOptionsBySegmentMap = fetchSegmentsFilterOptions(api, providerMetadata, scraperAnalysisProperties);
         Map<String, List<PropertyInfoMetadata>> propertiesBySegmentMap = fetchSegmentsProperties(api, providerMetadata, filterOptionsBySegmentMap);
         List<PropertyInfoMetadata> mergedProperties = propertyMetadataMergeV2Service.merge(
                 propertiesBySegmentMap.values().stream().flatMap(Collection::stream).toList()
@@ -79,13 +82,18 @@ public class DataScraperV2Service extends AbstractDataScraperService {
         return generateResponse(providerMetadata, mergedProperties, metadataTransferV2Service::transfer);
     }
 
-    private Map<String, FilterOptionsMetadata> fetchSegmentsFilterOptions(Api api, ProviderMetadata providerMetadata) {
+    private Map<String, FilterOptionsMetadata> fetchSegmentsFilterOptions(
+            Api api,
+            ProviderMetadata providerMetadata,
+            ScraperAnalysisProperties analysisProperties
+    ) {
         log.info("Fetching filter options for segments ...");
         return FILTER_OPTIONS_SEGMENTS.parallelStream()
                                       .collect(Collectors.toMap(
                                               Pair::getKey,
                                               segment -> fetchSegmentFilterOptions(
                                                       api,
+                                                      analysisProperties,
                                                       providerMetadata.getSiteUrl(),
                                                       segment.getKey(),
                                                       segment.getValue()
@@ -93,12 +101,20 @@ public class DataScraperV2Service extends AbstractDataScraperService {
                                       ));
     }
 
-    private FilterOptionsMetadata fetchSegmentFilterOptions(Api api, String siteUrl, String segment, UrbanPropertyContract contract) {
+    private FilterOptionsMetadata fetchSegmentFilterOptions(
+            Api api,
+            ScraperAnalysisProperties analysisProperties,
+            String siteUrl,
+            String segment,
+            UrbanPropertyContract contract
+    ) {
         try {
             String url = new URIBuilder(siteUrl).appendPathSegments(segment).build().toString();
             try (var response = executeCall(api.getFilterOptions(url))) {
-                return filterOptionsV2ScraperService.scrap(response.string())
-                                                    .setContract(contract);
+                FilterOptionsMetadata filterOptionsMetadata = filterOptionsV2ScraperService.scrap(response.string());
+                return filterOptionsMetadata.setContract(contract)
+                                            .setCities(analysisProperties.applyCitiesFilter(filterOptionsMetadata.getCities()))
+                                            .setTypes(analysisProperties.applySubTypesFilter(filterOptionsMetadata.getTypes()));
             }
         } catch (IOException | URISyntaxException e) {
             throw new ExtendedRuntimeException(e, "Failed to fetch filter options for segment %s", segment);

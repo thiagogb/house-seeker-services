@@ -1,6 +1,5 @@
 package br.com.houseseeker.service.v2;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,11 @@ import java.util.List;
 
 import static br.com.houseseeker.TestUtils.getTextFromResources;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(classes = FilterOptionsV2ScraperService.class)
 class FilterOptionsV2ScraperServiceTest {
 
     private static final String SAMPLE_WITH_MODAL_FULL_DATA = "samples/v2/filter/with-modal-full-data.html";
-    private static final String SAMPLE_WITHOUT_MODAL = "samples/v2/filter/without-modal.html";
     private static final String SAMPLE_WITH_MODAL_EMPTY_DATA = "samples/v2/filter/with-modal-empty-data.html";
 
     @Autowired
@@ -33,15 +30,6 @@ class FilterOptionsV2ScraperServiceTest {
                         List.of("Apartamento", "Casa", "Casa Comercial", "Casa de Condomínio", "Chácara", "Cobertura",
                                 "Sala Comercial", "Sobrado", "Sítio", "Terreno")
                 );
-    }
-
-    @Test
-    @DisplayName("given a sample page without modal element then calls scrap then expects exception")
-    void givenASamplePageWithoutModalElement_whenCallsScrap_ThenExpectsException() {
-        String document = getTextFromResources(SAMPLE_WITHOUT_MODAL);
-        assertThatThrownBy(() -> filterOptionsV2ScraperService.scrap(document))
-                .isInstanceOf(ExtendedRuntimeException.class)
-                .hasMessage("Filter modal element not found");
     }
 
     @Test

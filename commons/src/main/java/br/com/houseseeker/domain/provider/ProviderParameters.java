@@ -2,6 +2,7 @@ package br.com.houseseeker.domain.provider;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +40,18 @@ public class ProviderParameters {
     ) {
         this.connection = Optional.ofNullable(connection).orElse(Connection.builder().build());
         this.properties = Optional.ofNullable(properties).orElse(new HashMap<>());
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> Optional<T> getPropertyAs(@NotNull String name, @NotNull Class<T> tClass) {
+        if (!properties.containsKey(name))
+            return Optional.empty();
+
+        try {
+            return Optional.ofNullable((T) properties.get(name));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @NoArgsConstructor

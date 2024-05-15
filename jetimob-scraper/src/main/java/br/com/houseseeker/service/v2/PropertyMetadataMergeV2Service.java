@@ -3,7 +3,6 @@ package br.com.houseseeker.service.v2;
 import br.com.houseseeker.domain.jetimob.v2.PropertyInfoMetadata;
 import br.com.houseseeker.domain.jetimob.v2.PropertyInfoMetadata.Pricing;
 import br.com.houseseeker.util.BigDecimalUtils;
-import br.com.houseseeker.util.ConverterUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
@@ -14,6 +13,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static br.com.houseseeker.util.ConverterUtils.tryToBigDecimalPtBR;
+import static br.com.houseseeker.util.StringUtils.keepOnlyNumericSymbols;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -60,8 +61,8 @@ public class PropertyMetadataMergeV2Service {
         if (isBlank(first) && isNotBlank(second))
             return second;
 
-        BigDecimal firstValue = ConverterUtils.tryToBigDecimalPtBR(first).orElse(BigDecimal.ZERO);
-        BigDecimal secondValue = ConverterUtils.tryToBigDecimalPtBR(second).orElse(BigDecimal.ZERO);
+        BigDecimal firstValue = tryToBigDecimalPtBR(keepOnlyNumericSymbols(first)).orElse(BigDecimal.ZERO);
+        BigDecimal secondValue = tryToBigDecimalPtBR(keepOnlyNumericSymbols(second)).orElse(BigDecimal.ZERO);
 
         return mergePriceValue(Pair.of(first, firstValue), Pair.of(second, secondValue));
     }
