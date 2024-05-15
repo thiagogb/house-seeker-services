@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNullElse;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -62,6 +63,15 @@ public class PropertyDetail {
             throw new ExtendedRuntimeException("Undefined type for detail with value: %s", String.join(",", value));
         }
 
+    }
+
+    public static Optional<PropertyDetail> findType(
+            @NotNull List<PropertyDetail> propertyDetails,
+            @NotNull PropertyDetail.Type type
+    ) {
+        return propertyDetails.stream()
+                              .filter(pd -> pd.getType().equals(type))
+                              .findFirst();
     }
 
 }

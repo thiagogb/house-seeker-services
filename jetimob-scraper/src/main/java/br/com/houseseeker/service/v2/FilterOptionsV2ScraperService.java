@@ -1,6 +1,5 @@
 package br.com.houseseeker.service.v2;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.jetimob.v2.FilterOptionsMetadata;
 import br.com.houseseeker.service.AbstractJsoupScraperService;
 import org.jsoup.nodes.Document;
@@ -17,12 +16,9 @@ public class FilterOptionsV2ScraperService extends AbstractJsoupScraperService<F
 
     @Override
     protected FilterOptionsMetadata scrapDocument(Document document) {
-        Element rootElement = Optional.ofNullable(document.selectFirst("div[aria-modal=true]"))
-                                      .orElseThrow(() -> new ExtendedRuntimeException("Filter modal element not found"));
-
         return FilterOptionsMetadata.builder()
-                                    .cities(extractCities(rootElement))
-                                    .types(extractTypes(rootElement))
+                                    .cities(extractCities(document))
+                                    .types(extractTypes(document))
                                     .build();
     }
 

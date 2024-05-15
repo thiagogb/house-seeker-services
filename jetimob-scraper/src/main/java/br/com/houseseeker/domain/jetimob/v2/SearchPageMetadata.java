@@ -2,6 +2,7 @@ package br.com.houseseeker.domain.jetimob.v2;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -14,8 +15,10 @@ public class SearchPageMetadata {
 
     @Data
     @Builder
+    @Accessors(chain = true)
     public static final class Item {
 
+        private String subType;
         private final String pageLink;
         private final String providerCode;
 

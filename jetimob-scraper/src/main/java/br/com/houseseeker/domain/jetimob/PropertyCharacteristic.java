@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Optional;
+
 import static java.util.Objects.requireNonNullElse;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
@@ -72,6 +75,15 @@ public class PropertyCharacteristic {
             throw new ExtendedRuntimeException("Undefined type for characteristic with value: %s", String.join(",", value));
         }
 
+    }
+
+    public static Optional<PropertyCharacteristic> findType(
+            @NotNull List<PropertyCharacteristic> characteristics,
+            @NotNull PropertyCharacteristic.Type type
+    ) {
+        return characteristics.stream()
+                              .filter(c -> c.getType().equals(type))
+                              .findFirst();
     }
 
 }
