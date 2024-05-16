@@ -16,7 +16,6 @@ import java.util.function.Function;
 
 import static br.com.houseseeker.util.ConverterUtils.tryToBigDecimalEnUs;
 import static br.com.houseseeker.util.ConverterUtils.tryToBigDecimalPtBR;
-import static br.com.houseseeker.util.ConverterUtils.tryToInteger;
 import static br.com.houseseeker.util.StringUtils.keepOnlyNumericSymbols;
 
 @Data
@@ -106,18 +105,6 @@ public class PropertyInfoMetadata {
                      .findFirst()
                      .flatMap(valueSupplier)
                      .orElse(null);
-    }
-
-    public Optional<Integer> getCharacteristicValueAsInteger(PropertyCharacteristic characteristic) {
-        return tryToInteger(keepOnlyNumericSymbols(characteristic.getValue()));
-    }
-
-    public Optional<BigDecimal> getCharacteristicValueAsBigDecimal(PropertyCharacteristic characteristic) {
-        return tryToBigDecimalEnUs(keepOnlyNumericSymbols(characteristic.getValue()));
-    }
-
-    public Optional<PropertyDetail> getDetailByType(@NotNull PropertyDetail.Type type) {
-        return PropertyDetail.findType(details, type);
     }
 
 }

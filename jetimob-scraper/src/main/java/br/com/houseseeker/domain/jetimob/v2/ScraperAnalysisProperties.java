@@ -1,11 +1,15 @@
 package br.com.houseseeker.domain.jetimob.v2;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -17,6 +21,12 @@ public class ScraperAnalysisProperties {
     private Scope cities = Scope.builder().build();
     @Builder.Default
     private Scope subTypes = Scope.builder().build();
+
+    @JsonCreator
+    public ScraperAnalysisProperties(@JsonProperty("cities") Scope cities, @JsonProperty("subTypes") Scope subTypes) {
+        this.cities = Optional.ofNullable(cities).orElse(Scope.builder().build());
+        this.subTypes = Optional.ofNullable(subTypes).orElse(Scope.builder().build());
+    }
 
     public List<String> applyCitiesFilter(List<String> values) {
         if (CollectionUtils.isEmpty(cities.values))
@@ -51,6 +61,11 @@ public class ScraperAnalysisProperties {
         @Builder.Default
         private List<String> values = new LinkedList<>();
 
+        @JsonCreator
+        public Scope(@JsonProperty("operation") Operation operation, @JsonProperty("values") List<String> values) {
+            this.operation = Optional.ofNullable(operation).orElse(Operation.NOT_IN);
+            this.values = Optional.ofNullable(values).orElse(Collections.emptyList());
+        }
     }
 
 }

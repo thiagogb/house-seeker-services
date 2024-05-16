@@ -10,6 +10,7 @@ import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.service.AbstractDataScraperService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.ResponseBody;
 import org.apache.commons.lang3.tuple.Pair;
@@ -44,6 +45,7 @@ public class DataScraperV2Service extends AbstractDataScraperService {
             Pair.of("imoveis-urbanos-alugar", UrbanPropertyContract.RENT)
     );
 
+    private final ObjectMapper objectMapper;
     private final FilterOptionsV2ScraperService filterOptionsV2ScraperService;
     private final SearchPageV2ScraperService searchPageV2ScraperService;
     private final PropertyPageV2ScraperService propertyPageV2ScraperService;
@@ -52,12 +54,14 @@ public class DataScraperV2Service extends AbstractDataScraperService {
 
     public DataScraperV2Service(
             Clock clock,
+            ObjectMapper objectMapper,
             FilterOptionsV2ScraperService filterOptionsV2ScraperService,
             SearchPageV2ScraperService searchPageV2ScraperService,
             PropertyPageV2ScraperService propertyPageV2ScraperService,
             PropertyMetadataMergeV2Service propertyMetadataMergeV2Service, MetadataTransferV2Service metadataTransferV2Service
     ) {
         super(clock);
+        this.objectMapper = objectMapper;
         this.filterOptionsV2ScraperService = filterOptionsV2ScraperService;
         this.searchPageV2ScraperService = searchPageV2ScraperService;
         this.propertyPageV2ScraperService = propertyPageV2ScraperService;
@@ -72,7 +76,11 @@ public class DataScraperV2Service extends AbstractDataScraperService {
             Retrofit retrofit
     ) {
         Api api = retrofit.create(Api.class);
-        ScraperAnalysisProperties scraperAnalysisProperties = providerParameters.getPropertyAs("analysisScope", ScraperAnalysisProperties.class)
+        ScraperAnalysisProperties scraperAnalysisProperties = providerParameters.getPropertyAs(
+                                                                                        objectMapper,
+                                                                                        "analysisScope",
+                                                                                        ScraperAnalysisProperties.class
+                                                                                )
                                                                                 .orElse(ScraperAnalysisProperties.DEFAULT);
         Map<String, FilterOptionsMetadata> filterOptionsBySegmentMap = fetchSegmentsFilterOptions(api, providerMetadata, scraperAnalysisProperties);
         Map<String, List<PropertyInfoMetadata>> propertiesBySegmentMap = fetchSegmentsProperties(api, providerMetadata, filterOptionsBySegmentMap);

@@ -20,7 +20,12 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static br.com.houseseeker.util.ConverterUtils.tryToBigDecimalEnUs;
+import static br.com.houseseeker.util.ConverterUtils.tryToInteger;
+import static br.com.houseseeker.util.StringUtils.keepOnlyNumericSymbols;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +64,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             @Override
             public Integer getDormitories() {
                 return metadata.extractCharacteristicsByTypes(
-                        metadata::getCharacteristicValueAsInteger,
+                        c -> getCharacteristicValueAsInteger(c),
                         PropertyCharacteristic.Type.DORMITORIES,
                         PropertyCharacteristic.Type.ROOMS
                 );
@@ -68,7 +73,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             @Override
             public Integer getSuites() {
                 return metadata.extractCharacteristicsByTypes(
-                        metadata::getCharacteristicValueAsInteger,
+                        c -> getCharacteristicValueAsInteger(c),
                         PropertyCharacteristic.Type.SUITES
                 );
             }
@@ -76,7 +81,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             @Override
             public Integer getBathrooms() {
                 return metadata.extractCharacteristicsByTypes(
-                        metadata::getCharacteristicValueAsInteger,
+                        c -> getCharacteristicValueAsInteger(c),
                         PropertyCharacteristic.Type.BATHROOMS
                 );
             }
@@ -84,7 +89,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             @Override
             public Integer getGarages() {
                 return metadata.extractCharacteristicsByTypes(
-                        metadata::getCharacteristicValueAsInteger,
+                        c -> getCharacteristicValueAsInteger(c),
                         PropertyCharacteristic.Type.GARAGES
                 );
             }
@@ -187,7 +192,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             @Override
             public BigDecimal getTotalArea() {
                 return metadata.extractCharacteristicsByTypes(
-                        metadata::getCharacteristicValueAsBigDecimal,
+                        c -> getCharacteristicValueAsBigDecimal(c),
                         PropertyCharacteristic.Type.TOTAL_AREA
                 );
             }
@@ -195,7 +200,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             @Override
             public BigDecimal getPrivateArea() {
                 return metadata.extractCharacteristicsByTypes(
-                        metadata::getCharacteristicValueAsBigDecimal,
+                        c -> getCharacteristicValueAsBigDecimal(c),
                         PropertyCharacteristic.Type.PRIVATE_AREA
                 );
             }
@@ -212,30 +217,30 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
 
             @Override
             public BigDecimal getTerrainFront() {
-                return metadata.getDetailByType(PropertyDetail.Type.MEASURES)
-                               .flatMap(PropertyTerrainSide.FRONT::extract)
-                               .orElse(null);
+                return PropertyDetail.findType(metadata.getDetails(), PropertyDetail.Type.MEASURES)
+                                     .flatMap(PropertyTerrainSide.FRONT::extract)
+                                     .orElse(null);
             }
 
             @Override
             public BigDecimal getTerrainBack() {
-                return metadata.getDetailByType(PropertyDetail.Type.MEASURES)
-                               .flatMap(PropertyTerrainSide.BACK::extract)
-                               .orElse(null);
+                return PropertyDetail.findType(metadata.getDetails(), PropertyDetail.Type.MEASURES)
+                                     .flatMap(PropertyTerrainSide.BACK::extract)
+                                     .orElse(null);
             }
 
             @Override
             public BigDecimal getTerrainLeft() {
-                return metadata.getDetailByType(PropertyDetail.Type.MEASURES)
-                               .flatMap(PropertyTerrainSide.LEFT::extract)
-                               .orElse(null);
+                return PropertyDetail.findType(metadata.getDetails(), PropertyDetail.Type.MEASURES)
+                                     .flatMap(PropertyTerrainSide.LEFT::extract)
+                                     .orElse(null);
             }
 
             @Override
             public BigDecimal getTerrainRight() {
-                return metadata.getDetailByType(PropertyDetail.Type.MEASURES)
-                               .flatMap(PropertyTerrainSide.RIGHT::extract)
-                               .orElse(null);
+                return PropertyDetail.findType(metadata.getDetails(), PropertyDetail.Type.MEASURES)
+                                     .flatMap(PropertyTerrainSide.RIGHT::extract)
+                                     .orElse(null);
             }
 
             @Override
@@ -253,6 +258,14 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
                 return ObjectMapperUtils.serialize(objectMapper, this);
             }
         };
+    }
+
+    private Optional<Integer> getCharacteristicValueAsInteger(PropertyCharacteristic characteristic) {
+        return tryToInteger(keepOnlyNumericSymbols(characteristic.getValue()));
+    }
+
+    private Optional<BigDecimal> getCharacteristicValueAsBigDecimal(PropertyCharacteristic characteristic) {
+        return tryToBigDecimalEnUs(keepOnlyNumericSymbols(characteristic.getValue()));
     }
 
     private List<AbstractUrbanPropertyMediaMetadata> transferMediaMetadata(List<PropertyInfoMetadata.Media> mediaList) {

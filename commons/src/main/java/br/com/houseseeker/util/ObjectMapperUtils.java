@@ -18,6 +18,14 @@ public class ObjectMapperUtils {
         }
     }
 
+    public <T> T convertAs(@NotNull ObjectMapper objectMapper, @NotNull Object object, @NotNull Class<T> tClass) {
+        try {
+            return objectMapper.convertValue(object, tClass);
+        } catch (IllegalArgumentException e) {
+            throw new ExtendedRuntimeException(e, "Content convert failed");
+        }
+    }
+
     public <T> String serialize(@NotNull ObjectMapper objectMapper, T object) {
         try {
             return objectMapper.writeValueAsString(object);
