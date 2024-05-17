@@ -1,7 +1,6 @@
 package br.com.houseseeker.repository;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
-import br.com.houseseeker.entity.Provider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ class UrbanPropertyLocationRepositoryTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a provider with existing property locations when calls findAllByProvider then expects five rows")
     void givenAProviderWithExistingPropertyLocations_whenCallsFindAllByProvider_thenReturnFiveRows() {
-        Provider provider = findProviderById(TEST_PROVIDER);
+        var provider = findProviderById(TEST_PROVIDER);
 
         assertThat(urbanPropertyLocationRepository.findAllByProvider(provider))
                 .extracting("urbanProperty.providerCode", "state", "city", "district")
@@ -30,6 +29,14 @@ class UrbanPropertyLocationRepositoryTest extends AbstractJpaIntegrationTest {
                         tuple("145687", "RS", "Santa Maria", "Camobi"),
                         tuple("3272", "RS", "Santa Maria", "Patronato")
                 );
+    }
+
+    @Test
+    @DisplayName("given a provider with property locations when calls deleteAllByProvider then expects")
+    void givenAProviderWithPropertyLocations_whenCallsDeleteAllByProvider_thenExpects() {
+        var provider = findProviderById(TEST_PROVIDER);
+
+        assertThat(urbanPropertyLocationRepository.deleteAllByProvider(provider)).isEqualTo(5);
     }
 
 }

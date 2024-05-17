@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "message/provider.proto";
+
+message UrbanPropertyData {
+  google.protobuf.Int32Value id = 1;
+  ProviderData provider = 2;
+  google.protobuf.StringValue provider_code = 3;
+  google.protobuf.StringValue url = 4;
+  google.protobuf.StringValue contract = 5;
+  optional google.protobuf.StringValue type = 6;
+  optional google.protobuf.StringValue sub_type = 7;
+  optional google.protobuf.Int32Value dormitories = 8;
+  optional google.protobuf.Int32Value suites = 9;
+  optional google.protobuf.Int32Value bathrooms = 10;
+  optional google.protobuf.Int32Value garages = 11;
+  optional google.protobuf.DoubleValue sell_price = 12;
+  optional google.protobuf.DoubleValue rent_price = 13;
+  optional google.protobuf.DoubleValue condominium_price = 14;
+  optional google.protobuf.StringValue condominium_name = 15;
+  optional google.protobuf.BoolValue exchangeable = 16;
+  optional google.protobuf.StringValue status = 17;
+  optional google.protobuf.BoolValue financeable = 18;
+  optional google.protobuf.BoolValue occupied = 19;
+  optional google.protobuf.StringValue notes = 20;
+  optional google.protobuf.StringValue creation_date = 21;
+  optional google.protobuf.StringValue last_analysis_date = 22;
+  optional google.protobuf.StringValue exclusion_date = 23;
+  optional google.protobuf.BoolValue analyzable = 24;
+}

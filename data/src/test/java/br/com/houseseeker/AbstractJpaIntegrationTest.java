@@ -2,6 +2,9 @@ package br.com.houseseeker;
 
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanProperty;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,6 +21,9 @@ public abstract class AbstractJpaIntegrationTest extends PostgreSQLIntegrationTe
 
     @Autowired
     private PlatformTransactionManager platformTransactionManager;
+
+    @Autowired
+    private JPAQueryFactory jpaQueryFactory;
 
     private TransactionStatus status;
 
@@ -46,6 +52,13 @@ public abstract class AbstractJpaIntegrationTest extends PostgreSQLIntegrationTe
         return entityManager.createQuery("select up from UrbanProperty up where up.id = :id", UrbanProperty.class)
                             .setParameter("id", id)
                             .getSingleResult();
+    }
+
+    protected final <T> long countBy(EntityPathBase<T> entityPath, Predicate... predicates) {
+        return jpaQueryFactory.select(entityPath.count())
+                              .from(entityPath)
+                              .where(predicates)
+                              .fetchFirst();
     }
 
 }

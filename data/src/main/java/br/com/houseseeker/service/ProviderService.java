@@ -26,6 +26,12 @@ public class ProviderService {
     private final ProviderRepository providerRepository;
     private final ProviderMapper providerMapper;
     private final EntityValidatorService entityValidatorService;
+    private final UrbanPropertyService urbanPropertyService;
+    private final UrbanPropertyLocationService urbanPropertyLocationService;
+    private final UrbanPropertyMeasureService urbanPropertyMeasureService;
+    private final UrbanPropertyConvenienceService urbanPropertyConvenienceService;
+    private final UrbanPropertyMediaService urbanPropertyMediaService;
+    private final UrbanPropertyPriceVariationService urbanPropertyPriceVariationService;
 
     @Transactional
     public Optional<Provider> findById(int id) {
@@ -47,10 +53,26 @@ public class ProviderService {
     @Transactional
     public Provider update(@NotNull ProviderData providerData) {
         int id = ProtoWrapperUtils.getValue(providerData.getId());
-        Provider provider = findById(id).orElseThrow(() -> new GrpcStatusException(Status.NOT_FOUND, "Provider %d not found", id));
+        Provider provider = findByIdOrThrowNotFound(id);
         providerMapper.copyToEntity(providerData, provider);
         entityValidatorService.validate(provider);
         return providerRepository.save(provider);
+    }
+
+    @Transactional
+    public void wipe(int id) {
+        Provider provider = findByIdOrThrowNotFound(id);
+        urbanPropertyLocationService.deleteAllByProvider(provider);
+        urbanPropertyMeasureService.deleteAllByProvider(provider);
+        urbanPropertyConvenienceService.deleteAll(urbanPropertyConvenienceService.findAllByProvider(provider));
+        urbanPropertyMediaService.deleteAll(urbanPropertyMediaService.findAllByProvider(provider));
+        urbanPropertyPriceVariationService.deleteAllByProvider(provider);
+        urbanPropertyService.deleteAllByProvider(provider);
+    }
+
+    private Provider findByIdOrThrowNotFound(int id) {
+        return providerRepository.findById(id)
+                                 .orElseThrow(() -> new GrpcStatusException(Status.NOT_FOUND, "Provider %d not found", id));
     }
 
 }

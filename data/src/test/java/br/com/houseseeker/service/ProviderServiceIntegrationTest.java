@@ -10,7 +10,12 @@ import br.com.houseseeker.domain.proto.OrderDetailsData;
 import br.com.houseseeker.domain.proto.OrderDirectionData;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
-import br.com.houseseeker.entity.Provider;
+import br.com.houseseeker.entity.QDslUrbanProperty;
+import br.com.houseseeker.entity.QDslUrbanPropertyConvenience;
+import br.com.houseseeker.entity.QDslUrbanPropertyLocation;
+import br.com.houseseeker.entity.QDslUrbanPropertyMeasure;
+import br.com.houseseeker.entity.QDslUrbanPropertyMedia;
+import br.com.houseseeker.entity.QDslUrbanPropertyPriceVariation;
 import br.com.houseseeker.mock.ProviderDataMocks;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.ClausesData;
@@ -24,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 
 import java.util.Locale;
 
@@ -36,7 +40,8 @@ import static org.assertj.core.groups.Tuple.tuple;
 
 class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
 
-    private static final int TEST_PROVIDER_ID = 10002;
+    private static final int TEST_PROVIDER_10000 = 10000;
+    private static final int TEST_PROVIDER_10002 = 10002;
 
     private static final ProviderData TEST_PROVIDER_DATA = ProviderDataMocks.testProviderWithId(1);
 
@@ -57,7 +62,7 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a existing provider when calls findById then expects present")
     void givenAExistingProvider_whenCallsFindById_thenExpectsPresent() {
-        assertThat(providerService.findById(TEST_PROVIDER_ID)).isPresent();
+        assertThat(providerService.findById(TEST_PROVIDER_10002)).isPresent();
     }
 
     @Test
@@ -112,7 +117,7 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
                                              )
                                              .build();
 
-        Page<Provider> result = providerService.findBy(request);
+        var result = providerService.findBy(request);
 
         assertThat(result.getContent())
                 .extracting("id", "name", "mechanism")
@@ -143,7 +148,7 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a invalid proto data when calls insert then expects exception")
     void givenAInvalidProtoData_whenCallsInsert_thenExpectsException() {
-        ProviderData providerData = ProviderData.getDefaultInstance();
+        var providerData = ProviderData.getDefaultInstance();
 
         assertThatThrownBy(() -> providerService.insert(providerData))
                 .isInstanceOf(GrpcStatusException.class)
@@ -176,7 +181,7 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a non existing provider id when calls update then expects exception")
     void givenANonExistingProviderId_whenCallsUpdate_thenExpectsException() {
-        ProviderData providerData = TEST_PROVIDER_DATA.toBuilder().setId(Int32Value.of(999999)).build();
+        var providerData = TEST_PROVIDER_DATA.toBuilder().setId(Int32Value.of(999999)).build();
 
         assertThatThrownBy(() -> providerService.update(providerData))
                 .isInstanceOf(GrpcStatusException.class)
@@ -187,9 +192,9 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a invalid proto data when calls update then expects exception")
     void givenAInvalidProtoData_whenCallsUpdate_thenExpectsException() {
-        ProviderData providerData = ProviderData.newBuilder()
-                                                .setId(Int32Value.of(TEST_PROVIDER_ID))
-                                                .build();
+        var providerData = ProviderData.newBuilder()
+                                       .setId(Int32Value.of(TEST_PROVIDER_10002))
+                                       .build();
 
         assertThatThrownBy(() -> providerService.update(providerData))
                 .isInstanceOf(GrpcStatusException.class)
@@ -222,13 +227,13 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a proto data when calls update then expects")
     void givenAProtoData_whenCallsUpdate_thenExpects() {
-        ProviderData providerData = TEST_PROVIDER_DATA.toBuilder().setId(Int32Value.of(TEST_PROVIDER_ID)).build();
+        var providerData = TEST_PROVIDER_DATA.toBuilder().setId(Int32Value.of(TEST_PROVIDER_10002)).build();
 
         assertThat(providerService.update(providerData))
                 .hasNoNullFieldsOrProperties()
                 .extracting(ArrayUtils.insert(0, EXTRACTED_ATTRIBUTES, "id"))
                 .containsExactly(
-                        TEST_PROVIDER_ID,
+                        TEST_PROVIDER_10002,
                         TEST_PROVIDER_DATA.getName().getValue(),
                         TEST_PROVIDER_DATA.getSiteUrl().getValue(),
                         TEST_PROVIDER_DATA.getDataUrl().getValue(),
@@ -238,6 +243,63 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
                         TEST_PROVIDER_DATA.getLogo().getValue().toByteArray(),
                         TEST_PROVIDER_DATA.getActive().getValue()
                 );
+    }
+
+    @Test
+    @DisplayName("given a existing provider with associated data when calls wipe then expects")
+    void givenAExistingProviderWithAssociatedData_whenCallsWipe_thenExpects() {
+        providerService.wipe(TEST_PROVIDER_10000);
+
+        assertThat(
+                countBy(
+                        QDslUrbanProperty.urbanProperty,
+                        QDslUrbanProperty.urbanProperty.provider.id.eq(TEST_PROVIDER_10000)
+                )
+        ).isZero();
+
+        assertThat(
+                countBy(
+                        QDslUrbanPropertyLocation.urbanPropertyLocation,
+                        QDslUrbanPropertyLocation.urbanPropertyLocation.urbanProperty.provider.id.eq(TEST_PROVIDER_10000)
+                )
+        ).isZero();
+
+        assertThat(
+                countBy(
+                        QDslUrbanPropertyMeasure.urbanPropertyMeasure,
+                        QDslUrbanPropertyMeasure.urbanPropertyMeasure.urbanProperty.provider.id.eq(TEST_PROVIDER_10000)
+                )
+        ).isZero();
+
+        assertThat(
+                countBy(
+                        QDslUrbanPropertyConvenience.urbanPropertyConvenience,
+                        QDslUrbanPropertyConvenience.urbanPropertyConvenience.urbanProperty.provider.id.eq(TEST_PROVIDER_10000)
+                )
+        ).isZero();
+
+        assertThat(
+                countBy(
+                        QDslUrbanPropertyMedia.urbanPropertyMedia,
+                        QDslUrbanPropertyMedia.urbanPropertyMedia.urbanProperty.provider.id.eq(TEST_PROVIDER_10000)
+                )
+        ).isZero();
+
+        assertThat(
+                countBy(
+                        QDslUrbanPropertyPriceVariation.urbanPropertyPriceVariation,
+                        QDslUrbanPropertyPriceVariation.urbanPropertyPriceVariation.urbanProperty.provider.id.eq(TEST_PROVIDER_10000)
+                )
+        ).isZero();
+    }
+
+    @Test
+    @DisplayName("given a non existing provider when calls wipe then expects exception")
+    void givenANonExistingProvider_whenCallsWipe_thenExpectsException() {
+        assertThatThrownBy(() -> providerService.wipe(999999))
+                .isInstanceOf(GrpcStatusException.class)
+                .hasFieldOrPropertyWithValue("status", Status.NOT_FOUND)
+                .hasMessage("Provider 999999 not found");
     }
 
 }

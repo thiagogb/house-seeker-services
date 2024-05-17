@@ -28,4 +28,9 @@ public class UrbanPropertyPriceVariationService {
         return urbanPropertyPriceVariationRepository.saveAll(urbanPropertyPriceVariations);
     }
 
+    @Transactional
+    public int deleteAllByProvider(@NotNull Provider provider) {
+        return urbanPropertyPriceVariationRepository.deleteAllByProvider(provider);
+    }
+
 }

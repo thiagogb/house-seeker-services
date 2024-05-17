@@ -1,7 +1,6 @@
 package br.com.houseseeker.repository;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
-import br.com.houseseeker.entity.Provider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ class UrbanPropertyMeasureRepositoryTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a provider with existing property measures when calls findAllByProvider then expects five rows")
     void givenAProviderWithExistingPropertyMeasures_whenCallsFindAllByProvider_thenReturnFiveRows() {
-        Provider provider = findProviderById(TEST_PROVIDER);
+        var provider = findProviderById(TEST_PROVIDER);
 
         assertThat(urbanPropertyMeasureRepository.findAllByProvider(provider))
                 .extracting(
@@ -45,6 +44,14 @@ class UrbanPropertyMeasureRepositoryTest extends AbstractJpaIntegrationTest {
                         tuple("3272", null, new BigDecimal("347.00"), null, new BigDecimal("500.00"), new BigDecimal("25.00"),
                               new BigDecimal("25.00"), new BigDecimal("25.00"), new BigDecimal("25.00"), "m²")
                 );
+    }
+
+    @Test
+    @DisplayName("given a provider with property measures when calls deleteAllByProvider then expects")
+    void givenAProviderWithPropertyMeasures_whenCallsDeleteAllByProvider_thenExpects() {
+        var provider = findProviderById(TEST_PROVIDER);
+
+        assertThat(urbanPropertyMeasureRepository.deleteAllByProvider(provider)).isEqualTo(5);
     }
 
 }
