@@ -1,14 +1,12 @@
 package br.com.houseseeker.service;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
-import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyMeasure;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +22,7 @@ class UrbanPropertyMeasureServiceIntegrationTest extends AbstractJpaIntegrationT
     @Test
     @DisplayName("given a provider with existing property measures when calls findAllByProvider then expects five rows")
     void givenAProviderWithExistingPropertyMeasures_whenCallsFindAllByProvider_thenReturnFiveRows() {
-        Provider provider = findProviderById(TEST_PROVIDER);
+        var provider = findProviderById(TEST_PROVIDER);
 
         assertThat(urbanPropertyMeasureService.findAllByProvider(provider))
                 .extracting(
@@ -53,14 +51,22 @@ class UrbanPropertyMeasureServiceIntegrationTest extends AbstractJpaIntegrationT
     @Test
     @DisplayName("given a batch of property measures to save when calls saveAll then expects to save all and return")
     void givenABatchOfPropertyMeasuresToSave_whenCallsSaveAll_thenExpectsToSaveAllAndReturn() {
-        List<UrbanPropertyMeasure> urbanPropertyMeasures = IntStream.rangeClosed(10000, 10004)
-                                                                    .mapToObj(id -> UrbanPropertyMeasure.builder()
-                                                                                                        .urbanProperty(findUrbanPropertyById(id))
-                                                                                                        .build()
-                                                                    )
-                                                                    .toList();
+        var urbanPropertyMeasures = IntStream.rangeClosed(10000, 10004)
+                                             .mapToObj(id -> UrbanPropertyMeasure.builder()
+                                                                                 .urbanProperty(findUrbanPropertyById(id))
+                                                                                 .build()
+                                             )
+                                             .toList();
 
         assertThat(urbanPropertyMeasureService.saveAll(urbanPropertyMeasures)).hasSize(5);
+    }
+
+    @Test
+    @DisplayName("given a provider with property measures when calls deleteAllByProvider then expects")
+    void givenAProviderWithPropertyMeasures_whenCallsDeleteAllByProvider_thenExpects() {
+        var provider = findProviderById(TEST_PROVIDER);
+
+        assertThat(urbanPropertyMeasureService.deleteAllByProvider(provider)).isEqualTo(5);
     }
 
 }

@@ -26,6 +26,16 @@ public class RabbitMqJetimobConfiguration {
     }
 
     @Bean
+    public Queue scraperJetimobQueueV2Queue(Binding deadLetterQueueBinding) {
+        return new Queue("scraper.jetimob.v2.queue", true, false, false, getDeadLetterParamsUsingBinding(deadLetterQueueBinding));
+    }
+
+    @Bean
+    public Binding scraperJetimobQueueV2QueueBinding(TopicExchange topicExchange, Queue scraperJetimobQueueV2Queue) {
+        return BindingBuilder.bind(scraperJetimobQueueV2Queue).to(topicExchange).with("scraper.jetimob.v2");
+    }
+
+    @Bean
     public Queue scraperJetimobQueueV4Queue(Binding deadLetterQueueBinding) {
         return new Queue("scraper.jetimob.v4.queue", true, false, false, getDeadLetterParamsUsingBinding(deadLetterQueueBinding));
     }

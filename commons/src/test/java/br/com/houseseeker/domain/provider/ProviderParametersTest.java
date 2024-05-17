@@ -2,6 +2,7 @@ package br.com.houseseeker.domain.provider;
 
 import br.com.houseseeker.configuration.ObjectMapperConfiguration;
 import br.com.houseseeker.util.ObjectMapperUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.junit.jupiter.api.DisplayName;
@@ -85,6 +86,46 @@ class ProviderParametersTest {
                         5000,
                         Map.of("prop1", "value", "prop2", 1, "prop3", true)
                 );
+    }
+
+    @Test
+    @DisplayName("given a json object with properties attributes when calls getPropertyAs then expects")
+    void givenAJsonObjectWithPropertiesAttributes_whenCallsGetPropertyAs_thenExpects() {
+        String json = """
+                {
+                  "properties": {
+                    "prop1": "value",
+                    "prop2": 1,
+                    "prop3": true,
+                    "prop4": [1, 2, 3],
+                    "prop5": ["a", "b", "c"],
+                    "prop6": {"id": 1, "name": "value"}
+                  }
+                }
+                """;
+
+        ProviderParameters providerParameters = ObjectMapperUtils.deserializeAs(objectMapper, json, ProviderParameters.class);
+
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop1", String.class)).hasValue("value");
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop2", Integer.class)).hasValue(1);
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop3", Boolean.class)).hasValue(true);
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop4", List.class)).hasValue(List.of(1, 2, 3));
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop5", List.class)).hasValue(List.of("a", "b", "c"));
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop6", TestPropClass.class))
+                .isPresent()
+                .get()
+                .extracting("id", "name")
+                .containsExactly(1, "value");
+        assertThat(providerParameters.getPropertyAs(objectMapper, "prop7", Integer.class)).isEmpty();
+    }
+
+    private static final class TestPropClass {
+
+        @JsonProperty
+        private Integer id;
+        @JsonProperty
+        private String name;
+
     }
 
 }

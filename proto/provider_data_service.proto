@@ -4,6 +4,7 @@ option java_package = "br.com.houseseeker.service.proto";
 option java_multiple_files = true;
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
 import "message/request_commons.proto";
 import "message/response_commons.proto";
 import "message/comparison_commons.proto";
@@ -11,15 +12,15 @@ import "message/provider.proto";
 
 message GetProvidersDataRequest {
   message ProjectionsData {
-    bool id = 1;
-    bool name = 2;
-    bool site_url = 3;
-    bool data_url = 4;
-    bool mechanism = 5;
-    bool params = 6;
-    bool cron_expression = 7;
-    bool logo = 8;
-    bool active = 9;
+    optional bool id = 1;
+    optional bool name = 2;
+    optional bool site_url = 3;
+    optional bool data_url = 4;
+    optional bool mechanism = 5;
+    optional bool params = 6;
+    optional bool cron_expression = 7;
+    optional bool logo = 8;
+    optional bool active = 9;
   }
   message ClausesData {
     optional Int32ComparisonData id = 1;
@@ -51,8 +52,14 @@ message GetProvidersDataResponse {
   PaginationResponseData pagination = 2;
 }
 
+message GetProviderMechanismsResponse {
+  repeated string providerMechanisms = 1;
+}
+
 service ProviderDataService {
   rpc GetProviders(GetProvidersDataRequest) returns (GetProvidersDataResponse);
+  rpc GetProviderMechanisms(google.protobuf.Empty) returns (GetProviderMechanismsResponse);
   rpc InsertProvider(ProviderData) returns (ProviderData);
   rpc UpdateProvider(ProviderData) returns (ProviderData);
+  rpc WipeProvider(google.protobuf.Int32Value) returns (google.protobuf.Empty);
 }

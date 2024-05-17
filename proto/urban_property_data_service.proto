@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "message/urban_property.proto";
+
+message GetUrbanPropertiesRequest {
+  message ProjectionsData {
+    optional bool id = 1;
+    optional bool provider = 2;
+    optional bool provider_code = 3;
+    optional bool url = 4;
+    optional bool contract = 5;
+    optional bool type = 6;
+    optional bool sub_type = 7;
+    optional bool dormitories = 8;
+    optional bool suites = 9;
+    optional bool bathrooms = 10;
+    optional bool garages = 11;
+    optional bool sell_price = 12;
+    optional bool rent_price = 13;
+    optional bool condominium_price = 14;
+    optional bool condominium_name = 15;
+    optional bool exchangeable = 16;
+    optional bool status = 17;
+    optional bool financeable = 18;
+    optional bool occupied = 19;
+    optional bool notes = 20;
+    optional bool creation_date = 21;
+    optional bool last_analysis_date = 22;
+    optional bool exclusion_date = 23;
+    optional bool analyzable = 24;
+  }
+  message ClausesData {
+    optional Int32ComparisonData id = 1;
+  }
+  message OrdersData {
+    optional OrderDetailsData id = 1;
+  }
+  optional ProjectionsData projections = 1;
+  optional ClausesData clauses = 2;
+  optional PaginationRequestData pagination = 3;
+  optional OrdersData orders = 4;
+}
+
+message GetUrbanPropertiesResponse {
+  repeated UrbanPropertyData urbanProperties = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service UrbanPropertyDataService {
+  rpc GetUrbanProperties(GetUrbanPropertiesRequest) returns (GetUrbanPropertiesResponse);
+}

@@ -7,15 +7,18 @@ import br.com.houseseeker.domain.proto.OrderDirectionData;
 import br.com.houseseeker.domain.proto.PaginationRequestData;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.mock.ProviderDataMocks;
+import br.com.houseseeker.service.proto.GetProviderMechanismsResponse;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.ProjectionsData;
 import br.com.houseseeker.service.proto.GetProvidersDataResponse;
 import com.google.protobuf.BoolValue;
+import com.google.protobuf.Empty;
 import com.google.protobuf.Int32Value;
 import com.google.protobuf.StringValue;
 import io.grpc.Status;
 import io.grpc.StatusException;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +62,7 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
                                                                           .build()
                                              )
                                              .build();
-        TestStreamObserver<GetProvidersDataResponse> responseObserver = new TestStreamObserver<>();
+        var responseObserver = new TestStreamObserver<GetProvidersDataResponse>();
 
         providerGrpcDataService.getProviders(request, responseObserver);
 
@@ -81,10 +84,34 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
     }
 
     @Test
+    @DisplayName("given existing provider mechanisms when calls getProviderMechanisms then expects")
+    void givenExistingProviderMechanisms_whenCallsGetProviderMechanisms_thenExpects() {
+        var request = Empty.getDefaultInstance();
+        var responseObserver = new TestStreamObserver<GetProviderMechanismsResponse>();
+
+        providerGrpcDataService.getProviderMechanisms(request, responseObserver);
+
+        assertThat(responseObserver)
+                .satisfies(ro -> assertThat(ro.getValue())
+                        .extracting(GetProviderMechanismsResponse::getProviderMechanismsList, InstanceOfAssertFactories.LIST)
+                        .containsExactly(
+                                "UNIVERSAL_SOFTWARE",
+                                "JETIMOB_V1",
+                                "JETIMOB_V2",
+                                "JETIMOB_V3",
+                                "JETIMOB_V4",
+                                "SUPER_LOGICA",
+                                "ALAN_WGT"
+                        )
+                )
+                .satisfies(ro -> assertThat(ro.getThrowable()).isNull());
+    }
+
+    @Test
     @DisplayName("given a invalid provider data when calls insertProvider then expects observer to catch error")
     void givenAInvalidProviderData_whenCallsInsertProvider_thenExpectsObserverToCatchErrors() {
-        ProviderData providerData = ProviderData.getDefaultInstance();
-        TestStreamObserver<ProviderData> responseObserver = new TestStreamObserver<>();
+        var providerData = ProviderData.getDefaultInstance();
+        var responseObserver = new TestStreamObserver<ProviderData>();
 
         providerGrpcDataService.insertProvider(providerData, responseObserver);
 
@@ -99,11 +126,11 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a valid provider data when calls insertProvider then expects observer to catch response")
     void givenAValidProviderData_whenCallsInsertProvider_thenExpectsObserverToCatchResponse() {
-        ProviderData providerData = ProviderDataMocks.testProviderWithId(1)
-                                                     .toBuilder()
-                                                     .setId(Int32Value.getDefaultInstance())
-                                                     .build();
-        TestStreamObserver<ProviderData> responseObserver = new TestStreamObserver<>();
+        var providerData = ProviderDataMocks.testProviderWithId(1)
+                                            .toBuilder()
+                                            .setId(Int32Value.getDefaultInstance())
+                                            .build();
+        var responseObserver = new TestStreamObserver<ProviderData>();
 
         providerGrpcDataService.insertProvider(providerData, responseObserver);
 
@@ -128,8 +155,8 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a provider data with invalid id reference when calls updateProvider then expects observer to catch error")
     void givenAProviderDataWithInvalidIdReference_whenCallsUpdateProvider_thenExpectsObserverToCatchErrors() {
-        ProviderData providerData = ProviderData.newBuilder().setId(Int32Value.of(999999)).build();
-        TestStreamObserver<ProviderData> responseObserver = new TestStreamObserver<>();
+        var providerData = ProviderData.newBuilder().setId(Int32Value.of(999999)).build();
+        var responseObserver = new TestStreamObserver<ProviderData>();
 
         providerGrpcDataService.updateProvider(providerData, responseObserver);
 
@@ -144,8 +171,8 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a invalid provider data when calls updateProvider then expects observer to catch error")
     void givenAInvalidProviderData_whenCallsUpdateProvider_thenExpectsObserverToCatchErrors() {
-        ProviderData providerData = ProviderData.newBuilder().setId(Int32Value.of(10000)).build();
-        TestStreamObserver<ProviderData> responseObserver = new TestStreamObserver<>();
+        var providerData = ProviderData.newBuilder().setId(Int32Value.of(10000)).build();
+        var responseObserver = new TestStreamObserver<ProviderData>();
 
         providerGrpcDataService.updateProvider(providerData, responseObserver);
 
@@ -160,8 +187,8 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
     @Test
     @DisplayName("given a valid provider data when calls updateProvider then expects observer to catch response")
     void givenAValidProviderData_whenCallsUpdateProvider_thenExpectsObserverToCatchResponse() {
-        ProviderData providerData = ProviderDataMocks.testProviderWithId(10000);
-        TestStreamObserver<ProviderData> responseObserver = new TestStreamObserver<>();
+        var providerData = ProviderDataMocks.testProviderWithId(10000);
+        var responseObserver = new TestStreamObserver<ProviderData>();
 
         providerGrpcDataService.updateProvider(providerData, responseObserver);
 
@@ -181,6 +208,30 @@ class ProviderGrpcDataServiceTest extends AbstractJpaIntegrationTest {
                         )
                 )
                 .satisfies(ro -> assertThat(ro.getThrowable()).isNull());
+    }
+
+    @Test
+    @DisplayName("given a existing provider with associated data when calls wipeProvider then expects")
+    void givenAExistingProviderWithAssociatedData_whenCallsWipeProvider_thenExpects() {
+        var request = Int32Value.of(10000);
+        var responseObserver = new TestStreamObserver<Empty>();
+
+        providerGrpcDataService.wipeProvider(request, responseObserver);
+
+        assertThat(responseObserver.getThrowable()).isNull();
+    }
+
+    @Test
+    @DisplayName("given a non existing provider when calls wipeProvider then expects")
+    void givenANonExistingProvider_whenCallsWipeProvider_thenExpects() {
+        var request = Int32Value.of(999999);
+        var responseObserver = new TestStreamObserver<Empty>();
+
+        providerGrpcDataService.wipeProvider(request, responseObserver);
+
+        assertThat(responseObserver.getThrowable())
+                .isInstanceOf(StatusException.class)
+                .hasFieldOrPropertyWithValue("status.code", Status.NOT_FOUND.getCode());
     }
 
 }

@@ -1,13 +1,11 @@
 package br.com.houseseeker.service;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
-import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyLocation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +21,7 @@ class UrbanPropertyLocationServiceIntegrationTest extends AbstractJpaIntegration
     @Test
     @DisplayName("given a provider with existing property locations when calls findAllByProvider then expects five rows")
     void givenAProviderWithExistingPropertyLocations_whenCallsFindAllByProvider_thenReturnFiveRows() {
-        Provider provider = findProviderById(TEST_PROVIDER);
+        var provider = findProviderById(TEST_PROVIDER);
 
         assertThat(urbanPropertyLocationService.findAllByProvider(provider))
                 .extracting("urbanProperty.providerCode", "state", "city", "district")
@@ -39,14 +37,22 @@ class UrbanPropertyLocationServiceIntegrationTest extends AbstractJpaIntegration
     @Test
     @DisplayName("given a batch of property locations to save when calls saveAll then expects to save all and return")
     void givenABatchOfPropertyLocationsToSave_whenCallsSaveAll_thenExpectsToSaveAllAndReturn() {
-        List<UrbanPropertyLocation> urbanPropertyLocations = IntStream.rangeClosed(10000, 10004)
-                                                                      .mapToObj(id -> UrbanPropertyLocation.builder()
-                                                                                                           .urbanProperty(findUrbanPropertyById(id))
-                                                                                                           .build()
-                                                                      )
-                                                                      .toList();
+        var urbanPropertyLocations = IntStream.rangeClosed(10000, 10004)
+                                              .mapToObj(id -> UrbanPropertyLocation.builder()
+                                                                                   .urbanProperty(findUrbanPropertyById(id))
+                                                                                   .build()
+                                              )
+                                              .toList();
 
         assertThat(urbanPropertyLocationService.saveAll(urbanPropertyLocations)).hasSize(5);
+    }
+
+    @Test
+    @DisplayName("given a provider with property locations when calls deleteAllByProvider then expects")
+    void givenAProviderWithPropertyLocations_whenCallsDeleteAllByProvider_thenExpects() {
+        var provider = findProviderById(TEST_PROVIDER);
+
+        assertThat(urbanPropertyLocationService.deleteAllByProvider(provider)).isEqualTo(5);
     }
 
 }

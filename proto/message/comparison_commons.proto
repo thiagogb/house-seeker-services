@@ -46,6 +46,30 @@ message Int32ComparisonData {
   }
 }
 
+message DoubleSingleComparisonData {
+  double value = 1;
+}
+
+message DoubleIntervalComparisonData {
+  double start = 1;
+  double end = 2;
+}
+
+message DoubleComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+    DoubleSingleComparisonData is_equal = 3;
+    DoubleSingleComparisonData is_not_equal = 4;
+    DoubleSingleComparisonData is_greater = 5;
+    DoubleSingleComparisonData is_greater_or_equal = 6;
+    DoubleSingleComparisonData is_lesser = 7;
+    DoubleSingleComparisonData is_lesser_or_equal = 8;
+    DoubleIntervalComparisonData is_between = 9;
+    DoubleIntervalComparisonData is_not_between = 10;
+  }
+}
+
 message StringSingleComparisonData {
   string value = 1;
 }

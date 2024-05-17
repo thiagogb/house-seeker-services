@@ -28,4 +28,9 @@ public class UrbanPropertyService {
         return urbanPropertyRepository.saveAll(urbanProperties);
     }
 
+    @Transactional
+    public int deleteAllByProvider(@NotNull Provider provider) {
+        return urbanPropertyRepository.deleteAllByProvider(provider);
+    }
+
 }

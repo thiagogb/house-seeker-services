@@ -25,4 +25,8 @@ public class BigDecimalUtils {
         return value1.compareTo(value2) == 0;
     }
 
+    public boolean isGreaterOrEqual(@NotNull BigDecimal value1, @NotNull BigDecimal value2) {
+        return value1.compareTo(value2) >= 0;
+    }
+
 }
