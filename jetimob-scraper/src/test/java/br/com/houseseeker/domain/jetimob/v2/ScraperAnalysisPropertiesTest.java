@@ -50,6 +50,7 @@ class ScraperAnalysisPropertiesTest {
                                                           .build();
 
         assertThat(analysisProperties.applyCitiesFilter(List.of("Caxias do Sul", "Pelotas", "Porto Alegre", "Santa Maria")))
+                .isNotEmpty()
                 .doesNotContainAnyElementsOf(SAMPLE_CITIES);
     }
 
@@ -89,6 +90,7 @@ class ScraperAnalysisPropertiesTest {
                                                           .build();
 
         assertThat(analysisProperties.applySubTypesFilter(List.of("Apartamento", "Casa", "Kitnet", "Sobrado", "Terreno")))
+                .isNotEmpty()
                 .doesNotContainAnyElementsOf(SAMPLE_SUBTYPES);
     }
 
