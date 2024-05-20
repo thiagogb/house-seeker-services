@@ -1,0 +1,27 @@
+input IntegerInput {
+    value: Int!
+}
+
+input IntegerIntervalInput {
+    start: Int!
+    end: Int!
+}
+
+input IntegerListInput {
+    values: [Int!]!
+}
+
+input IntegerClauseInput {
+    isNull: Boolean,
+    isNotNull: Boolean,
+    isEqual: IntegerInput
+    isNotEqual: IntegerInput
+    isGreater: IntegerInput
+    isGreaterOrEqual: IntegerInput
+    isLesser: IntegerInput
+    isLesserOrEqual: IntegerInput
+    isBetween: IntegerIntervalInput,
+    isNotBetween: IntegerIntervalInput,
+    isIn: IntegerListInput,
+    isNotIn: IntegerListInput
+}

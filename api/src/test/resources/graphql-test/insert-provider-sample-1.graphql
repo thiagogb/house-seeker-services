@@ -1,0 +1,16 @@
+mutation {
+    insertProvider(input: {
+        name: "Test provider",
+        siteUrl: "http://localhost",
+        mechanism: JETIMOB_V1,
+        cronExpression: "* * *",
+        active: true
+    }){
+        id,
+        name,
+        siteUrl,
+        mechanism,
+        cronExpression,
+        active
+    }
+}

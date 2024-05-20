@@ -1,0 +1,14 @@
+query  {
+    providers {
+        rows {
+            id
+            name
+            active
+        }
+        pagination {
+            pageNumber
+            pageSize
+            totalPages
+        }
+    }
+}

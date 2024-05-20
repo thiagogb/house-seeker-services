@@ -1,0 +1,6 @@
+type PaginationOutput {
+    pageNumber: Int!
+    pageSize: Int!
+    totalPages: Int!
+    totalRows: Int!
+}

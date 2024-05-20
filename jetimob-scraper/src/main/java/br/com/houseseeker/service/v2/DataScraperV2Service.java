@@ -1,6 +1,5 @@
 package br.com.houseseeker.service.v2;
 
-import br.com.houseseeker.domain.exception.ExtendedRuntimeException;
 import br.com.houseseeker.domain.jetimob.v2.FilterOptionsMetadata;
 import br.com.houseseeker.domain.jetimob.v2.PropertyInfoMetadata;
 import br.com.houseseeker.domain.jetimob.v2.ScraperAnalysisProperties;
@@ -12,59 +11,47 @@ import br.com.houseseeker.domain.provider.ProviderScraperResponse;
 import br.com.houseseeker.service.AbstractDataScraperService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.ResponseBody;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.stereotype.Service;
-import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.http.GET;
-import retrofit2.http.Url;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static br.com.houseseeker.util.RetrofitUtils.executeCall;
 
 @Service
 @Slf4j
 public class DataScraperV2Service extends AbstractDataScraperService {
 
-    private static final List<Pair<String, UrbanPropertyContract>> FILTER_OPTIONS_SEGMENTS = List.of(
-            Pair.of("imoveis-plus-comprar", UrbanPropertyContract.SELL),
-            Pair.of("imoveis-plus-alugar", UrbanPropertyContract.RENT),
-            Pair.of("imoveis-urbanos-comprar", UrbanPropertyContract.SELL),
-            Pair.of("imoveis-urbanos-alugar", UrbanPropertyContract.RENT)
+    private static final Map<String, UrbanPropertyContract> FILTER_OPTIONS_SEGMENTS = Map.of(
+            "imoveis-plus-comprar", UrbanPropertyContract.SELL,
+            "imoveis-plus-alugar", UrbanPropertyContract.RENT,
+            "imoveis-urbanos-comprar", UrbanPropertyContract.SELL,
+            "imoveis-urbanos-alugar", UrbanPropertyContract.RENT
     );
 
     private final ObjectMapper objectMapper;
-    private final FilterOptionsV2ScraperService filterOptionsV2ScraperService;
-    private final SearchPageV2ScraperService searchPageV2ScraperService;
-    private final PropertyPageV2ScraperService propertyPageV2ScraperService;
+    private final DataScraperSegmentFilterOptionsV2Service dataScraperSegmentFilterOptionsV2Service;
+    private final DataScraperSegmentSearchV2Service dataScraperSegmentSearchV2Service;
+    private final DataScraperSegmentPropertyV2Service dataScraperSegmentPropertyV2Service;
     private final PropertyMetadataMergeV2Service propertyMetadataMergeV2Service;
     private final MetadataTransferV2Service metadataTransferV2Service;
 
     public DataScraperV2Service(
             Clock clock,
             ObjectMapper objectMapper,
-            FilterOptionsV2ScraperService filterOptionsV2ScraperService,
-            SearchPageV2ScraperService searchPageV2ScraperService,
-            PropertyPageV2ScraperService propertyPageV2ScraperService,
-            PropertyMetadataMergeV2Service propertyMetadataMergeV2Service, MetadataTransferV2Service metadataTransferV2Service
+            DataScraperSegmentFilterOptionsV2Service dataScraperSegmentFilterOptionsV2Service,
+            DataScraperSegmentSearchV2Service dataScraperSegmentSearchV2Service,
+            DataScraperSegmentPropertyV2Service dataScraperSegmentPropertyV2Service,
+            PropertyMetadataMergeV2Service propertyMetadataMergeV2Service,
+            MetadataTransferV2Service metadataTransferV2Service
     ) {
         super(clock);
         this.objectMapper = objectMapper;
-        this.filterOptionsV2ScraperService = filterOptionsV2ScraperService;
-        this.searchPageV2ScraperService = searchPageV2ScraperService;
-        this.propertyPageV2ScraperService = propertyPageV2ScraperService;
+        this.dataScraperSegmentFilterOptionsV2Service = dataScraperSegmentFilterOptionsV2Service;
+        this.dataScraperSegmentSearchV2Service = dataScraperSegmentSearchV2Service;
+        this.dataScraperSegmentPropertyV2Service = dataScraperSegmentPropertyV2Service;
         this.propertyMetadataMergeV2Service = propertyMetadataMergeV2Service;
         this.metadataTransferV2Service = metadataTransferV2Service;
     }
@@ -75,172 +62,68 @@ public class DataScraperV2Service extends AbstractDataScraperService {
             ProviderParameters providerParameters,
             Retrofit retrofit
     ) {
-        Api api = retrofit.create(Api.class);
-        ScraperAnalysisProperties scraperAnalysisProperties = providerParameters.getPropertyAs(
-                                                                                        objectMapper,
-                                                                                        "analysisScope",
-                                                                                        ScraperAnalysisProperties.class
-                                                                                )
-                                                                                .orElse(ScraperAnalysisProperties.DEFAULT);
-        Map<String, FilterOptionsMetadata> filterOptionsBySegmentMap = fetchSegmentsFilterOptions(api, providerMetadata, scraperAnalysisProperties);
-        Map<String, List<PropertyInfoMetadata>> propertiesBySegmentMap = fetchSegmentsProperties(api, providerMetadata, filterOptionsBySegmentMap);
+        ScraperAnalysisProperties scraperAnalysisProperties = getAnalysisScope(providerParameters);
+        Map<String, FilterOptionsMetadata> filterOptionsBySegmentMap = fetchSegmentsFilterOptions(providerMetadata, scraperAnalysisProperties, retrofit);
+        Map<String, List<SearchPageMetadata.Item>> searchResultsBySegmentMap = fetchSegmentsSearchResults(providerMetadata, filterOptionsBySegmentMap);
+        Map<String, List<PropertyInfoMetadata>> propertiesBySegmentMap = fetchSegmentsProperties(retrofit, searchResultsBySegmentMap);
         List<PropertyInfoMetadata> mergedProperties = propertyMetadataMergeV2Service.merge(
                 propertiesBySegmentMap.values().stream().flatMap(Collection::stream).toList()
         );
         return generateResponse(providerMetadata, mergedProperties, metadataTransferV2Service::transfer);
     }
 
+    private ScraperAnalysisProperties getAnalysisScope(ProviderParameters providerParameters) {
+        return providerParameters.getPropertyAs(objectMapper, "analysisScope", ScraperAnalysisProperties.class)
+                                 .orElse(ScraperAnalysisProperties.DEFAULT);
+    }
+
     private Map<String, FilterOptionsMetadata> fetchSegmentsFilterOptions(
-            Api api,
             ProviderMetadata providerMetadata,
-            ScraperAnalysisProperties analysisProperties
+            ScraperAnalysisProperties analysisProperties,
+            Retrofit retrofit
     ) {
         log.info("Fetching filter options for segments ...");
-        return FILTER_OPTIONS_SEGMENTS.parallelStream()
+        return FILTER_OPTIONS_SEGMENTS.entrySet()
+                                      .parallelStream()
                                       .collect(Collectors.toMap(
-                                              Pair::getKey,
-                                              segment -> fetchSegmentFilterOptions(
-                                                      api,
+                                              Map.Entry::getKey,
+                                              segment -> dataScraperSegmentFilterOptionsV2Service.fetch(
+                                                      retrofit,
+                                                      providerMetadata,
                                                       analysisProperties,
-                                                      providerMetadata.getSiteUrl(),
                                                       segment.getKey(),
                                                       segment.getValue()
                                               )
                                       ));
     }
 
-    private FilterOptionsMetadata fetchSegmentFilterOptions(
-            Api api,
-            ScraperAnalysisProperties analysisProperties,
-            String siteUrl,
-            String segment,
-            UrbanPropertyContract contract
+    private Map<String, List<SearchPageMetadata.Item>> fetchSegmentsSearchResults(
+            ProviderMetadata providerMetadata,
+            Map<String, FilterOptionsMetadata> filterOptionsBySegmentMap
     ) {
-        try {
-            String url = new URIBuilder(siteUrl).appendPathSegments(segment).build().toString();
-            try (var response = executeCall(api.getFilterOptions(url))) {
-                FilterOptionsMetadata filterOptionsMetadata = filterOptionsV2ScraperService.scrap(response.string());
-                return filterOptionsMetadata.setContract(contract)
-                                            .setCities(analysisProperties.applyCitiesFilter(filterOptionsMetadata.getCities()))
-                                            .setTypes(analysisProperties.applySubTypesFilter(filterOptionsMetadata.getTypes()));
-            }
-        } catch (IOException | URISyntaxException e) {
-            throw new ExtendedRuntimeException(e, "Failed to fetch filter options for segment %s", segment);
-        }
+        log.info("Fetching search results for segments ...");
+        return filterOptionsBySegmentMap.entrySet()
+                                        .parallelStream()
+                                        .collect(Collectors.toMap(
+                                                Map.Entry::getKey,
+                                                e -> dataScraperSegmentSearchV2Service.fetch(providerMetadata, e.getKey(), e.getValue())
+                                        ));
     }
 
     private Map<String, List<PropertyInfoMetadata>> fetchSegmentsProperties(
-            Api api,
-            ProviderMetadata providerMetadata,
-            Map<String, FilterOptionsMetadata> segmentFilterOptions
+            Retrofit retrofit,
+            Map<String, List<SearchPageMetadata.Item>> searchResultsBySegmentMap
     ) {
-        log.info("Fetching segments properties ...");
-        return segmentFilterOptions.entrySet()
-                                   .parallelStream()
-                                   .collect(Collectors.toMap(
-                                           Map.Entry::getKey,
-                                           e -> fetchSegmentProperties(api, providerMetadata.getSiteUrl(), e.getKey(), e.getValue())
-                                   ));
-    }
-
-    private List<PropertyInfoMetadata> fetchSegmentProperties(
-            Api api,
-            String siteUrl,
-            String segment,
-            FilterOptionsMetadata filterOptions
-    ) {
-        return filterOptions.getCities()
-                            .stream()
-                            .flatMap(city -> fetchSegmentCityProperties(
-                                    api,
-                                    siteUrl,
-                                    segment,
-                                    filterOptions.getContract(),
-                                    city,
-                                    filterOptions.getTypes()
-                            ))
-                            .collect(Collectors.toList());
-    }
-
-    private Stream<PropertyInfoMetadata> fetchSegmentCityProperties(
-            Api api,
-            String siteUrl,
-            String segment,
-            UrbanPropertyContract contract,
-            String city,
-            List<String> subTypes
-    ) {
-        return fetchSegmentCitySearchResults(siteUrl, segment, city, subTypes)
-                .parallelStream()
-                .map(searchResultItem -> fetchSegmentCityPropertiesData(api, contract, searchResultItem));
-    }
-
-    private List<SearchPageMetadata.Item> fetchSegmentCitySearchResults(
-            String siteUrl,
-            String segment,
-            String city,
-            List<String> subTypes
-    ) {
-        return subTypes.stream()
-                       .flatMap(st -> fetchSegmentCityTypeSearchResults(siteUrl, segment, city, st))
-                       .toList();
-    }
-
-    private Stream<SearchPageMetadata.Item> fetchSegmentCityTypeSearchResults(String siteUrl, String segment, String city, String subType) {
-        Stream.Builder<SearchPageMetadata.Item> results = Stream.builder();
-        int page = 1;
-        try {
-            do {
-                String url = new URIBuilder(siteUrl).appendPathSegments(segment)
-                                                    .addParameter("city", city)
-                                                    .addParameter("subtypes[]", subType)
-                                                    .addParameter("sort_by", "price_highest")
-                                                    .addParameter("page", String.valueOf(page))
-                                                    .build()
-                                                    .toString();
-                url = URLDecoder.decode(url, StandardCharsets.UTF_8);
-
-                log.info("Fetching page {} of segment /{}?city={}&subTypes[]={} ...", page, segment, city, subType);
-                SearchPageMetadata searchPageMetadata = searchPageV2ScraperService.scrap(url);
-                searchPageMetadata.getItems().forEach(i -> results.add(i.setSubType(subType)));
-
-                if (searchPageMetadata.getPagination().isLastPage() || searchPageMetadata.getItems().isEmpty())
-                    break;
-
-                page++;
-            } while (true);
-        } catch (URISyntaxException e) {
-            throw new ExtendedRuntimeException(e, "Failed to fetch filter options for segment %s", segment);
-        }
-        return results.build();
-    }
-
-    private PropertyInfoMetadata fetchSegmentCityPropertiesData(
-            Api api,
-            UrbanPropertyContract contract,
-            SearchPageMetadata.Item searchResultItem
-    ) {
-        try {
-            try (var response = executeCall(api.getPropertyData(searchResultItem.getPageLink()))) {
-                return propertyPageV2ScraperService.scrap(response.string())
-                                                   .setProviderCode(searchResultItem.getProviderCode())
-                                                   .setUrl(searchResultItem.getPageLink())
-                                                   .setContract(contract)
-                                                   .setSubType(searchResultItem.getSubType());
-            }
-        } catch (IOException e) {
-            throw new ExtendedRuntimeException(e, "Failed to fetch property %s", searchResultItem.getProviderCode());
-        }
-    }
-
-    private interface Api {
-
-        @GET
-        Call<ResponseBody> getFilterOptions(@Url String url);
-
-        @GET
-        Call<ResponseBody> getPropertyData(@Url String url);
-
+        return searchResultsBySegmentMap.entrySet()
+                                        .parallelStream()
+                                        .collect(Collectors.toMap(
+                                                Map.Entry::getKey,
+                                                e -> dataScraperSegmentPropertyV2Service.fetch(
+                                                        retrofit,
+                                                        FILTER_OPTIONS_SEGMENTS.get(e.getKey()),
+                                                        e.getValue()
+                                                )
+                                        ));
     }
 
 }

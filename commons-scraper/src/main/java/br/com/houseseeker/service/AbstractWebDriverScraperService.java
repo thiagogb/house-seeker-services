@@ -46,7 +46,13 @@ public abstract class AbstractWebDriverScraperService<T> implements AutoCloseabl
                 lastError = null;
                 break;
             } catch (Exception e) {
-                log.info("Failed cause {}: attempt {} of {}", e.getMessage(), attemptNumber, webDriverFactoryService.getRetryCount());
+                log.info(
+                        "Failed to scrap data from url {} cause {}: attempt {} of {}",
+                        webDriver.getCurrentUrl(),
+                        e.getMessage(),
+                        attemptNumber,
+                        webDriverFactoryService.getRetryCount()
+                );
                 lastError = e;
                 ThreadUtils.sleep(webDriverFactoryService.getRetryWait());
             } finally {
@@ -58,7 +64,7 @@ public abstract class AbstractWebDriverScraperService<T> implements AutoCloseabl
             if (lastError instanceof ExtendedRuntimeException e)
                 throw e;
 
-            throw new ExtendedRuntimeException(lastError, "Scraper fail using WebDriver");
+            throw new ExtendedRuntimeException(lastError, "Scraper fail on %s using WebDriver", webDriver.getCurrentUrl());
         }
 
         return result;

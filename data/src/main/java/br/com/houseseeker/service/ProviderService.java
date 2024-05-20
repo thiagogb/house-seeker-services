@@ -52,7 +52,7 @@ public class ProviderService {
 
     @Transactional
     public Provider update(@NotNull ProviderData providerData) {
-        int id = ProtoWrapperUtils.getValue(providerData.getId());
+        int id = ProtoWrapperUtils.getInt(providerData.getId());
         Provider provider = findByIdOrThrowNotFound(id);
         providerMapper.copyToEntity(providerData, provider);
         entityValidatorService.validate(provider);

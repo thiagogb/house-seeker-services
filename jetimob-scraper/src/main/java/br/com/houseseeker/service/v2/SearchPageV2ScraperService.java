@@ -6,12 +6,14 @@ import br.com.houseseeker.domain.jetimob.v2.SearchPageMetadata.Item;
 import br.com.houseseeker.domain.jetimob.v2.SearchPageMetadata.Pagination;
 import br.com.houseseeker.service.AbstractWebDriverScraperService;
 import br.com.houseseeker.service.WebDriverFactoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static br.com.houseseeker.util.StringUtils.getNonBlank;
@@ -21,6 +23,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Service
+@Slf4j
 public class SearchPageV2ScraperService extends AbstractWebDriverScraperService<SearchPageMetadata> {
 
     private static final String PROPERTY_LINK_IDENTIFIER = "/imovel/";
@@ -88,13 +91,22 @@ public class SearchPageV2ScraperService extends AbstractWebDriverScraperService<
     }
 
     private Pagination extractPagination(WebDriver webDriver) {
+        List<WebElement> paginationButtonElements = findPaginationButtonsSilently(webDriver);
         return Pagination.builder()
                          .isLastPage(
-                                 webDriver.findElements(By.cssSelector("div[data-phx-component] a[data-phx-link] > span"))
-                                          .stream()
-                                          .noneMatch(e -> e.getText().equalsIgnoreCase(PAGINATOR_NEXT_LABEL))
+                                 paginationButtonElements.stream()
+                                                         .noneMatch(e -> e.getText().equalsIgnoreCase(PAGINATOR_NEXT_LABEL))
                          )
                          .build();
+    }
+
+    private List<WebElement> findPaginationButtonsSilently(WebDriver webDriver) {
+        try {
+            return webDriver.findElements(By.cssSelector("div[data-phx-component] a[data-phx-link] > span"));
+        } catch (Exception e) {
+            log.warn("Pagination button not found in url {}", webDriver.getCurrentUrl(), e);
+            return Collections.emptyList();
+        }
     }
 
 }

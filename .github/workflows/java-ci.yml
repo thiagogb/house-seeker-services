@@ -122,6 +122,16 @@ jobs:
           branches-badge-filename: data-branches-jacoco.svg
           workflow-summary-heading: Module Data - JaCoCo Test Coverage Summary
 
+      - name: Generate JaCoCo Badge - API
+        uses: cicirello/jacoco-badge-generator@v2
+        if: github.event_name != 'pull_request'
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: api/target/site/jacoco/jacoco.csv
+          coverage-badge-filename: api-coverage-jacoco.svg
+          branches-badge-filename: api-branches-jacoco.svg
+          workflow-summary-heading: Module API - JaCoCo Test Coverage Summary
+
       - name: JoCoco Badge Commit
         if: github.event_name != 'pull_request'
         run: |
@@ -220,6 +230,9 @@ jobs:
       - name: Build Docker Image Data
         run: docker build . --file Dockerfile-data --tag aquinate/house-seeker-data:latest
 
+      - name: Build Docker Image API
+        run: docker build . --file Dockerfile-api --tag aquinate/house-seeker-api:latest
+
       - name: Log into docker.io
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
@@ -232,6 +245,9 @@ jobs:
 
       - name: Push Docker Image Data
         run: docker push aquinate/house-seeker-data:latest
+
+      - name: Push Docker Image API
+        run: docker push aquinate/house-seeker-api:latest
 
   containerScanner:
     name: Trivy Container Scanner
@@ -262,6 +278,14 @@ jobs:
           output: 'trivy-scan-report-data.sarif'
           ignore-unfixed: true
 
+      - name: Scanning Image API
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'aquinate/house-seeker-api:latest'
+          format: 'sarif'
+          output: 'trivy-scan-report-api.sarif'
+          ignore-unfixed: true
+
       - name: Upload Report Jetimob-Scrapper
         uses: actions/upload-artifact@v4
         with:
@@ -273,3 +297,9 @@ jobs:
         with:
           name: trivy-scan-report-data.sarif
           path: trivy-scan-report-data.sarif
+
+      - name: Upload Report API
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-scan-report-api.sarif
+          path: trivy-scan-report-api.sarif

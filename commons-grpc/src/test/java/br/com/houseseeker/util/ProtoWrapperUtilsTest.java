@@ -16,9 +16,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class ProtoWrapperUtilsTest {
 
     @Test
-    @DisplayName("given a null int32Value when calls getValue then expects exception")
-    void givenANullInt32Value_whenCallsGetValue_thenExpectException() {
-        assertThatThrownBy(() -> ProtoWrapperUtils.getValue(null))
+    @DisplayName("given a null int32Value when calls getInt then expects exception")
+    void givenANullInt32Value_whenCallsGetInt_thenExpectException() {
+        assertThatThrownBy(() -> ProtoWrapperUtils.getInt(null))
                 .isInstanceOf(GrpcStatusException.class)
                 .hasMessage("No value present");
     }
@@ -26,8 +26,8 @@ class ProtoWrapperUtilsTest {
     @ParameterizedTest
     @MethodSource("int32ValueSamples")
     @DisplayName("given a int32Value when calls getValue then expects")
-    void givenAInt32Value_whenCallsGetValue_thenExpects(Int32Value value, Integer expected) {
-        assertThat(ProtoWrapperUtils.getValue(value)).isEqualTo(expected);
+    void givenAInt32Value_whenCallsGetInt_thenExpects(Int32Value value, Integer expected) {
+        assertThat(ProtoWrapperUtils.getInt(value)).isEqualTo(expected);
     }
 
     private static Stream<Arguments> int32ValueSamples() {

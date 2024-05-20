@@ -1,0 +1,16 @@
+query  {
+    providers(input: {
+        orders: {
+            mechanism: {index: 1, direction: ASC},
+            name: {index: 2, direction: ASC},
+            active: {index: 3, direction: ASC},
+            id: {index: 4, direction: DESC},
+            siteUrl: {index: 0},
+            dataUrl: {index: 0}
+        }
+    }) {
+        rows {
+            id
+        }
+    }
+}

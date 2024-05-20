@@ -84,7 +84,7 @@ class SearchPageV2ScraperServiceTest extends AbstractMockWebServerTest {
 
         assertThatThrownBy(() -> searchPageV2ScraperService.scrap(baseUrl))
                 .isInstanceOf(ExtendedRuntimeException.class)
-                .hasMessage("Scraper fail using WebDriver");
+                .hasMessage(String.format("Scraper fail on %s/ using WebDriver", baseUrl));
     }
 
     @Test

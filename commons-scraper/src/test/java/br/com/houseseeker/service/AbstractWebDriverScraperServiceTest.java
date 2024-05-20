@@ -50,7 +50,7 @@ class AbstractWebDriverScraperServiceTest extends AbstractMockWebServerTest {
         try (var scraper = new TestWebDriverFailScraper(webDriverFactoryService)) {
             assertThatThrownBy(() -> scraper.scrap(baseUrl))
                     .isInstanceOf(ExtendedRuntimeException.class)
-                    .hasMessage("Scraper fail using WebDriver");
+                    .hasMessage(String.format("Scraper fail on %s/ using WebDriver", baseUrl));
         }
     }
 
@@ -64,7 +64,7 @@ class AbstractWebDriverScraperServiceTest extends AbstractMockWebServerTest {
         try (var scraper = new TestWebDriverSuccessScraper(webDriverFactoryService)) {
             assertThatThrownBy(() -> scraper.scrap(baseUrl))
                     .isInstanceOf(ExtendedRuntimeException.class)
-                    .hasMessage("Scraper fail using WebDriver");
+                    .hasMessage(String.format("Scraper fail on %s/ using WebDriver", baseUrl));
         }
     }
 

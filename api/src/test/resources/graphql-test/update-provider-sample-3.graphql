@@ -1,0 +1,12 @@
+mutation {
+    updateProvider(
+        id: 1,
+        input: {
+            name: "NWtfCTGeQI1jXe941jDh5CSeB0c3xWfwGdXSzE8pDaBZuKO4oJ4D8m4WCkN8tY29xitNu59bZsXNfEdYSRgtAeRr7R7U6uAQyPA3AbuKn1V5gyDjUiSdUMAeiWAY3HmdDKrE04KWEKvk3gB4BFXMZDU0cGAauVPCi0rQBOo6Rdiu0S0FIHUnNFAVSEpL6dvVWFN5LjzdySGKqJAlKYeZqN4L2iQESdQBbS51aK5iGlw5tq7chOLrJTXwt3BQWftN",
+            siteUrl: "invalid-url",
+            dataUrl: "invalid-url"
+        }
+    ){
+        id
+    }
+}

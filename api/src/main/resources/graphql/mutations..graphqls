@@ -1,0 +1,4 @@
+type Mutation {
+    insertProvider(input: ProviderCreationInput!): ProviderDto!
+    updateProvider(id: ID!, input: ProviderEditionInput!): ProviderDto!
+}

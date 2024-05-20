@@ -1,0 +1,9 @@
+enum OrderDirection {
+    ASC,
+    DESC
+}
+
+input OrderInput {
+    index: Int
+    direction: OrderDirection
+}

@@ -1,0 +1,21 @@
+enum ProviderMechanism {
+    UNIVERSAL_SOFTWARE
+    JETIMOB_V1
+    JETIMOB_V2
+    JETIMOB_V3
+    JETIMOB_V4
+    SUPER_LOGICA
+    ALAN_WGT
+}
+
+type ProviderDto {
+    id: ID!
+    name: String!
+    siteUrl: String!
+    dataUrl: String
+    mechanism: ProviderMechanism!
+    params: String
+    cronExpression: String
+    logoUrl: String
+    active: Boolean!
+}

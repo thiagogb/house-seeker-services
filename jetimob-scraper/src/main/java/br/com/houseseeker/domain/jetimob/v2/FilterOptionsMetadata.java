@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -13,7 +14,9 @@ import java.util.List;
 public class FilterOptionsMetadata {
 
     private UrbanPropertyContract contract;
-    private List<String> cities;
-    private List<String> types;
+    @Builder.Default
+    private List<String> cities = new LinkedList<>();
+    @Builder.Default
+    private List<String> types = new LinkedList<>();
 
 }

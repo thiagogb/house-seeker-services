@@ -1,0 +1,4 @@
+input BytesClauseInput {
+    isNull: Boolean,
+    isNotNull: Boolean,
+}
