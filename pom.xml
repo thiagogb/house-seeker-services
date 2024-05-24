@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.2.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.houseseeker</groupId>
@@ -28,16 +28,15 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <commons.io.version>2.15.1</commons.io.version>
+        <commons.io.version>2.16.1</commons.io.version>
         <apache.httpcomponents.version>5.3.1</apache.httpcomponents.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok.mapstruct.version>0.2.0</lombok.mapstruct.version>
         <guava.version>33.0.0-jre</guava.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <retrofit.version>2.9.0</retrofit.version>
-        <org.testcontainers.version>1.19.7</org.testcontainers.version>
-        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
-        <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
+        <retrofit.version>2.11.0</retrofit.version>
+        <org.testcontainers.version>1.19.8</org.testcontainers.version>
+        <maven.jar.plugin.version>3.4.1</maven.jar.plugin.version>
         <jacoco.version>0.8.10</jacoco.version>
         <owasp.dependency.check.version>9.1.0</owasp.dependency.check.version>
         <protoc.version>3.25.3</protoc.version>
@@ -47,7 +46,7 @@
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
-        <selenium-devtools-v124.version>4.20.0</selenium-devtools-v124.version>
+        <selenium-devtools-v125.version>4.21.0</selenium-devtools-v125.version>
         <!-- sonarQube -->
         <sonar.organization>thiagogb</sonar.organization>
         <sonar.projectKey>thiagogb_house-seeker-services</sonar.projectKey>
@@ -163,8 +162,8 @@
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-devtools-v124</artifactId>
-            <version>${selenium-devtools-v124.version}</version>
+            <artifactId>selenium-devtools-v125</artifactId>
+            <version>${selenium-devtools-v125.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>

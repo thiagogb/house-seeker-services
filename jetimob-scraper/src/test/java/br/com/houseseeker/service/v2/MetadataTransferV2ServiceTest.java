@@ -436,13 +436,13 @@ class MetadataTransferV2ServiceTest {
         when(mockedPropertyInfoMetadata.getDetails()).thenReturn(List.of(
                 PropertyDetail.builder()
                               .type(PropertyDetail.Type.MEASURES)
-                              .items(List.of("fundos 100 ²"))
+                              .items(List.of("fundos 50 ²"))
                               .build()
         ));
 
         assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
                 .extracting("terrainBack")
-                .isEqualTo(BigDecimal.valueOf(100.0));
+                .isEqualTo(BigDecimal.valueOf(50.0));
 
         verify(mockedPropertyInfoMetadata, atLeastOnce()).getDetails();
         verifyNoMoreInteractions(mockedPropertyInfoMetadata);
@@ -454,13 +454,13 @@ class MetadataTransferV2ServiceTest {
         when(mockedPropertyInfoMetadata.getDetails()).thenReturn(List.of(
                 PropertyDetail.builder()
                               .type(PropertyDetail.Type.MEASURES)
-                              .items(List.of("esquerda 100 ²"))
+                              .items(List.of("esquerda 15 ²"))
                               .build()
         ));
 
         assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
                 .extracting("terrainLeft")
-                .isEqualTo(BigDecimal.valueOf(100.0));
+                .isEqualTo(BigDecimal.valueOf(15.0));
 
         verify(mockedPropertyInfoMetadata, atLeastOnce()).getDetails();
         verifyNoMoreInteractions(mockedPropertyInfoMetadata);
@@ -472,13 +472,13 @@ class MetadataTransferV2ServiceTest {
         when(mockedPropertyInfoMetadata.getDetails()).thenReturn(List.of(
                 PropertyDetail.builder()
                               .type(PropertyDetail.Type.MEASURES)
-                              .items(List.of("direita 100 ²"))
+                              .items(List.of("direita 25 ²"))
                               .build()
         ));
 
         assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
                 .extracting("terrainRight")
-                .isEqualTo(BigDecimal.valueOf(100.0));
+                .isEqualTo(BigDecimal.valueOf(25.0));
 
         verify(mockedPropertyInfoMetadata, atLeastOnce()).getDetails();
         verifyNoMoreInteractions(mockedPropertyInfoMetadata);

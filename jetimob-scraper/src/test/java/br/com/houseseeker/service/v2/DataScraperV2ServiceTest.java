@@ -143,32 +143,32 @@ class DataScraperV2ServiceTest {
                 .containsExactlyInAnyOrder("C01", "C02", "C03", "C04");
 
         verify(dataScraperSegmentFilterOptionsV2Service, times(1)).fetch(
-                eq(retrofit),
-                eq(PROVIDER_METADATA),
-                eq(ScraperAnalysisProperties.DEFAULT),
-                eq("imoveis-plus-comprar"),
-                eq(UrbanPropertyContract.SELL)
+                retrofit,
+                PROVIDER_METADATA,
+                ScraperAnalysisProperties.DEFAULT,
+                "imoveis-plus-comprar",
+                UrbanPropertyContract.SELL
         );
         verify(dataScraperSegmentFilterOptionsV2Service, times(1)).fetch(
-                eq(retrofit),
-                eq(PROVIDER_METADATA),
-                eq(ScraperAnalysisProperties.DEFAULT),
-                eq("imoveis-plus-alugar"),
-                eq(UrbanPropertyContract.RENT)
+                retrofit,
+                PROVIDER_METADATA,
+                ScraperAnalysisProperties.DEFAULT,
+                "imoveis-plus-alugar",
+                UrbanPropertyContract.RENT
         );
         verify(dataScraperSegmentFilterOptionsV2Service, times(1)).fetch(
-                eq(retrofit),
-                eq(PROVIDER_METADATA),
-                eq(ScraperAnalysisProperties.DEFAULT),
-                eq("imoveis-urbanos-comprar"),
-                eq(UrbanPropertyContract.SELL)
+                retrofit,
+                PROVIDER_METADATA,
+                ScraperAnalysisProperties.DEFAULT,
+                "imoveis-urbanos-comprar",
+                UrbanPropertyContract.SELL
         );
         verify(dataScraperSegmentFilterOptionsV2Service, times(1)).fetch(
-                eq(retrofit),
-                eq(PROVIDER_METADATA),
-                eq(ScraperAnalysisProperties.DEFAULT),
-                eq("imoveis-urbanos-alugar"),
-                eq(UrbanPropertyContract.RENT)
+                retrofit,
+                PROVIDER_METADATA,
+                ScraperAnalysisProperties.DEFAULT,
+                "imoveis-urbanos-alugar",
+                UrbanPropertyContract.RENT
         );
         verifyNoMoreInteractions(dataScraperSegmentFilterOptionsV2Service);
 
