@@ -17,6 +17,11 @@ abstract class AbstractProtoMapper {
         return Optional.ofNullable(value).map(Int32Value::of).orElse(Int32Value.getDefaultInstance());
     }
 
+    @Named("int32ValueToInteger")
+    protected Integer int32ValueToInteger(@Nullable Int32Value value) {
+        return Optional.ofNullable(value).map(Int32Value::getValue).orElse(null);
+    }
+
     @Named("stringToStringValue")
     protected StringValue stringToStringValue(@Nullable String value) {
         return Optional.ofNullable(value).map(StringValue::of).orElse(StringValue.getDefaultInstance());

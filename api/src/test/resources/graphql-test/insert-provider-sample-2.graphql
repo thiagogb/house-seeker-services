@@ -1,0 +1,12 @@
+mutation {
+    insertProvider(input: {
+        name: "",
+        siteUrl: "",
+        dataUrl: "invalid_url"
+        mechanism: JETIMOB_V1,
+        cronExpression: "",
+        active: true
+    }){
+        id
+    }
+}

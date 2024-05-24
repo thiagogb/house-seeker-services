@@ -1,0 +1,24 @@
+input StringInput {
+    value: String!
+}
+
+input StringListInput {
+    values: [String!]!
+}
+
+input StringClauseInput {
+    isNull: Boolean,
+    isNotNull: Boolean,
+    isBlank: Boolean
+    isNotBlank: Boolean
+    isEqual: StringInput
+    isNotEqual: StringInput
+    isStartingWith: StringInput
+    isNotStartingWith: StringInput
+    isEndingWith: StringInput
+    isNotEndingWith: StringInput
+    itContains: StringInput
+    itNotContains: StringInput
+    isIn: StringListInput,
+    isNotIn: StringListInput
+}

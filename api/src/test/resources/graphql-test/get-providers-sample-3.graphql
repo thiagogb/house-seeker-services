@@ -1,0 +1,19 @@
+query  {
+    providers(input: {
+        clauses: {
+            id: {isGreaterOrEqual: {value: 1}},
+            name: {itContains: {value: "Imóveis"}},
+            siteUrl: {isStartingWith: {value: "http://"}},
+            dataUrl: {isNotBlank: true},
+            mechanism: {isIn: {values: [JETIMOB_V1,JETIMOB_V2]}},
+            params: {isNotNull: true},
+            cronExpression: {isNotStartingWith: {value: "*"}},
+            logo: {isNotNull: true},
+            active: {isNotEqual: {value: false}}
+        }
+    }) {
+        rows {
+            id
+        }
+    }
+}

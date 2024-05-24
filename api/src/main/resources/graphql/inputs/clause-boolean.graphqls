@@ -1,0 +1,10 @@
+input BooleanInput {
+    value: Boolean!
+}
+
+input BooleanClauseInput {
+    isNull: Boolean,
+    isNotNull: Boolean,
+    isEqual: BooleanInput
+    isNotEqual: BooleanInput
+}

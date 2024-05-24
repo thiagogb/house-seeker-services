@@ -1,0 +1,25 @@
+mutation {
+    updateProvider(
+        id: 1,
+        input: {
+            name: "Test provider edited",
+            siteUrl: "http://127.0.0.1",
+            dataUrl: "http://127.0.0.1/api",
+            mechanism: JETIMOB_V2,
+            params: "{\"connection\":{}}",
+            cronExpression: "0 0 0",
+            logo: "Y29udGVudCBlZGl0ZWQ=",
+            active: false
+        }
+    ){
+        id,
+        name,
+        siteUrl,
+        dataUrl,
+        mechanism,
+        params,
+        cronExpression,
+        logoUrl,
+        active
+    }
+}

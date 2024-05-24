@@ -1,0 +1,4 @@
+type ProviderOutput {
+    rows: [ProviderDto!]!
+    pagination: PaginationOutput!
+}

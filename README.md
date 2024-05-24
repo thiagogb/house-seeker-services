@@ -11,3 +11,4 @@
 | Commons GRPC      | ![Coverage](.github/badges/commons-grpc-coverage-jacoco.svg)      | ![Branches](.github/badges/commons-grpc-branches-jacoco.svg)      |
 | Jetimob Scraper   | ![Coverage](.github/badges/jetimob-scraper-coverage-jacoco.svg)   | ![Branches](.github/badges/jetimob-scraper-branches-jacoco.svg)   |
 | Data              | ![Coverage](.github/badges/data-coverage-jacoco.svg)              | ![Branches](.github/badges/data-branches-jacoco.svg)              |
+| API               | ![Coverage](.github/badges/api-coverage-jacoco.svg)               | ![Branches](.github/badges/api-branches-jacoco.svg)               |

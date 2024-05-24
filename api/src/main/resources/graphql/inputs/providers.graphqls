@@ -1,0 +1,65 @@
+input ProviderMechanismInput {
+    value: ProviderMechanism!
+}
+
+input ProviderMechanismListInput {
+    values: [ProviderMechanism!]!
+}
+
+input ProviderMechanismClausesInput {
+    isNull: Boolean
+    isNotNull: Boolean
+    isEqual: ProviderMechanismInput,
+    isNotEqual: ProviderMechanismInput
+    isIn: ProviderMechanismListInput
+    isNotIn: ProviderMechanismListInput
+}
+
+input ProviderClausesInput {
+    id: IntegerClauseInput,
+    name: StringClauseInput,
+    siteUrl: StringClauseInput
+    dataUrl: StringClauseInput
+    mechanism: ProviderMechanismClausesInput
+    params: StringClauseInput
+    cronExpression: StringClauseInput
+    logo: BytesClauseInput
+    active: BooleanClauseInput
+}
+
+input ProviderOrdersInput {
+    id: OrderInput,
+    name: OrderInput,
+    siteUrl: OrderInput
+    dataUrl: OrderInput
+    mechanism: OrderInput
+    active: OrderInput
+}
+
+input ProviderInput {
+    clauses: ProviderClausesInput
+    orders: ProviderOrdersInput
+    pagination: PaginationInput
+}
+
+input ProviderCreationInput {
+    name: String!
+    siteUrl: String!
+    dataUrl: String
+    mechanism: ProviderMechanism!
+    params: String
+    cronExpression: String
+    logo: String
+    active: Boolean!
+}
+
+input ProviderEditionInput {
+    name: String
+    siteUrl: String
+    dataUrl: String
+    mechanism: ProviderMechanism
+    params: String
+    cronExpression: String
+    logo: String
+    active: Boolean
+}

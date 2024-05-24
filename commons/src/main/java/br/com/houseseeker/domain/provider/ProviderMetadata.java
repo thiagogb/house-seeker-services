@@ -7,10 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.URL;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Optional;
 
 @Data
 @AllArgsConstructor
@@ -34,5 +36,11 @@ public class ProviderMetadata implements Serializable {
     @NotNull
     private ProviderMechanism mechanism;
     private String params;
+
+    public String getBaseUrl() {
+        return Optional.ofNullable(dataUrl)
+                       .filter(StringUtils::isNotBlank)
+                       .orElse(siteUrl);
+    }
 
 }

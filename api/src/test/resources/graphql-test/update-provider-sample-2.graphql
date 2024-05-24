@@ -1,0 +1,19 @@
+mutation {
+    updateProvider(
+        id: 1,
+        input: {
+            name: "Test provider edited",
+            dataUrl: null
+        }
+    ){
+        id,
+        name,
+        siteUrl,
+        dataUrl,
+        mechanism,
+        params,
+        cronExpression,
+        logoUrl,
+        active
+    }
+}

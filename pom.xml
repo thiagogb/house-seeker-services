@@ -21,6 +21,7 @@
         <module>commons-grpc</module>
         <module>jetimob-scraper</module>
         <module>data</module>
+        <module>api</module>
     </modules>
     <properties>
         <java.version>21</java.version>

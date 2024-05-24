@@ -1,0 +1,21 @@
+query  {
+    providers {
+        rows {
+            id
+            name
+            siteUrl
+            dataUrl
+            mechanism
+            params
+            cronExpression
+            logoUrl
+            active
+        }
+        pagination {
+            pageNumber
+            pageSize
+            totalPages
+            totalRows
+        }
+    }
+}
