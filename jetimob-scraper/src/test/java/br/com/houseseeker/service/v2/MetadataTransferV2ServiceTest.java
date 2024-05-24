@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -253,59 +255,15 @@ class MetadataTransferV2ServiceTest {
         verifyNoMoreInteractions(mockedPropertyInfoMetadataPricing);
     }
 
-    @Test
-    @DisplayName("given a property metadata when calls getCondominiumName then expects")
-    void givenAPropertyMetadata_whenCallsGetCondominiumName_thenExpects() {
+    @ParameterizedTest
+    @ValueSource(strings = {"condominiumName", "exchangeable", "status", "financeable", "occupied", "usableArea", "terrainTotalArea", "areaUnit"})
+    @DisplayName("given a property metadata when calls getter then expects")
+    void givenAPropertyMetadata_whenCallsGetter_thenExpects(String propertyName) {
         assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("condominiumName")
+                .extracting(propertyName)
                 .isNull();
 
         verifyNoInteractions(mockedPropertyInfoMetadata);
-        verifyNoInteractions(mockedPropertyInfoMetadataPricing);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls isExchangeable then expects")
-    void givenAPropertyMetadata_whenCallsIsExchangeable_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("exchangeable")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
-        verifyNoInteractions(mockedPropertyInfoMetadataPricing);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls getStatus then expects")
-    void givenAPropertyMetadata_whenCallsGetStatus_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("status")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
-        verifyNoInteractions(mockedPropertyInfoMetadataPricing);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls isFinanceable then expects")
-    void givenAPropertyMetadata_whenCallsIsFinanceable_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("financeable")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
-        verifyNoInteractions(mockedPropertyInfoMetadataPricing);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls isOccupied then expects")
-    void givenAPropertyMetadata_whenCallsIsOccupied_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("occupied")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
-        verifyNoInteractions(mockedPropertyInfoMetadataPricing);
     }
 
     @Test
@@ -373,41 +331,12 @@ class MetadataTransferV2ServiceTest {
         verifyNoMoreInteractions(mockedPropertyInfoMetadataLocation);
     }
 
-    @Test
-    @DisplayName("given a property metadata when calls getZipCode then expects")
-    void givenAPropertyMetadata_whenCallsGetZipCode_thenExpects() {
+    @ParameterizedTest
+    @ValueSource(strings = {"zipCode", "streetName", "streetNumber", "complement"})
+    @DisplayName("given a property location metadata when calls getter then expects")
+    void givenAPropertyLocationMetadata_whenCallsGetter_thenExpects(String propertyName) {
         assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("zipCode")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadataLocation);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls getStreetName then expects")
-    void givenAPropertyMetadata_whenCallsGetStreetName_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("streetName")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadataLocation);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls getStreetNumber then expects")
-    void givenAPropertyMetadata_whenCallsGetStreetNumber_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("streetNumber")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadataLocation);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls getComplement then expects")
-    void givenAPropertyMetadata_whenCallsGetComplement_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("complement")
+                .extracting(propertyName)
                 .isNull();
 
         verifyNoInteractions(mockedPropertyInfoMetadataLocation);
@@ -484,26 +413,6 @@ class MetadataTransferV2ServiceTest {
     }
 
     @Test
-    @DisplayName("given a property metadata when calls getUsableArea then expects")
-    void givenAPropertyMetadata_whenCallsGetUsableArea_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("usableArea")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls getTerrainTotalArea then expects")
-    void givenAPropertyMetadata_whenCallsGetTerrainTotalArea_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("terrainTotalArea")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
-    }
-
-    @Test
     @DisplayName("given a property metadata when calls getTerrainFront then expects")
     void givenAPropertyMetadata_whenCallsGetTerrainFront_thenExpects() {
         when(mockedPropertyInfoMetadata.getDetails()).thenReturn(List.of(
@@ -573,16 +482,6 @@ class MetadataTransferV2ServiceTest {
 
         verify(mockedPropertyInfoMetadata, atLeastOnce()).getDetails();
         verifyNoMoreInteractions(mockedPropertyInfoMetadata);
-    }
-
-    @Test
-    @DisplayName("given a property metadata when calls getAreaUnit then expects")
-    void givenAPropertyMetadata_whenCallsGetAreaUnit_thenExpects() {
-        assertThat(metadataTransferV2Service.transfer(mockedPropertyInfoMetadata))
-                .extracting("areaUnit")
-                .isNull();
-
-        verifyNoInteractions(mockedPropertyInfoMetadata);
     }
 
     @Test

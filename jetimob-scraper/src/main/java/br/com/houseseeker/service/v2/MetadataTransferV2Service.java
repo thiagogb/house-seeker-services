@@ -16,6 +16,7 @@ import br.com.houseseeker.util.ObjectMapperUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -115,6 +116,7 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             }
 
             @Override
+            @Nullable
             public Boolean isExchangeable() {
                 return null;
             }
@@ -125,11 +127,13 @@ public class MetadataTransferV2Service extends AbstractMedataTransferService<Pro
             }
 
             @Override
+            @Nullable
             public Boolean isFinanceable() {
                 return null;
             }
 
             @Override
+            @Nullable
             public Boolean isOccupied() {
                 return null;
             }

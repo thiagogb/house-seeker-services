@@ -25,7 +25,9 @@ class ExpressionBuilderTest {
     @Test
     @DisplayName("given a builder without appended expressions when calls build then expects exception")
     void givenABuilderWithoutAppendedExpressions_whenCallsBuild_thenExpectsException() {
-        assertThatThrownBy(() -> ExpressionBuilder.newInstance().build())
+        var builder = ExpressionBuilder.newInstance();
+
+        assertThatThrownBy(builder::build)
                 .isInstanceOf(GrpcStatusException.class)
                 .hasFieldOrPropertyWithValue("status", Status.INVALID_ARGUMENT)
                 .hasMessage("At least one projection must be defined");

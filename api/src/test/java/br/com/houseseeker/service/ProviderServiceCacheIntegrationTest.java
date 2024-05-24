@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static br.com.houseseeker.configuration.CacheConfiguration.PROVIDER_LOGO_CACHE;
+import static br.com.houseseeker.service.ProviderService.PROVIDER_LOGO_CACHE;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;

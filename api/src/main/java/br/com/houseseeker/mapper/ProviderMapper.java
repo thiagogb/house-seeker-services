@@ -89,7 +89,7 @@ public abstract class ProviderMapper extends AbstractProtoMapper {
 
     @Named("mapLogoUrl")
     protected String mapLogoUrl(@Nullable ProviderData data) {
-        if (ProtoWrapperUtils.getInt(data.getId()) == 0 || isNull(ProtoWrapperUtils.getBytes(data.getLogo())))
+        if (isNull(data) || ProtoWrapperUtils.getInt(data.getId()) == 0 || isNull(ProtoWrapperUtils.getBytes(data.getLogo())))
             return null;
 
         return WebMvcLinkBuilder.linkTo(ProviderController.class)

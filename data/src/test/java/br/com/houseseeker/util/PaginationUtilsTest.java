@@ -108,7 +108,7 @@ class PaginationUtilsTest {
         assertThat(results.getContent()).isEqualTo(rows);
         assertThat(results.getTotalPages()).isEqualTo(1);
         assertThat(results.getTotalElements()).isEqualTo(3);
-        assertThat(results.getNumber()).isEqualTo(0);
+        assertThat(results.getNumber()).isZero();
         assertThat(results.getSize()).isEqualTo(50);
     }
 

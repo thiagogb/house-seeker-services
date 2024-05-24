@@ -96,16 +96,16 @@ class DataScraperV2ServiceTest {
         when(dataScraperSegmentFilterOptionsV2Service.fetch(eq(retrofit), eq(PROVIDER_METADATA), eq(ScraperAnalysisProperties.DEFAULT), anyString(), any()))
                 .thenReturn(filterOptions);
 
-        when(dataScraperSegmentSearchV2Service.fetch(eq(PROVIDER_METADATA), eq("imoveis-plus-comprar"), eq(filterOptions)))
+        when(dataScraperSegmentSearchV2Service.fetch(PROVIDER_METADATA, "imoveis-plus-comprar", filterOptions))
                 .thenReturn(searchResultsSegment1);
 
-        when(dataScraperSegmentSearchV2Service.fetch(eq(PROVIDER_METADATA), eq("imoveis-plus-alugar"), eq(filterOptions)))
+        when(dataScraperSegmentSearchV2Service.fetch(PROVIDER_METADATA, "imoveis-plus-alugar", filterOptions))
                 .thenReturn(searchResultsSegment2);
 
-        when(dataScraperSegmentSearchV2Service.fetch(eq(PROVIDER_METADATA), eq("imoveis-urbanos-comprar"), eq(filterOptions)))
+        when(dataScraperSegmentSearchV2Service.fetch(PROVIDER_METADATA, "imoveis-urbanos-comprar", filterOptions))
                 .thenReturn(searchResultsSegment3);
 
-        when(dataScraperSegmentSearchV2Service.fetch(eq(PROVIDER_METADATA), eq("imoveis-urbanos-alugar"), eq(filterOptions)))
+        when(dataScraperSegmentSearchV2Service.fetch(PROVIDER_METADATA, "imoveis-urbanos-alugar", filterOptions))
                 .thenReturn(searchResultsSegment4);
 
         when(dataScraperSegmentPropertyV2Service.fetch(eq(retrofit), any(), eq(searchResultsSegment1)))
@@ -173,16 +173,16 @@ class DataScraperV2ServiceTest {
         verifyNoMoreInteractions(dataScraperSegmentFilterOptionsV2Service);
 
         verify(dataScraperSegmentSearchV2Service, times(1)).fetch(
-                eq(PROVIDER_METADATA), eq("imoveis-plus-comprar"), eq(filterOptions)
+                PROVIDER_METADATA, "imoveis-plus-comprar", filterOptions
         );
         verify(dataScraperSegmentSearchV2Service, times(1)).fetch(
-                eq(PROVIDER_METADATA), eq("imoveis-plus-alugar"), eq(filterOptions)
+                PROVIDER_METADATA, "imoveis-plus-alugar", filterOptions
         );
         verify(dataScraperSegmentSearchV2Service, times(1)).fetch(
-                eq(PROVIDER_METADATA), eq("imoveis-urbanos-comprar"), eq(filterOptions)
+                PROVIDER_METADATA, "imoveis-urbanos-comprar", filterOptions
         );
         verify(dataScraperSegmentSearchV2Service, times(1)).fetch(
-                eq(PROVIDER_METADATA), eq("imoveis-urbanos-alugar"), eq(filterOptions)
+                PROVIDER_METADATA, "imoveis-urbanos-alugar", filterOptions
         );
         verifyNoMoreInteractions(dataScraperSegmentSearchV2Service);
 

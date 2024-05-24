@@ -9,7 +9,6 @@ import br.com.houseseeker.service.builder.ProvidersDataRequestBuilder;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest;
 import br.com.houseseeker.service.proto.GetProvidersDataResponse;
 import br.com.houseseeker.service.proto.ProviderDataServiceGrpc.ProviderDataServiceBlockingStub;
-import com.google.protobuf.BytesValue;
 import com.google.protobuf.Int32Value;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +21,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
 import java.util.Set;
-
-import static br.com.houseseeker.configuration.CacheConfiguration.PROVIDER_LOGO_CACHE;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProviderService {
+
+    public static final String PROVIDER_LOGO_CACHE = "providerLogoCache";
 
     private final ProviderMapper providerMapper;
 
