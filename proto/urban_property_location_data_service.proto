@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "message/urban_property_location.proto";
+
+message GetUrbanPropertyLocationsRequest {
+  message ProjectionsData {
+    optional bool id = 1;
+    optional bool urban_property = 2;
+    optional bool state = 3;
+    optional bool city = 4;
+    optional bool district = 5;
+    optional bool zip_code = 6;
+    optional bool street_name = 7;
+    optional bool street_number = 8;
+    optional bool complement = 9;
+    optional bool latitude = 10;
+    optional bool longitude = 11;
+  }
+  message ClausesData {
+    optional Int32ComparisonData id = 1;
+    optional Int32ComparisonData urban_property_id = 2;
+    optional StringComparisonData state = 3;
+    optional StringComparisonData city = 4;
+    optional StringComparisonData district = 5;
+    optional StringComparisonData zip_code = 6;
+    optional StringComparisonData street_name = 7;
+    optional Int32ComparisonData street_number = 8;
+    optional StringComparisonData complement = 9;
+    optional DoubleComparisonData latitude = 10;
+    optional DoubleComparisonData longitude = 11;
+  }
+  message OrdersData {
+    optional OrderDetailsData id = 1;
+    optional OrderDetailsData urban_property_id = 2;
+    optional OrderDetailsData state = 3;
+    optional OrderDetailsData city = 4;
+    optional OrderDetailsData district = 5;
+    optional OrderDetailsData zip_code = 6;
+    optional OrderDetailsData street_name = 7;
+    optional OrderDetailsData street_number = 8;
+    optional OrderDetailsData complement = 9;
+    optional OrderDetailsData latitude = 10;
+    optional OrderDetailsData longitude = 11;
+  }
+  optional ProjectionsData projections = 1;
+  optional ClausesData clauses = 2;
+  optional PaginationRequestData pagination = 3;
+  optional OrdersData orders = 4;
+}
+
+message GetUrbanPropertyLocationsResponse {
+  repeated UrbanPropertyLocationData urbanPropertyLocations = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service UrbanPropertyLocationDataService {
+  rpc GetUrbanPropertyLocations(GetUrbanPropertyLocationsRequest) returns (GetUrbanPropertyLocationsResponse);
+}

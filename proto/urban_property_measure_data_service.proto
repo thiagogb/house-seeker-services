@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "message/urban_property_measure.proto";
+
+message GetUrbanPropertyMeasuresRequest {
+  message ProjectionsData {
+    optional bool id = 1;
+    optional bool urban_property = 2;
+    optional bool total_area = 3;
+    optional bool private_area = 4;
+    optional bool usable_area = 5;
+    optional bool terrain_total_area = 6;
+    optional bool terrain_front = 7;
+    optional bool terrain_back = 8;
+    optional bool terrain_left = 9;
+    optional bool terrain_right = 10;
+    optional bool area_unit = 11;
+  }
+  message ClausesData {
+    optional Int32ComparisonData id = 1;
+    optional Int32ComparisonData urban_property_id = 2;
+    optional DoubleComparisonData total_area = 3;
+    optional DoubleComparisonData private_area = 4;
+    optional DoubleComparisonData usable_area = 5;
+    optional DoubleComparisonData terrain_total_area = 6;
+    optional DoubleComparisonData terrain_front = 7;
+    optional DoubleComparisonData terrain_back = 8;
+    optional DoubleComparisonData terrain_left = 9;
+    optional DoubleComparisonData terrain_right = 10;
+    optional StringComparisonData area_unit = 11;
+  }
+  message OrdersData {
+    optional OrderDetailsData id = 1;
+    optional OrderDetailsData urban_property_id = 2;
+    optional OrderDetailsData total_area = 3;
+    optional OrderDetailsData private_area = 4;
+    optional OrderDetailsData usable_area = 5;
+    optional OrderDetailsData terrain_total_area = 6;
+    optional OrderDetailsData terrain_front = 7;
+    optional OrderDetailsData terrain_back = 8;
+    optional OrderDetailsData terrain_left = 9;
+    optional OrderDetailsData terrain_right = 10;
+    optional OrderDetailsData area_unit = 11;
+  }
+  optional ProjectionsData projections = 1;
+  optional ClausesData clauses = 2;
+  optional PaginationRequestData pagination = 3;
+  optional OrdersData orders = 4;
+}
+
+message GetUrbanPropertyMeasuresResponse {
+  repeated UrbanPropertyMeasureData urbanPropertyMeasures = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service UrbanPropertyMeasureDataService {
+  rpc GetUrbanPropertyMeasures(GetUrbanPropertyMeasuresRequest) returns (GetUrbanPropertyMeasuresResponse);
+}

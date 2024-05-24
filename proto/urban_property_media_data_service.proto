@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "message/urban_property_media.proto";
+
+message GetUrbanPropertyMediasRequest {
+  message ProjectionsData {
+    optional bool id = 1;
+    optional bool urban_property = 2;
+    optional bool link = 3;
+    optional bool link_thumb = 4;
+    optional bool media_type = 5;
+    optional bool extension = 6;
+  }
+  message ClausesData {
+    optional Int32ComparisonData id = 1;
+    optional Int32ComparisonData urban_property_id = 2;
+    optional StringComparisonData link = 3;
+    optional StringComparisonData link_thumb = 4;
+    optional EnumComparisonData media_type = 5;
+    optional StringComparisonData extension = 6;
+  }
+  message OrdersData {
+    optional OrderDetailsData id = 1;
+    optional OrderDetailsData urban_property_id = 2;
+    optional OrderDetailsData link = 3;
+    optional OrderDetailsData link_thumb = 4;
+    optional OrderDetailsData media_type = 5;
+    optional OrderDetailsData extension = 6;
+  }
+  optional ProjectionsData projections = 1;
+  optional ClausesData clauses = 2;
+  optional PaginationRequestData pagination = 3;
+  optional OrdersData orders = 4;
+}
+
+message GetUrbanPropertyMediasResponse {
+  repeated UrbanPropertyMediaData urbanPropertyMedias = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service UrbanPropertyMediaDataService {
+  rpc GetUrbanPropertyMedias(GetUrbanPropertyMediasRequest) returns (GetUrbanPropertyMediasResponse);
+}

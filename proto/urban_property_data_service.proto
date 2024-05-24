@@ -3,8 +3,6 @@ syntax = "proto3";
 option java_package = "br.com.houseseeker.service.proto";
 option java_multiple_files = true;
 
-import "google/protobuf/empty.proto";
-import "google/protobuf/wrappers.proto";
 import "message/request_commons.proto";
 import "message/response_commons.proto";
 import "message/comparison_commons.proto";
@@ -39,9 +37,55 @@ message GetUrbanPropertiesRequest {
   }
   message ClausesData {
     optional Int32ComparisonData id = 1;
+    optional Int32ComparisonData provider_id = 2;
+    optional StringComparisonData provider_code = 3;
+    optional StringComparisonData url = 4;
+    optional EnumComparisonData contract = 5;
+    optional EnumComparisonData type = 6;
+    optional StringComparisonData sub_type = 7;
+    optional Int32ComparisonData dormitories = 8;
+    optional Int32ComparisonData suites = 9;
+    optional Int32ComparisonData bathrooms = 10;
+    optional Int32ComparisonData garages = 11;
+    optional DoubleComparisonData sell_price = 12;
+    optional DoubleComparisonData rent_price = 13;
+    optional DoubleComparisonData condominium_price = 14;
+    optional StringComparisonData condominium_name = 15;
+    optional BoolComparisonData exchangeable = 16;
+    optional EnumComparisonData status = 17;
+    optional BoolComparisonData financeable = 18;
+    optional BoolComparisonData occupied = 19;
+    optional StringComparisonData notes = 20;
+    optional DateTimeComparisonData creation_date = 21;
+    optional DateTimeComparisonData last_analysis_date = 22;
+    optional DateTimeComparisonData exclusion_date = 23;
+    optional BoolComparisonData analyzable = 24;
   }
   message OrdersData {
     optional OrderDetailsData id = 1;
+    optional OrderDetailsData provider_id = 2;
+    optional OrderDetailsData provider_code = 3;
+    optional OrderDetailsData url = 4;
+    optional OrderDetailsData contract = 5;
+    optional OrderDetailsData type = 6;
+    optional OrderDetailsData sub_type = 7;
+    optional OrderDetailsData dormitories = 8;
+    optional OrderDetailsData suites = 9;
+    optional OrderDetailsData bathrooms = 10;
+    optional OrderDetailsData garages = 11;
+    optional OrderDetailsData sell_price = 12;
+    optional OrderDetailsData rent_price = 13;
+    optional OrderDetailsData condominium_price = 14;
+    optional OrderDetailsData condominium_name = 15;
+    optional OrderDetailsData exchangeable = 16;
+    optional OrderDetailsData status = 17;
+    optional OrderDetailsData financeable = 18;
+    optional OrderDetailsData occupied = 19;
+    optional OrderDetailsData notes = 20;
+    optional OrderDetailsData creation_date = 21;
+    optional OrderDetailsData last_analysis_date = 22;
+    optional OrderDetailsData exclusion_date = 23;
+    optional OrderDetailsData analyzable = 24;
   }
   optional ProjectionsData projections = 1;
   optional ClausesData clauses = 2;

@@ -45,7 +45,7 @@ public class ProviderService {
 
     @Transactional
     public Provider insert(@NotNull ProviderData providerData) {
-        Provider provider = providerMapper.createEntity(providerData);
+        Provider provider = providerMapper.toEntity(providerData);
         entityValidatorService.validate(provider);
         return providerRepository.save(provider);
     }
@@ -54,7 +54,7 @@ public class ProviderService {
     public Provider update(@NotNull ProviderData providerData) {
         int id = ProtoWrapperUtils.getInt(providerData.getId());
         Provider provider = findByIdOrThrowNotFound(id);
-        providerMapper.copyToEntity(providerData, provider);
+        providerMapper.toEntity(providerData, provider);
         entityValidatorService.validate(provider);
         return providerRepository.save(provider);
     }

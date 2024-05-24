@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UrbanPropertyPriceVariationRepository extends JpaRepository<UrbanPropertyPriceVariation, Integer> {
+public interface UrbanPropertyPriceVariationRepository
+        extends JpaRepository<UrbanPropertyPriceVariation, Integer>, UrbanPropertyPriceVariationExtendedRepository {
 
     @Query("""
             FROM UrbanPropertyPriceVariation urbanPropertyPriceVariation

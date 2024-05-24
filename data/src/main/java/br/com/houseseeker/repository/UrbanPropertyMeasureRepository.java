@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UrbanPropertyMeasureRepository extends JpaRepository<UrbanPropertyMeasure, Integer> {
+public interface UrbanPropertyMeasureRepository extends JpaRepository<UrbanPropertyMeasure, Integer>, UrbanPropertyMeasureExtendedRepository {
 
     @Query("""
             FROM UrbanPropertyMeasure urbanPropertyMeasure
@@ -19,7 +19,7 @@ public interface UrbanPropertyMeasureRepository extends JpaRepository<UrbanPrope
             JOIN FETCH urbanProperty.provider provider
             WHERE provider = :provider
             """)
-    List<UrbanPropertyMeasure> findAllByProvider(@Param("provider")Provider provider);
+    List<UrbanPropertyMeasure> findAllByProvider(@Param("provider") Provider provider);
 
     @Modifying
     @Query("""

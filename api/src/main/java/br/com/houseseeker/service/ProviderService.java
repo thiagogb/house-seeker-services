@@ -50,14 +50,14 @@ public class ProviderService {
     }
 
     public ProviderData insert(@NotNull ProviderCreationInput input) {
-        ProviderData request = providerMapper.toData(input);
+        ProviderData request = providerMapper.toProto(input);
         return providerDataServiceBlockingStub.insertProvider(request);
     }
 
     @CacheEvict(value = PROVIDER_LOGO_CACHE, key = "#id")
     public ProviderData update(int id, @NotNull ProviderEditionInput input) {
         ProviderData.Builder builder = findByIdOrThrowNotFound(id).toBuilder();
-        providerMapper.copyToData(input, builder);
+        providerMapper.copyToProto(input, builder);
         return providerDataServiceBlockingStub.updateProvider(builder.build());
     }
 
