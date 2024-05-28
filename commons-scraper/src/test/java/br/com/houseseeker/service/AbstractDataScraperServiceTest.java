@@ -5,6 +5,8 @@ import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.domain.provider.ProviderMetadata;
 import br.com.houseseeker.domain.provider.ProviderParameters;
 import br.com.houseseeker.domain.provider.ProviderScraperResponse;
+import br.com.houseseeker.util.ThreadUtils;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import retrofit2.Retrofit;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
 
 import static br.com.houseseeker.domain.provider.ProviderParameters.DEFAULT;
 import static br.com.houseseeker.mock.ProviderMetadataMocks.withMechanism;
@@ -30,6 +34,7 @@ class AbstractDataScraperServiceTest {
 
     private SuccessDataScraperService successDataScraperService;
     private FailDataScraperService failDataScraperService;
+    private ConcurrencyDataScraperService concurrencyDataScraperService;
 
     @Autowired
     private Clock clock;
@@ -41,6 +46,7 @@ class AbstractDataScraperServiceTest {
     void setup() {
         successDataScraperService = new SuccessDataScraperService(clock);
         failDataScraperService = new FailDataScraperService(clock);
+        concurrencyDataScraperService = new ConcurrencyDataScraperService(clock);
     }
 
     @Test
@@ -60,6 +66,24 @@ class AbstractDataScraperServiceTest {
                 .extracting(ProviderScraperResponse::getErrorInfo)
                 .extracting("message", "className")
                 .containsExactly("Execution failure", "java.lang.RuntimeException");
+    }
+
+    @Test
+    @DisplayName("given two execution for same provider when calls scrap then expects")
+    void givenTwoExecutionForSameProvider_whenCallsScrap_thenExpects() {
+        CompletableFuture.runAsync(() -> concurrencyDataScraperService.scrap(DEFAULT_PROVIDER, DEFAULT, retrofit));
+
+        Awaitility.await().during(Duration.ofMillis(100));
+
+        assertThat(concurrencyDataScraperService.scrap(DEFAULT_PROVIDER, DEFAULT, retrofit))
+                .hasFieldOrPropertyWithValue("providerMetadata", DEFAULT_PROVIDER)
+                .hasFieldOrPropertyWithValue("extractedData", Collections.emptyList())
+                .extracting(ProviderScraperResponse::getErrorInfo)
+                .extracting("message", "className")
+                .containsExactly(
+                        "Provider Test Provider is already in execution state",
+                        "br.com.houseseeker.domain.exception.ExtendedRuntimeException"
+                );
     }
 
     private static final class SuccessDataScraperService extends AbstractDataScraperService {
@@ -84,6 +108,24 @@ class AbstractDataScraperServiceTest {
         @Override
         protected ProviderScraperResponse execute(ProviderMetadata providerMetadata, ProviderParameters providerParameters, Retrofit retrofit) {
             throw new RuntimeException("Execution failure");
+        }
+
+    }
+
+    private static final class ConcurrencyDataScraperService extends AbstractDataScraperService {
+
+        private int executionSeq = 0;
+
+        ConcurrencyDataScraperService(Clock clock) {
+            super(clock);
+        }
+
+        @Override
+        protected ProviderScraperResponse execute(ProviderMetadata providerMetadata, ProviderParameters providerParameters, Retrofit retrofit) {
+            if (++executionSeq == 1)
+                ThreadUtils.sleep(1000);
+
+            return generateResponse(providerMetadata, Collections.emptyList(), result -> null);
         }
 
     }
