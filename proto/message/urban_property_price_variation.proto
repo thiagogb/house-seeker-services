@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "message/urban_property.proto";
+
+message UrbanPropertyPriceVariationData {
+  google.protobuf.Int32Value id = 1;
+  UrbanPropertyData urban_property = 2;
+  google.protobuf.StringValue analysis_date = 3;
+  google.protobuf.StringValue type = 4;
+  google.protobuf.DoubleValue price = 5;
+  google.protobuf.DoubleValue variation = 6;
+}

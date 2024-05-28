@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "message/urban_property_price_variation.proto";
+
+message GetUrbanPropertyPriceVariationsRequest {
+  message ProjectionsData {
+    optional bool id = 1;
+    optional bool urban_property = 2;
+    optional bool analysis_date = 3;
+    optional bool type = 4;
+    optional bool price = 5;
+    optional bool variation = 6;
+  }
+  message ClausesData {
+    optional Int32ComparisonData id = 1;
+    optional Int32ComparisonData urban_property_id = 2;
+    optional DateTimeComparisonData analysis_date = 3;
+    optional EnumComparisonData type = 4;
+    optional DoubleComparisonData price = 5;
+    optional DoubleComparisonData variation = 6;
+  }
+  message OrdersData {
+    optional OrderDetailsData id = 1;
+    optional OrderDetailsData urban_property_id = 2;
+    optional OrderDetailsData analysis_date = 3;
+    optional OrderDetailsData type = 4;
+    optional OrderDetailsData price = 5;
+    optional OrderDetailsData variation = 6;
+  }
+  optional ProjectionsData projections = 1;
+  optional ClausesData clauses = 2;
+  optional PaginationRequestData pagination = 3;
+  optional OrdersData orders = 4;
+}
+
+message GetUrbanPropertyPriceVariationsResponse {
+  repeated UrbanPropertyPriceVariationData urbanPropertyPriceVariations = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service UrbanPropertyPriceVariationDataService {
+  rpc GetUrbanPropertyPriceVariations(GetUrbanPropertyPriceVariationsRequest) returns (GetUrbanPropertyPriceVariationsResponse);
+}

@@ -3,10 +3,12 @@ package br.com.houseseeker.service;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyConvenience;
 import br.com.houseseeker.repository.UrbanPropertyConvenienceRepository;
+import br.com.houseseeker.service.proto.GetUrbanPropertyConveniencesRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,11 @@ public class UrbanPropertyConvenienceService {
     @Transactional
     public List<UrbanPropertyConvenience> findAllByProvider(@NotNull Provider provider) {
         return urbanPropertyConvenienceRepository.findAllByProvider(provider);
+    }
+
+    @Transactional
+    public Page<UrbanPropertyConvenience> findBy(@NotNull GetUrbanPropertyConveniencesRequest request) {
+        return urbanPropertyConvenienceRepository.findBy(request);
     }
 
     @Transactional

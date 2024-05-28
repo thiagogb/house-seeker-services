@@ -1,7 +1,18 @@
 package br.com.houseseeker.service;
 
 import br.com.houseseeker.AbstractJpaIntegrationTest;
+import br.com.houseseeker.domain.proto.DoubleComparisonData;
+import br.com.houseseeker.domain.proto.DoubleIntervalComparisonData;
+import br.com.houseseeker.domain.proto.EnumComparisonData;
+import br.com.houseseeker.domain.proto.EnumSingleComparisonData;
+import br.com.houseseeker.domain.proto.Int32ComparisonData;
+import br.com.houseseeker.domain.proto.Int32SingleComparisonData;
+import br.com.houseseeker.domain.proto.StringComparisonData;
+import br.com.houseseeker.domain.proto.StringSingleComparisonData;
 import br.com.houseseeker.entity.UrbanProperty;
+import br.com.houseseeker.service.proto.GetUrbanPropertiesRequest;
+import br.com.houseseeker.service.proto.GetUrbanPropertiesRequest.ClausesData;
+import br.com.houseseeker.service.proto.GetUrbanPropertiesRequest.ProjectionsData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +46,81 @@ class UrbanPropertyServiceIntegrationTest extends AbstractJpaIntegrationTest {
                         tuple("3272", SELL, RESIDENTIAL, "Casa", new BigDecimal("1590000.00"), new BigDecimal("1590.00")),
                         tuple("500489", SELL, RESIDENTIAL, "Casa de Condomínio", new BigDecimal("1800000.00"), new BigDecimal("1800.00")),
                         tuple("98297", SELL, RESIDENTIAL, "Cobertura", new BigDecimal("960000.00"), new BigDecimal("960.00"))
+                );
+    }
+
+    @Test
+    @DisplayName("given a proto request when calls findBy then expects")
+    void givenAProtoRequest_whenCallsFindBy_thenExpects() {
+        var request = GetUrbanPropertiesRequest.newBuilder()
+                                               .setProjections(
+                                                       ProjectionsData.newBuilder()
+                                                                      .setId(true)
+                                                                      .setProviderCode(true)
+                                                                      .setUrl(true)
+                                                                      .setSubType(true)
+                                                                      .setDormitories(true)
+                                                                      .setGarages(true)
+                                                                      .setSellPrice(true)
+                                                                      .build()
+                                               )
+                                               .setClauses(
+                                                       ClausesData.newBuilder()
+                                                                  .setProviderId(
+                                                                          Int32ComparisonData.newBuilder()
+                                                                                             .setIsEqual(
+                                                                                                     Int32SingleComparisonData.newBuilder()
+                                                                                                                              .setValue(10000)
+                                                                                                                              .build()
+                                                                                             )
+                                                                                             .build()
+                                                                  )
+                                                                  .setUrl(
+                                                                          StringComparisonData.newBuilder()
+                                                                                              .setItContains(
+                                                                                                      StringSingleComparisonData.newBuilder()
+                                                                                                                                .setValue("oliveiraimoveissm")
+                                                                                                                                .build()
+                                                                                              )
+                                                                                              .build()
+                                                                  )
+                                                                  .setContract(
+                                                                          EnumComparisonData.newBuilder()
+                                                                                            .setIsEqual(
+                                                                                                    EnumSingleComparisonData.newBuilder()
+                                                                                                                            .setValue(SELL.name())
+                                                                                                                            .build()
+                                                                                            )
+                                                                                            .build()
+                                                                  )
+                                                                  .setType(
+                                                                          EnumComparisonData.newBuilder()
+                                                                                            .setIsEqual(
+                                                                                                    EnumSingleComparisonData.newBuilder()
+                                                                                                                            .setValue(RESIDENTIAL.name())
+                                                                                                                            .build()
+                                                                                            )
+                                                                                            .build()
+                                                                  )
+                                                                  .setSellPrice(
+                                                                          DoubleComparisonData.newBuilder()
+                                                                                              .setIsBetween(
+                                                                                                      DoubleIntervalComparisonData.newBuilder()
+                                                                                                                                  .setStart(1500000)
+                                                                                                                                  .setEnd(2000000)
+                                                                                                                                  .build()
+                                                                                              )
+                                                                                              .build()
+                                                                  )
+                                                                  .build()
+                                               )
+                                               .build();
+
+        assertThat(urbanPropertyService.findBy(request))
+                .extracting("id", "providerCode", "url", "subType", "dormitories", "garages", "sellPrice")
+                .containsExactly(
+                        tuple(10004, "3272", "https://www.oliveiraimoveissm.com.br/imovel/3272", "Casa", 4, 4, new BigDecimal("1590000.00")),
+                        tuple(10000, "500489", "https://www.oliveiraimoveissm.com.br/imovel/500489", "Casa de Condomínio", 4, 2, new BigDecimal("1800000.00"))
                 );
     }
 

@@ -13,6 +13,10 @@ import br.com.houseseeker.domain.proto.OrderDirectionData;
 import br.com.houseseeker.domain.proto.PaginationResponseData;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
+import br.com.houseseeker.mapper.ProtoBoolMapperImpl;
+import br.com.houseseeker.mapper.ProtoBytesMapperImpl;
+import br.com.houseseeker.mapper.ProtoInt32MapperImpl;
+import br.com.houseseeker.mapper.ProtoStringMapperImpl;
 import br.com.houseseeker.mapper.ProviderMapperImpl;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
 import br.com.houseseeker.service.proto.GetProvidersDataResponse;
@@ -52,6 +56,10 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {
+        ProtoInt32MapperImpl.class,
+        ProtoStringMapperImpl.class,
+        ProtoBytesMapperImpl.class,
+        ProtoBoolMapperImpl.class,
         ProviderMapperImpl.class,
         ProviderService.class
 })

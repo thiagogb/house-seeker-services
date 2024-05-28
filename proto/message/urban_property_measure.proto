@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "message/urban_property.proto";
+
+message UrbanPropertyMeasureData {
+  google.protobuf.Int32Value id = 1;
+  UrbanPropertyData urban_property = 2;
+  google.protobuf.DoubleValue total_area = 3;
+  google.protobuf.DoubleValue private_area = 4;
+  google.protobuf.DoubleValue usable_area = 5;
+  google.protobuf.DoubleValue terrain_total_area = 6;
+  google.protobuf.DoubleValue terrain_front = 7;
+  google.protobuf.DoubleValue terrain_back = 8;
+  google.protobuf.DoubleValue terrain_left = 9;
+  google.protobuf.DoubleValue terrain_right = 10;
+  google.protobuf.StringValue area_unit = 11;
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "message/urban_property.proto";
+
+message UrbanPropertyMediaData {
+  google.protobuf.Int32Value id = 1;
+  UrbanPropertyData urban_property = 2;
+  google.protobuf.StringValue link = 3;
+  google.protobuf.StringValue link_thumb = 4;
+  google.protobuf.StringValue media_type = 5;
+  google.protobuf.StringValue extension = 6;
+}

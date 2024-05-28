@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.domain.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "message/urban_property.proto";
+
+message UrbanPropertyLocationData {
+  google.protobuf.Int32Value id = 1;
+  UrbanPropertyData urban_property = 2;
+  google.protobuf.StringValue state = 3;
+  google.protobuf.StringValue city = 4;
+  google.protobuf.StringValue district = 5;
+  google.protobuf.StringValue zip_code = 6;
+  google.protobuf.StringValue street_name = 7;
+  google.protobuf.Int32Value street_number = 8;
+  google.protobuf.StringValue complement = 9;
+  google.protobuf.DoubleValue latitude = 10;
+  google.protobuf.DoubleValue longitude = 11;
+}

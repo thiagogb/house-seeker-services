@@ -9,6 +9,10 @@ import br.com.houseseeker.domain.proto.PaginationResponseData;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import br.com.houseseeker.mapper.PaginationMapperImpl;
+import br.com.houseseeker.mapper.ProtoBoolMapperImpl;
+import br.com.houseseeker.mapper.ProtoBytesMapperImpl;
+import br.com.houseseeker.mapper.ProtoInt32MapperImpl;
+import br.com.houseseeker.mapper.ProtoStringMapperImpl;
 import br.com.houseseeker.mapper.ProviderMapper;
 import br.com.houseseeker.mapper.ProviderMapperImpl;
 import br.com.houseseeker.service.ProviderService;
@@ -51,7 +55,14 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @GraphQlTest(controllers = ProviderController.class)
-@Import({ProviderMapperImpl.class, PaginationMapperImpl.class})
+@Import({
+        ProtoInt32MapperImpl.class,
+        ProtoStringMapperImpl.class,
+        ProtoBytesMapperImpl.class,
+        ProtoBoolMapperImpl.class,
+        ProviderMapperImpl.class,
+        PaginationMapperImpl.class
+})
 @ExtendWith(MockitoExtension.class)
 class ProviderControllerGraphQLTest {
 
@@ -95,7 +106,7 @@ class ProviderControllerGraphQLTest {
         );
 
         lenient().when(providerService.insert(any()))
-                 .thenAnswer(a -> providerMapper.toData(a.getArgument(0, ProviderCreationInput.class))
+                 .thenAnswer(a -> providerMapper.toProto(a.getArgument(0, ProviderCreationInput.class))
                                                 .toBuilder()
                                                 .setId(Int32Value.of(1))
                                                 .build()
@@ -106,7 +117,7 @@ class ProviderControllerGraphQLTest {
                      var id = a.getArgument(0, Integer.class);
                      var input = a.getArgument(1, ProviderEditionInput.class);
                      var data = DEFAULT_PROVIDER_DATA.toBuilder();
-                     providerMapper.copyToData(input, data);
+                     providerMapper.copyToProto(input, data);
                      return data.setId(Int32Value.of(id)).build();
                  });
     }

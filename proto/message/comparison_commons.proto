@@ -97,6 +97,30 @@ message StringComparisonData {
   }
 }
 
+message DateTimeSingleComparisonData {
+  string value = 1;
+}
+
+message DateTimeIntervalComparisonData {
+  string start = 1;
+  string end = 2;
+}
+
+message DateTimeComparisonData {
+  oneof comparison {
+    bool is_null = 1;
+    bool is_not_null = 2;
+    DateTimeSingleComparisonData is_equal = 3;
+    DateTimeSingleComparisonData is_not_equal = 4;
+    DateTimeSingleComparisonData is_greater = 5;
+    DateTimeSingleComparisonData is_greater_or_equal = 6;
+    DateTimeSingleComparisonData is_lesser = 7;
+    DateTimeSingleComparisonData is_lesser_or_equal = 8;
+    DateTimeIntervalComparisonData is_between = 9;
+    DateTimeIntervalComparisonData is_not_between = 10;
+  }
+}
+
 message EnumSingleComparisonData {
   string value = 1;
 }

@@ -26,7 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = ProviderMapperImpl.class)
+@SpringBootTest(classes = {
+        ProtoInt32MapperImpl.class,
+        ProtoStringMapperImpl.class,
+        ProtoBytesMapperImpl.class,
+        ProtoBoolMapperImpl.class,
+        ProviderMapperImpl.class
+})
 @ExtendWith(MockitoExtension.class)
 class ProviderMapperTest {
 
@@ -104,9 +110,9 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a input when calls toData then expects")
-    void givenAInput_whenCallsToData_thenExpects() {
-        assertThat(providerMapper.toData(DEFAULT_PROVIDER_CREATION_INPUT))
+    @DisplayName("given a input when calls toProto then expects")
+    void givenAInput_whenCallsToProto_thenExpects() {
+        assertThat(providerMapper.toProto(DEFAULT_PROVIDER_CREATION_INPUT))
                 .extracting(DATA_EXTRACTED_ATTRIBUTES)
                 .containsExactly(
                         Int32Value.getDefaultInstance(),
@@ -122,8 +128,8 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a input with all attributes filled and a existing data when calls copyToData then expects")
-    void givenAInputWithAllAttributesFilledAndExistingData_whenCallsCopyToData_thenExpects() {
+    @DisplayName("given a input with all attributes filled and a existing data when calls copyToProto then expects")
+    void givenAInputWithAllAttributesFilledAndExistingData_whenCallsCopyToProto_thenExpects() {
         var input = ProviderEditionInput.builder()
                                         .name("Test provider edited")
                                         .siteUrl("http://127.0.0.1")
@@ -151,7 +157,7 @@ class ProviderMapperTest {
 
         input.detectedChangedArguments(mockedDataFetchingEnvironment);
 
-        providerMapper.copyToData(input, data);
+        providerMapper.copyToProto(input, data);
 
         assertThat(data.build())
                 .extracting(DATA_EXTRACTED_ATTRIBUTES)
@@ -169,8 +175,8 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a input with partial attributes filled and a existing data when calls copyToData then expects")
-    void givenAInputWithPartialAttributesFilledAndExistingData_whenCallsCopyToData_thenExpects() {
+    @DisplayName("given a input with partial attributes filled and a existing data when calls copyToProto then expects")
+    void givenAInputWithPartialAttributesFilledAndExistingData_whenCallsCopyToProto_thenExpects() {
         var input = ProviderEditionInput.builder()
                                         .name("Test provider edited")
                                         .siteUrl("http://127.0.0.1")
@@ -188,7 +194,7 @@ class ProviderMapperTest {
 
         input.detectedChangedArguments(mockedDataFetchingEnvironment);
 
-        providerMapper.copyToData(input, data);
+        providerMapper.copyToProto(input, data);
 
         assertThat(data.build())
                 .extracting(DATA_EXTRACTED_ATTRIBUTES)
@@ -206,8 +212,8 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a input with partial attributes filled with nulls and a existing data when calls copyToData then expects")
-    void givenAInputWithPartialAttributesFilledWithNullsAndExistingData_whenCallsCopyToData_thenExpects() {
+    @DisplayName("given a input with partial attributes filled with nulls and a existing data when calls copyToProto then expects")
+    void givenAInputWithPartialAttributesFilledWithNullsAndExistingData_whenCallsCopyToProto_thenExpects() {
         var input = ProviderEditionInput.builder().build();
         var data = DEFAULT_PROVIDER_DATA.toBuilder();
 
@@ -221,7 +227,7 @@ class ProviderMapperTest {
 
         input.detectedChangedArguments(mockedDataFetchingEnvironment);
 
-        providerMapper.copyToData(input, data);
+        providerMapper.copyToProto(input, data);
 
         assertThat(data.build())
                 .extracting(DATA_EXTRACTED_ATTRIBUTES)

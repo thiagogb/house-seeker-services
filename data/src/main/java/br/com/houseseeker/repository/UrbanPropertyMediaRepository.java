@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UrbanPropertyMediaRepository extends JpaRepository<UrbanPropertyMedia, Integer> {
+public interface UrbanPropertyMediaRepository extends JpaRepository<UrbanPropertyMedia, Integer>, UrbanPropertyMediaExtendedRepository {
 
     @Query("""
             FROM UrbanPropertyMedia urbanPropertyMedia

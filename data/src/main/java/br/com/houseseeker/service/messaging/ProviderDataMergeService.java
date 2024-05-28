@@ -133,9 +133,9 @@ public class ProviderDataMergeService {
         extractedPropertiesByCodeMap.forEach((key, value) -> {
             boolean isNewProperty = !existingPropertiesByCodeMap.containsKey(key);
             if (isNewProperty) {
-                existingPropertiesByCodeMap.put(key, urbanPropertyMapper.createEntity(provider, value));
+                existingPropertiesByCodeMap.put(key, urbanPropertyMapper.toEntity(provider, value));
             } else {
-                urbanPropertyMapper.copyToEntity(value, existingPropertiesByCodeMap.get(key));
+                urbanPropertyMapper.toEntity(value, existingPropertiesByCodeMap.get(key));
             }
         });
     }
@@ -166,9 +166,9 @@ public class ProviderDataMergeService {
         extractedPropertiesByCodeMap.forEach((key, value) -> {
             boolean isNewLocation = isNull(propertyLocationsMap.get(key));
             if (isNewLocation) {
-                propertyLocationsMap.put(key, urbanPropertyLocationMapper.createEntity(existingPropertiesByCodeMap.get(key), value));
+                propertyLocationsMap.put(key, urbanPropertyLocationMapper.toEntity(existingPropertiesByCodeMap.get(key), value));
             } else {
-                urbanPropertyLocationMapper.copyToEntity(existingPropertiesByCodeMap.get(key), value, propertyLocationsMap.get(key));
+                urbanPropertyLocationMapper.toEntity(existingPropertiesByCodeMap.get(key), value, propertyLocationsMap.get(key));
             }
         });
         urbanPropertyLocationService.saveAll(propertyLocationsMap.values());
@@ -182,9 +182,9 @@ public class ProviderDataMergeService {
         extractedPropertiesByCodeMap.forEach((key, value) -> {
             boolean isNewMeasure = isNull(propertyMeasuresMap.get(key));
             if (isNewMeasure) {
-                propertyMeasuresMap.put(key, urbanPropertyMeasureMapper.createEntity(existingPropertiesByCodeMap.get(key), value));
+                propertyMeasuresMap.put(key, urbanPropertyMeasureMapper.toEntity(existingPropertiesByCodeMap.get(key), value));
             } else {
-                urbanPropertyMeasureMapper.copyToEntity(existingPropertiesByCodeMap.get(key), value, propertyMeasuresMap.get(key));
+                urbanPropertyMeasureMapper.toEntity(existingPropertiesByCodeMap.get(key), value, propertyMeasuresMap.get(key));
             }
         });
         urbanPropertyMeasureService.saveAll(propertyMeasuresMap.values());
@@ -205,7 +205,7 @@ public class ProviderDataMergeService {
                 saveList.addAll(
                         value.getConveniences()
                              .stream()
-                             .map(description -> urbanPropertyConvenienceMapper.createEntity(urbanProperty, description.trim().toUpperCase()))
+                             .map(description -> urbanPropertyConvenienceMapper.toEntity(urbanProperty, description.trim().toUpperCase()))
                              .toList()
                 );
 
@@ -235,7 +235,7 @@ public class ProviderDataMergeService {
                 saveList.addAll(
                         value.getMedias()
                              .stream()
-                             .map(mediaMetadata -> urbanPropertyMediaMapper.createEntity(urbanProperty, mediaMetadata))
+                             .map(mediaMetadata -> urbanPropertyMediaMapper.toEntity(urbanProperty, mediaMetadata))
                              .toList()
                 );
 

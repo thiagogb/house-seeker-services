@@ -20,7 +20,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
-@SpringBootTest(classes = ProviderMapperImpl.class)
+@SpringBootTest(classes = {
+        ProtoInt32MapperImpl.class,
+        ProtoStringMapperImpl.class,
+        ProtoBoolMapperImpl.class,
+        ProtoBytesMapperImpl.class,
+        ProviderMapperImpl.class
+})
 class ProviderMapperTest {
 
     private static final String[] EXTRACTED_ATTRIBUTES = new String[]{
@@ -74,9 +80,9 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a proto when calls createEntity then expects")
-    void givenAProto_whenCallsCreateEntity_thenExpects() {
-        assertThat(providerMapper.createEntity(TEST_PROVIDER_DATA))
+    @DisplayName("given a proto when calls toEntity then expects")
+    void givenAProto_whenCallsToEntity_thenExpects() {
+        assertThat(providerMapper.toEntity(TEST_PROVIDER_DATA))
                 .extracting(EXTRACTED_ATTRIBUTES)
                 .containsExactly(
                         null,
@@ -92,17 +98,17 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a empty proto when calls createEntity then expects")
-    void givenAEmptyProto_whenCallsCreateEntity_thenExpects() {
-        assertThat(providerMapper.createEntity(ProviderData.getDefaultInstance())).hasAllNullFieldsOrProperties();
+    @DisplayName("given a empty proto when calls toEntity then expects")
+    void givenAEmptyProto_whenCallsToEntity_thenExpects() {
+        assertThat(providerMapper.toEntity(ProviderData.getDefaultInstance())).hasAllNullFieldsOrProperties();
     }
 
     @Test
-    @DisplayName("given a proto and provider when calls copyToEntity then expects")
-    void givenAProtoAndProvider_whenCallsCopyToEntity_thenExpects() {
+    @DisplayName("given a proto and provider when calls toEntity then expects")
+    void givenAProtoAndProvider_whenCallsToEntity_thenExpects() {
         Provider provider = Provider.builder().id(1).build();
 
-        providerMapper.copyToEntity(TEST_PROVIDER_DATA, provider);
+        providerMapper.toEntity(TEST_PROVIDER_DATA, provider);
 
         assertThat(provider)
                 .extracting(EXTRACTED_ATTRIBUTES)
@@ -120,11 +126,11 @@ class ProviderMapperTest {
     }
 
     @Test
-    @DisplayName("given a empty proto and provider when calls copyToEntity then expects")
-    void givenAEmptyProtoAndProvider_whenCallsCopyToEntity_thenExpects() {
+    @DisplayName("given a empty proto and provider when calls toEntity then expects")
+    void givenAEmptyProtoAndProvider_whenCallsToEntity_thenExpects() {
         Provider provider = TEST_PROVIDER_ENTITY_1.toBuilder().build();
 
-        providerMapper.copyToEntity(ProviderData.getDefaultInstance(), provider);
+        providerMapper.toEntity(ProviderData.getDefaultInstance(), provider);
 
         assertThat(provider).hasAllNullFieldsOrPropertiesExcept("id");
     }
