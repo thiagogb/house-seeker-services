@@ -3,6 +3,7 @@ package br.com.houseseeker.mapper;
 import br.com.houseseeker.configuration.TimeZoneConfiguration;
 import br.com.houseseeker.domain.proto.UrbanPropertyData;
 import br.com.houseseeker.domain.proto.UrbanPropertyPriceVariationData;
+import br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType;
 import br.com.houseseeker.entity.UrbanProperty;
 import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
 import com.google.protobuf.DoubleValue;
@@ -46,7 +47,7 @@ class UrbanPropertyPriceVariationMapperTest {
                                            .id(1)
                                            .urbanProperty(urbanProperty)
                                            .analysisDate(LocalDateTime.parse("2024-01-01T12:30:45", ISO_LOCAL_DATE_TIME))
-                                           .type(UrbanPropertyPriceVariation.Type.SELL)
+                                           .type(UrbanPropertyPriceVariationType.SELL)
                                            .price(BigDecimal.valueOf(1000))
                                            .variation(BigDecimal.valueOf(10))
                                            .build()
@@ -65,7 +66,7 @@ class UrbanPropertyPriceVariationMapperTest {
                         Int32Value.of(1),
                         StringValue.of("PC01"),
                         StringValue.of("2024-01-01T12:30:45"),
-                        StringValue.of(UrbanPropertyPriceVariation.Type.SELL.name()),
+                        StringValue.of(UrbanPropertyPriceVariationType.SELL.name()),
                         DoubleValue.of(1000),
                         DoubleValue.of(10)
                 ));
@@ -78,7 +79,7 @@ class UrbanPropertyPriceVariationMapperTest {
                 UrbanPropertyPriceVariation.builder()
                                            .id(1)
                                            .analysisDate(LocalDateTime.parse("2024-01-01T12:30:45", ISO_LOCAL_DATE_TIME))
-                                           .type(UrbanPropertyPriceVariation.Type.SELL)
+                                           .type(UrbanPropertyPriceVariationType.SELL)
                                            .price(BigDecimal.valueOf(1000))
                                            .variation(BigDecimal.valueOf(10))
                                            .build()
@@ -97,7 +98,7 @@ class UrbanPropertyPriceVariationMapperTest {
                         Int32Value.of(1),
                         UrbanPropertyData.getDefaultInstance(),
                         StringValue.of("2024-01-01T12:30:45"),
-                        StringValue.of(UrbanPropertyPriceVariation.Type.SELL.name()),
+                        StringValue.of(UrbanPropertyPriceVariationType.SELL.name()),
                         DoubleValue.of(1000),
                         DoubleValue.of(10)
                 ));

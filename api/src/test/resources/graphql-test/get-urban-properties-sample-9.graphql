@@ -1,0 +1,14 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            medias {
+                id
+                link
+                linkThumb
+                mediaType
+                extension
+            }
+        }
+    }
+}

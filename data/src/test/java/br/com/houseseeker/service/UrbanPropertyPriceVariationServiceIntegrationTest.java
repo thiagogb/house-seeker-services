@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.SELL;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.SELL;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;

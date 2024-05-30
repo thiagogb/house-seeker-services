@@ -1,0 +1,19 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            location {
+                id
+                state
+                city
+                district
+                zipCode
+                streetName
+                streetNumber
+                complement
+                latitude
+                longitude
+            }
+        }
+    }
+}

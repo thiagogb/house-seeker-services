@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProviderMechanismComparisonBuilderTest {
@@ -38,41 +39,26 @@ class ProviderMechanismComparisonBuilderTest {
     @ParameterizedTest
     @MethodSource("comparisonSamples")
     @DisplayName("given a input with clause when calls build then expects")
-    void givenAInputWithClause_whenCallsBuild_thenExpects(
-            ProviderMechanismClausesInput input,
-            EnumComparisonData.ComparisonCase expected
-    ) {
+    void givenAInputWithClause_whenCallsBuild_thenExpects(ProviderMechanismClausesInput input, String expected) {
         assertThat(ProviderMechanismComparisonBuilder.build(input))
-                .extracting(EnumComparisonData::getComparisonCase)
+                .extracting(comparisonData -> normalizeSpace(comparisonData.toString()))
                 .isEqualTo(expected);
     }
 
     private static Stream<Arguments> comparisonSamples() {
         return Stream.of(
-                Arguments.of(
-                        ProviderMechanismClausesInput.builder().isNull(true).build(),
-                        EnumComparisonData.ComparisonCase.IS_NULL
-                ),
-                Arguments.of(
-                        ProviderMechanismClausesInput.builder().isNotNull(true).build(),
-                        EnumComparisonData.ComparisonCase.IS_NOT_NULL
-                ),
+                Arguments.of(ProviderMechanismClausesInput.builder().isNull(true).build(), "is_null: true"),
+                Arguments.of(ProviderMechanismClausesInput.builder().isNotNull(true).build(), "is_not_null: true"),
                 Arguments.of(
                         ProviderMechanismClausesInput.builder().isEqual(DEFAULT_SINGLE_INPUT).build(),
-                        EnumComparisonData.ComparisonCase.IS_EQUAL
+                        "is_equal { value: \"JETIMOB_V1\" }"
                 ),
                 Arguments.of(
                         ProviderMechanismClausesInput.builder().isNotEqual(DEFAULT_SINGLE_INPUT).build(),
-                        EnumComparisonData.ComparisonCase.IS_NOT_EQUAL
+                        "is_not_equal { value: \"JETIMOB_V1\" }"
                 ),
-                Arguments.of(
-                        ProviderMechanismClausesInput.builder().isIn(DEFAULT_LIST_INPUT).build(),
-                        EnumComparisonData.ComparisonCase.IS_IN
-                ),
-                Arguments.of(
-                        ProviderMechanismClausesInput.builder().isNotIn(DEFAULT_LIST_INPUT).build(),
-                        EnumComparisonData.ComparisonCase.IS_NOT_IN
-                )
+                Arguments.of(ProviderMechanismClausesInput.builder().isIn(DEFAULT_LIST_INPUT).build(), "is_in { values: \"JETIMOB_V1\" }"),
+                Arguments.of(ProviderMechanismClausesInput.builder().isNotIn(DEFAULT_LIST_INPUT).build(), "is_not_in { values: \"JETIMOB_V1\" }")
         );
     }
 

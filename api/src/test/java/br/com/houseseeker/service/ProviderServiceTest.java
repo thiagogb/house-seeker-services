@@ -9,7 +9,7 @@ import br.com.houseseeker.domain.input.OrderInput;
 import br.com.houseseeker.domain.input.PaginationInput;
 import br.com.houseseeker.domain.input.ProviderCreationInput;
 import br.com.houseseeker.domain.input.ProviderEditionInput;
-import br.com.houseseeker.domain.proto.OrderDirectionData;
+import br.com.houseseeker.domain.proto.PaginationRequestData;
 import br.com.houseseeker.domain.proto.PaginationResponseData;
 import br.com.houseseeker.domain.proto.ProviderData;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
@@ -18,6 +18,7 @@ import br.com.houseseeker.mapper.ProtoBytesMapperImpl;
 import br.com.houseseeker.mapper.ProtoInt32MapperImpl;
 import br.com.houseseeker.mapper.ProtoStringMapperImpl;
 import br.com.houseseeker.mapper.ProviderMapperImpl;
+import br.com.houseseeker.service.proto.GetProvidersDataRequest.ClausesData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
 import br.com.houseseeker.service.proto.GetProvidersDataResponse;
 import br.com.houseseeker.service.proto.ProviderDataServiceGrpc.ProviderDataServiceBlockingStub;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static br.com.houseseeker.service.dsl.GetProvidersDataRequestDsl.assertThis;
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -134,10 +135,17 @@ class ProviderServiceTest {
         assertThat(providerService.findBy(Collections.emptySet(), null)).isEqualTo(DEFAULT_RESPONSE);
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasNotChangedClauses()
-                                            .hasNotChangedOrders()
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -153,10 +161,17 @@ class ProviderServiceTest {
         assertThat(providerService.findBy(projections, null)).isEqualTo(DEFAULT_RESPONSE);
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingOnly("id", "name", "active")
-                                            .hasNotChangedClauses()
-                                            .hasNotChangedOrders()
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: false data_url: false mechanism: false " +
+                                                "params: false cron_expression: false logo: false active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -186,10 +201,23 @@ class ProviderServiceTest {
         assertThat(providerService.findBy(Collections.emptySet(), input)).isEqualTo(DEFAULT_RESPONSE);
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasClauseWithValue(c -> c.getId().getIsGreater(), 1)
-                                            .hasNotChangedOrders()
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id { is_greater { value: 1 } } name { } site_url { } data_url { } mechanism { } " +
+                                                "params { } cron_expression { } logo { } active { }"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -216,10 +244,20 @@ class ProviderServiceTest {
         assertThat(providerService.findBy(Collections.emptySet(), input)).isEqualTo(DEFAULT_RESPONSE);
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasNotChangedClauses()
-                                            .hasOrderWith(OrdersData::getId, 1, OrderDirectionData.ASC)
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getOrders())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo("id { index: 1 } name { } site_url { } data_url { } mechanism { } active { }")
+                        )
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -242,10 +280,20 @@ class ProviderServiceTest {
         assertThat(providerService.findBy(Collections.emptySet(), input)).isEqualTo(DEFAULT_RESPONSE);
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasNotChangedClauses()
-                                            .hasNotChangedOrders()
-                                            .hasPaginationWith(2, 10)
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo("pageSize: 10 pageNumber: 2")
+                        )
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -262,10 +310,20 @@ class ProviderServiceTest {
                 .hasMessage("404 NOT_FOUND \"Provider with id 1 not found\"");
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasClauseWithValue(c -> c.getId().getIsEqual(), 1)
-                                            .hasNotChangedOrders()
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo("id { is_equal { value: 1 } }")
+                        )
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -293,10 +351,20 @@ class ProviderServiceTest {
                 .isEqualTo("content");
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasClauseWithValue(c -> c.getId().getIsEqual(), 1)
-                                            .hasNotChangedOrders()
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo("id { is_equal { value: 1 } }")
+                        )
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -341,11 +409,20 @@ class ProviderServiceTest {
                 .hasMessage("404 NOT_FOUND \"Provider with id 1 not found\"");
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a)
-                        .isProjectingAll()
-                        .hasClauseWithValue(c -> c.getId().getIsEqual(), 1)
-                        .hasNotChangedOrders()
-                        .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo("id { is_equal { value: 1 } }")
+                        )
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verifyNoMoreInteractions(mockedProviderDataServiceBlockingStub);
@@ -392,10 +469,20 @@ class ProviderServiceTest {
                 );
 
         verify(mockedProviderDataServiceBlockingStub, times(1)).getProviders(
-                assertArg(a -> assertThis(a).isProjectingAll()
-                                            .hasClauseWithValue(c -> c.getId().getIsEqual(), 1)
-                                            .hasNotChangedOrders()
-                                            .hasNotChangedPagination()
+                assertArg(a -> assertThat(a)
+                        .satisfies(r -> assertThat(r.getProjections())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo(
+                                        "id: true name: true site_url: true data_url: true mechanism: true " +
+                                                "params: true cron_expression: true logo: true active: true"
+                                )
+                        )
+                        .satisfies(r -> assertThat(r.getClauses())
+                                .extracting(p -> normalizeSpace(p.toString()))
+                                .isEqualTo("id { is_equal { value: 1 } }")
+                        )
+                        .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
         );
         verify(mockedProviderDataServiceBlockingStub, times(1)).updateProvider(any());

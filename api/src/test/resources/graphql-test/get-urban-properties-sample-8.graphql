@@ -1,0 +1,11 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            conveniences {
+                id
+                description
+            }
+        }
+    }
+}

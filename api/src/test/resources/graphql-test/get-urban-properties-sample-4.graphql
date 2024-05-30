@@ -1,0 +1,14 @@
+query  {
+    urbanProperties(input: {
+        orders: {
+            sellPrice: {index: 1, direction: DESC},
+            dormitories: {index: 2, direction: DESC},
+            subType: {index: 3, direction: ASC},
+            id:{index: 4,direction: ASC}
+        }
+    }) {
+        rows {
+            id
+        }
+    }
+}

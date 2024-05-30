@@ -1,0 +1,13 @@
+package br.com.houseseeker.domain.input;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public abstract class AbstractInput<T> {
+
+    private T value;
+
+}

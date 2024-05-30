@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BooleanComparisonBuilderTest {
@@ -29,24 +30,18 @@ class BooleanComparisonBuilderTest {
     @ParameterizedTest
     @MethodSource("comparisonSamples")
     @DisplayName("given a input with clause when calls build then expects")
-    void givenAInputWithClause_whenCallsBuild_thenExpects(BooleanClauseInput input, BoolComparisonData.ComparisonCase expected) {
+    void givenAInputWithClause_whenCallsBuild_thenExpects(BooleanClauseInput input, String expected) {
         assertThat(BooleanComparisonBuilder.build(input))
-                .extracting(BoolComparisonData::getComparisonCase)
+                .extracting(comparisonData -> normalizeSpace(comparisonData.toString()))
                 .isEqualTo(expected);
     }
 
     private static Stream<Arguments> comparisonSamples() {
         return Stream.of(
-                Arguments.of(BooleanClauseInput.builder().isNull(true).build(), BoolComparisonData.ComparisonCase.IS_NULL),
-                Arguments.of(BooleanClauseInput.builder().isNotNull(true).build(), BoolComparisonData.ComparisonCase.IS_NOT_NULL),
-                Arguments.of(
-                        BooleanClauseInput.builder().isEqual(DEFAULT_SINGLE_INPUT).build(),
-                        BoolComparisonData.ComparisonCase.IS_EQUAL
-                ),
-                Arguments.of(
-                        BooleanClauseInput.builder().isNotEqual(DEFAULT_SINGLE_INPUT).build(),
-                        BoolComparisonData.ComparisonCase.IS_NOT_EQUAL
-                )
+                Arguments.of(BooleanClauseInput.builder().isNull(true).build(), "is_null: true"),
+                Arguments.of(BooleanClauseInput.builder().isNotNull(true).build(), "is_not_null: true"),
+                Arguments.of(BooleanClauseInput.builder().isEqual(DEFAULT_SINGLE_INPUT).build(), "is_equal { value: true }"),
+                Arguments.of(BooleanClauseInput.builder().isNotEqual(DEFAULT_SINGLE_INPUT).build(), "is_not_equal { value: true }")
         );
     }
 

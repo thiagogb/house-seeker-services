@@ -38,9 +38,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.CONDOMINIUM;
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.RENT;
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.SELL;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.CONDOMINIUM;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.RENT;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.SELL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.Mockito.when;

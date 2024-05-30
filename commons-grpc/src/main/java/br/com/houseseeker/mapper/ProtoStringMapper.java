@@ -1,6 +1,9 @@
 package br.com.houseseeker.mapper;
 
 import br.com.houseseeker.domain.property.UrbanPropertyContract;
+import br.com.houseseeker.domain.property.UrbanPropertyMediaType;
+import br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType;
+import br.com.houseseeker.domain.property.UrbanPropertyStatus;
 import br.com.houseseeker.domain.property.UrbanPropertyType;
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import com.google.protobuf.StringValue;
@@ -20,11 +23,27 @@ public abstract class ProtoStringMapper {
     }
 
     public ProviderMechanism toProviderMechanism(@Nullable StringValue value) {
-        return Optional.ofNullable(value)
-                       .map(StringValue::getValue)
-                       .filter(StringUtils::isNotBlank)
-                       .map(ProviderMechanism::valueOf)
-                       .orElse(null);
+        return toEnum(ProviderMechanism.class, value);
+    }
+
+    public UrbanPropertyContract toUrbanPropertyContract(@Nullable StringValue value) {
+        return toEnum(UrbanPropertyContract.class, value);
+    }
+
+    public UrbanPropertyType toUrbanPropertyType(@Nullable StringValue value) {
+        return toEnum(UrbanPropertyType.class, value);
+    }
+
+    public UrbanPropertyStatus toUrbanPropertyStatus(@Nullable StringValue value) {
+        return toEnum(UrbanPropertyStatus.class, value);
+    }
+
+    public UrbanPropertyMediaType toUrbanPropertyMediaType(@Nullable StringValue value) {
+        return toEnum(UrbanPropertyMediaType.class, value);
+    }
+
+    public UrbanPropertyPriceVariationType toPriceVariationType(@Nullable StringValue value) {
+        return toEnum(UrbanPropertyPriceVariationType.class, value);
     }
 
     public StringValue toStringValue(@Nullable String value) {
@@ -43,6 +62,14 @@ public abstract class ProtoStringMapper {
 
     public StringValue toStringValue(@Nullable UrbanPropertyType value) {
         return Optional.ofNullable(value).map(v -> StringValue.of(v.name())).orElse(StringValue.getDefaultInstance());
+    }
+
+    private <T extends Enum<T>> T toEnum(Class<T> tClass, @Nullable StringValue value) {
+        return Optional.ofNullable(value)
+                       .map(StringValue::getValue)
+                       .filter(StringUtils::isNotBlank)
+                       .map(v -> Enum.valueOf(tClass, v))
+                       .orElse(null);
     }
 
 }

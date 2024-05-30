@@ -1,3 +1,4 @@
 type Query {
     providers(input: ProviderInput): ProviderOutput!
+    urbanProperties(input: UrbanPropertyInput): UrbanPropertyOutput!
 }

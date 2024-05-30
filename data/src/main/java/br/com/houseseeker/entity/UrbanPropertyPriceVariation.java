@@ -1,5 +1,6 @@
 package br.com.houseseeker.entity;
 
+import br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType;
 import br.com.houseseeker.util.EntityUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,12 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -59,7 +58,7 @@ public class UrbanPropertyPriceVariation implements Serializable {
 
     @Column(name = "type", nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private UrbanPropertyPriceVariationType type;
 
     @Column(name = "price", precision = 11, scale = 2)
     private BigDecimal price;
@@ -75,30 +74,6 @@ public class UrbanPropertyPriceVariation implements Serializable {
     @Override
     public final int hashCode() {
         return EntityUtils.hashCode(this);
-    }
-
-    @RequiredArgsConstructor
-    public enum Type {
-
-        SELL {
-            @Override
-            public BigDecimal getComparatorAttribute(UrbanProperty urbanProperty) {
-                return urbanProperty.getSellPrice();
-            }
-        }, RENT {
-            @Override
-            public BigDecimal getComparatorAttribute(UrbanProperty urbanProperty) {
-                return urbanProperty.getRentPrice();
-            }
-        }, CONDOMINIUM {
-            @Override
-            public BigDecimal getComparatorAttribute(UrbanProperty urbanProperty) {
-                return urbanProperty.getCondominiumPrice();
-            }
-        };
-
-        public abstract BigDecimal getComparatorAttribute(@NotNull UrbanProperty urbanProperty);
-
     }
 
 }

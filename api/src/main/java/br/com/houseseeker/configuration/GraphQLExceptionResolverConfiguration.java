@@ -4,7 +4,7 @@ import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
-import io.grpc.StatusException;
+import io.grpc.StatusRuntimeException;
 import jakarta.validation.ConstraintViolationException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
@@ -22,7 +22,7 @@ public class GraphQLExceptionResolverConfiguration extends DataFetcherExceptionR
         return switch (throwable) {
             case ConstraintViolationException e -> resolveFrom(e, dataFetchingEnvironment);
             case ResponseStatusException e -> resolveFrom(e, dataFetchingEnvironment);
-            case StatusException e -> resolveFrom(e, dataFetchingEnvironment);
+            case StatusRuntimeException e -> resolveFrom(e, dataFetchingEnvironment);
             default -> super.resolveToSingleError(throwable, dataFetchingEnvironment);
         };
     }
@@ -52,12 +52,12 @@ public class GraphQLExceptionResolverConfiguration extends DataFetcherExceptionR
     }
 
     private GraphQLError resolveFrom(
-            StatusException statusException,
+            StatusRuntimeException statusRuntimeException,
             DataFetchingEnvironment dataFetchingEnvironment
     ) {
         return GraphQLError.newError()
                            .errorType(ErrorType.DataFetchingException)
-                           .message(statusException.getMessage())
+                           .message(statusRuntimeException.getMessage())
                            .path(dataFetchingEnvironment.getExecutionStepInfo().getPath())
                            .location(dataFetchingEnvironment.getField().getSourceLocation())
                            .build();

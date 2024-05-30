@@ -1,0 +1,14 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            priceVariations {
+                id
+                analysisDate
+                type
+                price
+                variation
+            }
+        }
+    }
+}

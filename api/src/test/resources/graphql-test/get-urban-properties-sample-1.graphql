@@ -1,0 +1,38 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            provider {
+                id
+            }
+            providerCode
+            url
+            contract
+            type
+            subType
+            dormitories
+            suites
+            bathrooms
+            garages
+            sellPrice
+            rentPrice
+            condominiumPrice
+            condominiumName
+            exchangeable
+            status
+            financeable
+            occupied
+            notes
+            creationDate
+            lastAnalysisDate
+            exclusionDate
+            analyzable
+        }
+        pagination {
+            pageNumber
+            pageSize
+            totalPages
+            totalRows
+        }
+    }
+}

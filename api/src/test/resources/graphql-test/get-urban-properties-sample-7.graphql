@@ -1,0 +1,19 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            measure {
+                id
+                totalArea
+                privateArea
+                usableArea
+                terrainTotalArea
+                terrainBack
+                terrainFront
+                terrainLeft
+                terrainRight
+                areaUnit
+            }
+        }
+    }
+}
