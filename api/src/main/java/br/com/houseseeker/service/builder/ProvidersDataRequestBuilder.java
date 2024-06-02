@@ -21,9 +21,9 @@ import java.util.Set;
 import static java.util.Objects.nonNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProvidersDataRequestBuilder {
+public class ProvidersDataRequestBuilder implements DataRequestBuildable<ProvidersDataRequestBuilder, ProviderInput, GetProvidersDataRequest> {
 
-    private final GetProvidersDataRequest.Builder getProvidersDataRequestBuilder = GetProvidersDataRequest.newBuilder();
+    private final GetProvidersDataRequest.Builder builder = GetProvidersDataRequest.newBuilder();
 
     public static ProvidersDataRequestBuilder newInstance() {
         return new ProvidersDataRequestBuilder();
@@ -32,7 +32,7 @@ public class ProvidersDataRequestBuilder {
     public ProvidersDataRequestBuilder byId(int id) {
         withProjections(Collections.emptySet());
 
-        getProvidersDataRequestBuilder.setClauses(
+        builder.setClauses(
                 ClausesData.newBuilder()
                            .setId(
                                    Int32ComparisonData.newBuilder()
@@ -49,10 +49,11 @@ public class ProvidersDataRequestBuilder {
         return this;
     }
 
+    @Override
     public ProvidersDataRequestBuilder withProjections(@NotNull Set<String> projections) {
         boolean allProjectionsSelected = CollectionUtils.isEmpty(projections);
 
-        getProvidersDataRequestBuilder.setProjections(
+        builder.setProjections(
                 ProjectionsData.newBuilder()
                                .setId(allProjectionsSelected || projections.contains("rows/id"))
                                .setName(allProjectionsSelected || projections.contains("rows/name"))
@@ -69,6 +70,7 @@ public class ProvidersDataRequestBuilder {
         return this;
     }
 
+    @Override
     public ProvidersDataRequestBuilder withInput(@Nullable ProviderInput input) {
         if (nonNull(input)) {
             Optional.ofNullable(input.getClauses()).ifPresent(this::configureClauses);
@@ -79,12 +81,13 @@ public class ProvidersDataRequestBuilder {
         return this;
     }
 
+    @Override
     public GetProvidersDataRequest build() {
-        return getProvidersDataRequestBuilder.build();
+        return builder.build();
     }
 
     private void configureClauses(ProviderInput.Clauses clauses) {
-        getProvidersDataRequestBuilder.setClauses(
+        builder.setClauses(
                 ClausesData.newBuilder()
                            .setId(IntegerComparisonBuilder.build(clauses.getId()))
                            .setName(StringComparisonBuilder.build(clauses.getName()))
@@ -100,7 +103,7 @@ public class ProvidersDataRequestBuilder {
     }
 
     private void configureOrders(ProviderInput.Orders orders) {
-        getProvidersDataRequestBuilder.setOrders(
+        builder.setOrders(
                 OrdersData.newBuilder()
                           .setId(OrderDetailBuilder.build(orders.getId()))
                           .setName(OrderDetailBuilder.build(orders.getName()))
@@ -113,7 +116,7 @@ public class ProvidersDataRequestBuilder {
     }
 
     private void configurePagination(PaginationInput pagination) {
-        getProvidersDataRequestBuilder.setPagination(PaginationBuilder.build(pagination));
+        builder.setPagination(PaginationBuilder.build(pagination));
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.houseseeker.repository.impl;
 
+import br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType;
 import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
 import br.com.houseseeker.repository.UrbanPropertyPriceVariationExtendedRepository;
 import br.com.houseseeker.repository.builder.ExpressionBuilder;
@@ -72,7 +73,7 @@ public class UrbanPropertyPriceVariationExtendedRepositoryImpl implements UrbanP
                                .append(urbanPropertyPriceVariation.id, clauses.getId())
                                .append(urbanPropertyPriceVariation.urbanProperty.id, clauses.getUrbanPropertyId())
                                .append(urbanPropertyPriceVariation.analysisDate, clauses.getAnalysisDate())
-                               .append(urbanPropertyPriceVariation.type, clauses.getType(), UrbanPropertyPriceVariation.Type::valueOf)
+                               .append(urbanPropertyPriceVariation.type, clauses.getType(), UrbanPropertyPriceVariationType::valueOf)
                                .append(urbanPropertyPriceVariation.price, clauses.getPrice())
                                .append(urbanPropertyPriceVariation.variation, clauses.getVariation())
                                .build();

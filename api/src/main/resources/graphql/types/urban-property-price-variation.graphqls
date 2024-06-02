@@ -1,0 +1,13 @@
+enum UrbanPropertyPriceVariationType {
+    SELL,
+    RENT,
+    CONDOMINIUM
+}
+
+type UrbanPropertyPriceVariationDto {
+    id: ID!
+    analysisDate: String!
+    type: UrbanPropertyPriceVariationType!
+    price: Float
+    variation: Float
+}

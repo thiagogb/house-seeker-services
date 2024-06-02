@@ -1,0 +1,12 @@
+type UrbanPropertyLocationDto {
+    id: ID!
+    state: String
+    city: String
+    district: String
+    zipCode: String
+    streetName: String
+    streetNumber: Int
+    complement: String
+    latitude: Float
+    longitude: Float
+}

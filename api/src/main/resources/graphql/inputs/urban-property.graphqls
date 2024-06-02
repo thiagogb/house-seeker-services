@@ -1,0 +1,108 @@
+input UrbanPropertyContractInput {
+    value: UrbanPropertyContract!
+}
+
+input UrbanPropertyContractListInput {
+    values: [UrbanPropertyContract!]!
+}
+
+input UrbanPropertyContractClausesInput {
+    isNull: Boolean
+    isNotNull: Boolean
+    isEqual: UrbanPropertyContractInput
+    isNotEqual: UrbanPropertyContractInput
+    isIn: UrbanPropertyContractListInput
+    isNotIn: UrbanPropertyContractListInput
+}
+
+input UrbanPropertyTypeInput {
+    value: UrbanPropertyType!
+}
+
+input UrbanPropertyTypeListInput {
+    values: [UrbanPropertyType!]!
+}
+
+input UrbanPropertyTypeClausesInput {
+    isNull: Boolean
+    isNotNull: Boolean
+    isEqual: UrbanPropertyContractInput
+    isNotEqual: UrbanPropertyContractInput
+    isIn: UrbanPropertyContractListInput
+    isNotIn: UrbanPropertyContractListInput
+}
+
+input UrbanPropertyStatusInput {
+    value: UrbanPropertyStatus!
+}
+
+input UrbanPropertyStatusListInput {
+    values: [UrbanPropertyStatus!]!
+}
+
+input UrbanPropertyStatusClausesInput {
+    isNull: Boolean
+    isNotNull: Boolean
+    isEqual: UrbanPropertyStatusInput
+    isNotEqual: UrbanPropertyStatusInput
+    isIn: UrbanPropertyStatusListInput
+    isNotIn: UrbanPropertyStatusListInput
+}
+
+input UrbanPropertyClausesInput {
+    id: IntegerClauseInput
+    providerId: IntegerClauseInput
+    providerCode: StringClauseInput
+    url: StringClauseInput
+    contract: UrbanPropertyContractClausesInput
+    type: UrbanPropertyTypeClausesInput
+    subType: StringClauseInput
+    dormitories: IntegerClauseInput
+    suites: IntegerClauseInput
+    bathrooms: IntegerClauseInput
+    garages: IntegerClauseInput
+    sellPrice: FloatClauseInput
+    rentPrice: FloatClauseInput
+    condominiumPrice: FloatClauseInput
+    exchangeable: BooleanClauseInput
+    status: UrbanPropertyStatusClausesInput
+    financeable: BooleanClauseInput
+    occupied: BooleanClauseInput
+    notes: StringClauseInput
+    creationDate: DateTimeClauseInput
+    lastAnalysisDate: DateTimeClauseInput
+    exclusionDate: DateTimeClauseInput
+    analyzable: BooleanClauseInput
+}
+
+input UrbanPropertyOrdersInput {
+    id: OrderInput
+    providerId: OrderInput
+    providerCode: OrderInput
+    url: OrderInput
+    contract: OrderInput
+    type: OrderInput
+    subType: OrderInput
+    dormitories: OrderInput
+    suites: OrderInput
+    bathrooms: OrderInput
+    garages: OrderInput
+    sellPrice: OrderInput
+    rentPrice: OrderInput
+    condominiumPrice: OrderInput
+    exchangeable: OrderInput
+    status: OrderInput
+    financeable: OrderInput
+    occupied: OrderInput
+    notes: OrderInput
+    creationDate: OrderInput
+    lastAnalysisDate: OrderInput
+    exclusionDate: OrderInput
+    analyzable: OrderInput
+}
+
+input UrbanPropertyInput {
+    clauses: UrbanPropertyClausesInput
+    orders: UrbanPropertyOrdersInput
+    pagination: PaginationInput
+}

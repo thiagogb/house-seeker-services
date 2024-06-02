@@ -1,0 +1,12 @@
+type UrbanPropertyMeasureDto {
+    id: ID!
+    totalArea: Float
+    privateArea: Float
+    usableArea: Float
+    terrainTotalArea: Float
+    terrainFront: Float
+    terrainBack: Float
+    terrainLeft: Float
+    terrainRight: Float
+    areaUnit: String
+}

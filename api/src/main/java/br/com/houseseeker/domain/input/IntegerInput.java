@@ -1,12 +1,12 @@
 package br.com.houseseeker.domain.input;
 
 import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
-public class IntegerInput {
+public class IntegerInput extends AbstractInput<Integer> {
 
-    private Integer value;
+    @Builder
+    public IntegerInput(Integer value) {
+        super(value);
+    }
 
 }

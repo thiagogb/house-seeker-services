@@ -20,9 +20,9 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.CONDOMINIUM;
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.RENT;
-import static br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type.SELL;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.CONDOMINIUM;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.RENT;
+import static br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType.SELL;
 import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;

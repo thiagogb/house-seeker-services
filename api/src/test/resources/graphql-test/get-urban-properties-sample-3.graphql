@@ -1,0 +1,22 @@
+query  {
+    urbanProperties(
+        input: {
+            clauses: {
+                id: {isGreater: {value: 0}},
+                providerCode: {isNotBlank: true},
+                url: {isStartingWith: {value: "https://"}},
+                contract: {isEqual: {value: SELL}},
+                subType: {isIn: {values: ["Apartamento","Casa"]}},
+                dormitories: {isGreaterOrEqual: {value: 2}},
+                suites: {isBetween: {start: 1, end: 2}},
+                sellPrice: {isLesserOrEqual: {value: 999999.99}},
+                creationDate: {isGreaterOrEqual: {value: "2024-01-01T00:00:00"}},
+                analyzable: {isEqual: {value: true}}
+            }
+        }
+    ) {
+        rows {
+            id
+        }
+    }
+}

@@ -1,14 +1,14 @@
 package br.com.houseseeker.domain.input;
 
 import lombok.Builder;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
-@Builder
-public class StringListInput {
+public class StringListInput extends AbstractListInput<String> {
 
-    private List<String> values;
+    @Builder
+    public StringListInput(List<String> values) {
+        super(values);
+    }
 
 }

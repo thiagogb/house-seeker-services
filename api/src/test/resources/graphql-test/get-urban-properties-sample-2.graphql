@@ -1,0 +1,19 @@
+query  {
+    urbanProperties {
+        rows {
+            id
+            providerCode
+            subType
+            dormitories
+            suites
+            bathrooms
+            garages
+            sellPrice
+        }
+        pagination {
+            pageNumber
+            pageSize
+            totalPages
+        }
+    }
+}

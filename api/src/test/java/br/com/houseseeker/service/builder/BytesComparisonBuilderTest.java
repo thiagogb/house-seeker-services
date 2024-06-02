@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BytesComparisonBuilderTest {
@@ -24,16 +25,16 @@ class BytesComparisonBuilderTest {
     @ParameterizedTest
     @MethodSource("comparisonSamples")
     @DisplayName("given a input with clause when calls build then expects")
-    void givenAInputWithClause_whenCallsBuild_thenExpects(BytesClauseInput input, BytesComparisonData.ComparisonCase expected) {
+    void givenAInputWithClause_whenCallsBuild_thenExpects(BytesClauseInput input, String expected) {
         assertThat(BytesComparisonBuilder.build(input))
-                .extracting(BytesComparisonData::getComparisonCase)
+                .extracting(comparisonData -> normalizeSpace(comparisonData.toString()))
                 .isEqualTo(expected);
     }
 
     private static Stream<Arguments> comparisonSamples() {
         return Stream.of(
-                Arguments.of(BytesClauseInput.builder().isNull(true).build(), BytesComparisonData.ComparisonCase.IS_NULL),
-                Arguments.of(BytesClauseInput.builder().isNotNull(true).build(), BytesComparisonData.ComparisonCase.IS_NOT_NULL)
+                Arguments.of(BytesClauseInput.builder().isNull(true).build(), "is_null: true"),
+                Arguments.of(BytesClauseInput.builder().isNotNull(true).build(), "is_not_null: true")
         );
     }
 

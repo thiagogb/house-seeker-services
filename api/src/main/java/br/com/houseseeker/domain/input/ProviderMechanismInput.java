@@ -2,12 +2,12 @@ package br.com.houseseeker.domain.input;
 
 import br.com.houseseeker.domain.provider.ProviderMechanism;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
-public class ProviderMechanismInput {
+public class ProviderMechanismInput extends AbstractInput<ProviderMechanism> {
 
-    private ProviderMechanism value;
+    @Builder
+    public ProviderMechanismInput(ProviderMechanism value) {
+        super(value);
+    }
 
 }

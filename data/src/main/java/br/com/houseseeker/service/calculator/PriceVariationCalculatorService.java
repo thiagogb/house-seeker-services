@@ -2,7 +2,7 @@ package br.com.houseseeker.service.calculator;
 
 import br.com.houseseeker.entity.UrbanProperty;
 import br.com.houseseeker.entity.UrbanPropertyPriceVariation;
-import br.com.houseseeker.entity.UrbanPropertyPriceVariation.Type;
+import br.com.houseseeker.domain.property.UrbanPropertyPriceVariationType;
 import br.com.houseseeker.util.BigDecimalUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +34,11 @@ public class PriceVariationCalculatorService {
             @NotNull UrbanProperty urbanProperty,
             @NotNull List<UrbanPropertyPriceVariation> priceVariations
     ) {
-        Map<Type, List<UrbanPropertyPriceVariation>> priceVariationsMap = groupByTypeOrderByAnalysisDate(priceVariations);
-        for (Type type : Type.values()) {
+        Map<UrbanPropertyPriceVariationType, List<UrbanPropertyPriceVariation>> priceVariationsMap = groupByTypeOrderByAnalysisDate(priceVariations);
+        for (var type : UrbanPropertyPriceVariationType.values()) {
             List<UrbanPropertyPriceVariation> currentVariations = priceVariationsMap.getOrDefault(type, Collections.emptyList());
 
-            if (!hasPriceVariationsSinceLastAnalysisDate(currentVariations, type.getComparatorAttribute(urbanProperty)))
+            if (!hasPriceVariationsSinceLastAnalysisDate(currentVariations, getComparatorAttribute(type, urbanProperty)))
                 continue;
 
             priceVariationsMap.computeIfAbsent(type, key -> new LinkedList<>())
@@ -47,7 +47,15 @@ public class PriceVariationCalculatorService {
         return priceVariationsMap.values().stream().flatMap(Collection::stream).toList();
     }
 
-    private Map<Type, List<UrbanPropertyPriceVariation>> groupByTypeOrderByAnalysisDate(
+    private BigDecimal getComparatorAttribute(UrbanPropertyPriceVariationType type, UrbanProperty urbanProperty) {
+        return switch (type) {
+            case SELL -> urbanProperty.getSellPrice();
+            case RENT -> urbanProperty.getRentPrice();
+            case CONDOMINIUM -> urbanProperty.getCondominiumPrice();
+        };
+    }
+
+    private Map<UrbanPropertyPriceVariationType, List<UrbanPropertyPriceVariation>> groupByTypeOrderByAnalysisDate(
             List<UrbanPropertyPriceVariation> priceVariations
     ) {
         return priceVariations.stream()
@@ -75,10 +83,10 @@ public class PriceVariationCalculatorService {
     private UrbanPropertyPriceVariation registerNewPriceVariation(
             UrbanProperty urbanProperty,
             List<UrbanPropertyPriceVariation> priceVariations,
-            Type type
+            UrbanPropertyPriceVariationType type
     ) {
         BigDecimal previousPrice = !priceVariations.isEmpty() ? priceVariations.getLast().getPrice() : ZERO;
-        BigDecimal currentPrice = type.getComparatorAttribute(urbanProperty);
+        BigDecimal currentPrice = getComparatorAttribute(type, urbanProperty);
         BigDecimal variation = !BigDecimalUtils.isZero(previousPrice)
                 ? BigDecimalUtils.divideAndRoundByTwo(currentPrice.multiply(BigDecimalUtils.ONE_HUNDRED), previousPrice)
                                  .subtract(BigDecimalUtils.ONE_HUNDRED)

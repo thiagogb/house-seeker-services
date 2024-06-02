@@ -1,0 +1,13 @@
+enum UrbanPropertyMediaType {
+    IMAGE,
+    VIDEO,
+    AUDIO
+}
+
+type UrbanPropertyMediaDto {
+    id: ID!
+    link: String!
+    linkThumb: String
+    mediaType: UrbanPropertyMediaType!
+    extension: String!
+}

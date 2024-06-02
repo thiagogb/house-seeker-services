@@ -2,15 +2,14 @@ package br.com.houseseeker.domain.output;
 
 import br.com.houseseeker.domain.dto.ProviderDto;
 import lombok.Builder;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
-@Builder
-public class ProviderOutput {
+public class ProviderOutput extends AbstractOutput<ProviderDto> {
 
-    private List<ProviderDto> rows;
-    private PaginationOutput pagination;
+    @Builder
+    public ProviderOutput(List<ProviderDto> rows, PaginationOutput pagination) {
+        super(rows, pagination);
+    }
 
 }

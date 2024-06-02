@@ -1,0 +1,4 @@
+type UrbanPropertyOutput {
+    rows: [UrbanPropertyDto!]!
+    pagination: PaginationOutput!
+}

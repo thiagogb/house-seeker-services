@@ -1,0 +1,21 @@
+input DateTimeInput {
+    value: String!
+}
+
+input DateTimeIntervalInput {
+    start: String!
+    end: String!
+}
+
+input DateTimeClauseInput {
+    isNull: Boolean,
+    isNotNull: Boolean,
+    isEqual: DateTimeInput
+    isNotEqual: DateTimeInput
+    isGreater: DateTimeInput
+    isGreaterOrEqual: DateTimeInput
+    isLesser: DateTimeInput
+    isLesserOrEqual: DateTimeInput
+    isBetween: DateTimeIntervalInput,
+    isNotBetween: DateTimeIntervalInput,
+}

@@ -1,0 +1,46 @@
+enum UrbanPropertyContract {
+    SELL
+    RENT
+}
+
+enum UrbanPropertyType {
+    RESIDENTIAL,
+    COMMERCIAL
+}
+
+enum UrbanPropertyStatus {
+    UNUSED,
+    USED
+}
+
+type UrbanPropertyDto {
+    id: ID!
+    provider: ProviderDto!
+    providerCode: String!
+    url: String!
+    contract: UrbanPropertyContract!
+    type: UrbanPropertyType
+    subType: String
+    dormitories: Int
+    suites: Int
+    bathrooms: Int
+    garages: Int
+    sellPrice: Float
+    rentPrice: Float
+    condominiumPrice: Float
+    condominiumName: String
+    exchangeable: Boolean
+    status: UrbanPropertyStatus
+    financeable: Boolean
+    occupied: Boolean
+    notes: String
+    creationDate: String!
+    lastAnalysisDate: String
+    exclusionDate: String
+    analyzable: Boolean
+    location: UrbanPropertyLocationDto!
+    measure: UrbanPropertyMeasureDto!
+    conveniences: [UrbanPropertyConvenienceDto!]
+    medias: [UrbanPropertyMediaDto!]
+    priceVariations: [UrbanPropertyPriceVariationDto!]
+}

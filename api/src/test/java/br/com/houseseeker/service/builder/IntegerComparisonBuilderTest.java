@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class IntegerComparisonBuilderTest {
@@ -41,60 +42,26 @@ class IntegerComparisonBuilderTest {
     @ParameterizedTest
     @MethodSource("comparisonSamples")
     @DisplayName("given a input with clause when calls build then expects")
-    void givenAInputWithClause_whenCallsBuild_thenExpects(IntegerClauseInput input, Int32ComparisonData.ComparisonCase expected) {
+    void givenAInputWithClause_whenCallsBuild_thenExpects(IntegerClauseInput input, String expected) {
         assertThat(IntegerComparisonBuilder.build(input))
-                .extracting(Int32ComparisonData::getComparisonCase)
+                .extracting(comparisonData -> normalizeSpace(comparisonData.toString()))
                 .isEqualTo(expected);
     }
 
     private static Stream<Arguments> comparisonSamples() {
         return Stream.of(
-                Arguments.of(IntegerClauseInput.builder().isNull(true).build(), Int32ComparisonData.ComparisonCase.IS_NULL),
-                Arguments.of(IntegerClauseInput.builder().isNotNull(true).build(), Int32ComparisonData.ComparisonCase.IS_NOT_NULL),
-                Arguments.of(
-                        IntegerClauseInput.builder().isEqual(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_EQUAL
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isNotEqual(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_NOT_EQUAL
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isNotEqual(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_NOT_EQUAL
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isGreater(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_GREATER
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isGreaterOrEqual(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_GREATER_OR_EQUAL
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isLesser(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_LESSER
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isLesserOrEqual(DEFAULT_SINGLE_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_LESSER_OR_EQUAL
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isBetween(DEFAULT_INTERVAL_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_BETWEEN
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isNotBetween(DEFAULT_INTERVAL_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_NOT_BETWEEN
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isIn(DEFAULT_LIST_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_IN
-                ),
-                Arguments.of(
-                        IntegerClauseInput.builder().isNotIn(DEFAULT_LIST_INPUT).build(),
-                        Int32ComparisonData.ComparisonCase.IS_NOT_IN
-                )
+                Arguments.of(IntegerClauseInput.builder().isNull(true).build(), "is_null: true"),
+                Arguments.of(IntegerClauseInput.builder().isNotNull(true).build(), "is_not_null: true"),
+                Arguments.of(IntegerClauseInput.builder().isEqual(DEFAULT_SINGLE_INPUT).build(), "is_equal { value: 1 }"),
+                Arguments.of(IntegerClauseInput.builder().isNotEqual(DEFAULT_SINGLE_INPUT).build(), "is_not_equal { value: 1 }"),
+                Arguments.of(IntegerClauseInput.builder().isGreater(DEFAULT_SINGLE_INPUT).build(), "is_greater { value: 1 }"),
+                Arguments.of(IntegerClauseInput.builder().isGreaterOrEqual(DEFAULT_SINGLE_INPUT).build(), "is_greater_or_equal { value: 1 }"),
+                Arguments.of(IntegerClauseInput.builder().isLesser(DEFAULT_SINGLE_INPUT).build(), "is_lesser { value: 1 }"),
+                Arguments.of(IntegerClauseInput.builder().isLesserOrEqual(DEFAULT_SINGLE_INPUT).build(), "is_lesser_or_equal { value: 1 }"),
+                Arguments.of(IntegerClauseInput.builder().isBetween(DEFAULT_INTERVAL_INPUT).build(), "is_between { start: 1 end: 10 }"),
+                Arguments.of(IntegerClauseInput.builder().isNotBetween(DEFAULT_INTERVAL_INPUT).build(), "is_not_between { start: 1 end: 10 }"),
+                Arguments.of(IntegerClauseInput.builder().isIn(DEFAULT_LIST_INPUT).build(), "is_in { values: 1 values: 2 values: 3 }"),
+                Arguments.of(IntegerClauseInput.builder().isNotIn(DEFAULT_LIST_INPUT).build(), "is_not_in { values: 1 values: 2 values: 3 }")
         );
     }
 

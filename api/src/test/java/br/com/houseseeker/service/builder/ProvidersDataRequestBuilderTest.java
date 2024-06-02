@@ -3,19 +3,25 @@ package br.com.houseseeker.service.builder;
 import br.com.houseseeker.domain.argument.ProviderInput;
 import br.com.houseseeker.domain.argument.ProviderInput.Clauses;
 import br.com.houseseeker.domain.argument.ProviderInput.Orders;
+import br.com.houseseeker.domain.input.BooleanClauseInput;
+import br.com.houseseeker.domain.input.BytesClauseInput;
+import br.com.houseseeker.domain.input.IntegerClauseInput;
 import br.com.houseseeker.domain.input.OrderInput;
 import br.com.houseseeker.domain.input.PaginationInput;
+import br.com.houseseeker.domain.input.ProviderMechanismClausesInput;
 import br.com.houseseeker.domain.input.StringClauseInput;
-import br.com.houseseeker.domain.input.StringInput;
-import br.com.houseseeker.domain.proto.OrderDirectionData;
-import br.com.houseseeker.service.proto.GetProvidersDataRequest;
+import br.com.houseseeker.domain.proto.PaginationRequestData;
+import br.com.houseseeker.service.proto.GetProvidersDataRequest.ClausesData;
+import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
+import br.com.houseseeker.service.proto.GetProvidersDataRequest.ProjectionsData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Set;
 
-import static br.com.houseseeker.service.dsl.GetProvidersDataRequestDsl.assertThis;
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ProvidersDataRequestBuilderTest {
 
@@ -26,10 +32,20 @@ class ProvidersDataRequestBuilderTest {
                                                   .byId(1)
                                                   .build();
 
-        assertThis(response).isProjectingAll()
-                            .hasClauseWithValue(c -> c.getId().getIsEqual(), 1)
-                            .hasNotChangedOrders()
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections())
+                        .extracting(p -> normalizeSpace(p.toString()))
+                        .isEqualTo(
+                                "id: true name: true site_url: true data_url: true mechanism: true " +
+                                        "params: true cron_expression: true logo: true active: true"
+                        )
+                )
+                .satisfies(r -> assertThat(r.getClauses())
+                        .extracting(c -> normalizeSpace(c.toString()))
+                        .isEqualTo("id { is_equal { value: 1 } }")
+                )
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -39,10 +55,17 @@ class ProvidersDataRequestBuilderTest {
                                                   .withProjections(Collections.emptySet())
                                                   .build();
 
-        assertThis(response).isProjectingAll()
-                            .hasNotChangedClauses()
-                            .hasNotChangedOrders()
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections())
+                        .extracting(p -> normalizeSpace(p.toString()))
+                        .isEqualTo(
+                                "id: true name: true site_url: true data_url: true mechanism: true " +
+                                        "params: true cron_expression: true logo: true active: true"
+                        )
+                )
+                .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -52,10 +75,17 @@ class ProvidersDataRequestBuilderTest {
                                                   .withProjections(Set.of("id", "name"))
                                                   .build();
 
-        assertThis(response).isProjectingNone()
-                            .hasNotChangedClauses()
-                            .hasNotChangedOrders()
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections())
+                        .extracting(p -> normalizeSpace(p.toString()))
+                        .isEqualTo(
+                                "id: false name: false site_url: false data_url: false mechanism: false " +
+                                        "params: false cron_expression: false logo: false active: false"
+                        )
+                )
+                .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -65,10 +95,17 @@ class ProvidersDataRequestBuilderTest {
                                                   .withProjections(Set.of("rows/id", "rows/name"))
                                                   .build();
 
-        assertThis(response).isProjectingOnly("id", "name")
-                            .hasNotChangedClauses()
-                            .hasNotChangedOrders()
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections())
+                        .extracting(p -> normalizeSpace(p.toString()))
+                        .isEqualTo(
+                                "id: true name: true site_url: false data_url: false mechanism: false " +
+                                        "params: false cron_expression: false logo: false active: false"
+                        )
+                )
+                .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -80,10 +117,11 @@ class ProvidersDataRequestBuilderTest {
                                                   .withInput(input)
                                                   .build();
 
-        assertThis(response).isProjectingNone()
-                            .hasNotChangedClauses()
-                            .hasNotChangedOrders()
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections()).isEqualTo(ProjectionsData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -92,15 +130,15 @@ class ProvidersDataRequestBuilderTest {
         var input = ProviderInput.builder()
                                  .clauses(
                                          Clauses.builder()
-                                                .name(
-                                                        StringClauseInput.builder()
-                                                                         .itContains(
-                                                                                 StringInput.builder()
-                                                                                            .value("Imobiliária")
-                                                                                            .build()
-                                                                         )
-                                                                         .build()
-                                                )
+                                                .id(IntegerClauseInput.builder().isNotNull(true).build())
+                                                .name(StringClauseInput.builder().isNotNull(true).build())
+                                                .siteUrl(StringClauseInput.builder().isNotNull(true).build())
+                                                .dataUrl(StringClauseInput.builder().isNotNull(true).build())
+                                                .mechanism(ProviderMechanismClausesInput.builder().isNotNull(true).build())
+                                                .params(StringClauseInput.builder().isNotNull(true).build())
+                                                .cronExpression(StringClauseInput.builder().isNotNull(true).build())
+                                                .logo(BytesClauseInput.builder().isNotNull(true).build())
+                                                .active(BooleanClauseInput.builder().isNotNull(true).build())
                                                 .build()
                                  )
                                  .build();
@@ -109,10 +147,24 @@ class ProvidersDataRequestBuilderTest {
                                                   .withInput(input)
                                                   .build();
 
-        assertThis(response).isProjectingNone()
-                            .hasClauseWith(c -> c.getName().getItContains(), "Imobiliária")
-                            .hasNotChangedOrders()
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections()).isEqualTo(ProjectionsData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getClauses())
+                        .extracting(c -> normalizeSpace(c.toString()))
+                        .isEqualTo(
+                                "id { is_not_null: true } " +
+                                        "name { is_not_null: true } " +
+                                        "site_url { is_not_null: true } " +
+                                        "data_url { is_not_null: true } " +
+                                        "mechanism { is_not_null: true } " +
+                                        "params { is_not_null: true } " +
+                                        "cron_expression { is_not_null: true } " +
+                                        "logo { is_not_null: true } " +
+                                        "active { is_not_null: true }"
+                        )
+                )
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -141,11 +193,14 @@ class ProvidersDataRequestBuilderTest {
                                                   .withInput(input)
                                                   .build();
 
-        assertThis(response).isProjectingNone()
-                            .hasNotChangedClauses()
-                            .hasOrderWith(GetProvidersDataRequest.OrdersData::getMechanism, 1, OrderDirectionData.ASC)
-                            .hasOrderWith(GetProvidersDataRequest.OrdersData::getId, 2, OrderDirectionData.DESC)
-                            .hasNotChangedPagination();
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections()).isEqualTo(ProjectionsData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getOrders())
+                        .extracting(c -> normalizeSpace(c.toString()))
+                        .isEqualTo("id { index: 2 direction: DESC } name { } site_url { } data_url { } mechanism { index: 1 } active { }")
+                )
+                .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()));
     }
 
     @Test
@@ -164,10 +219,14 @@ class ProvidersDataRequestBuilderTest {
                                                   .withInput(input)
                                                   .build();
 
-        assertThis(response).isProjectingNone()
-                            .hasNotChangedClauses()
-                            .hasNotChangedOrders()
-                            .hasPaginationWith(1, 10);
+        assertThat(response)
+                .satisfies(r -> assertThat(r.getProjections()).isEqualTo(ProjectionsData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
+                .satisfies(r -> assertThat(r.getPagination())
+                        .extracting(c -> normalizeSpace(c.toString()))
+                        .isEqualTo("pageSize: 10 pageNumber: 1")
+                );
     }
 
 }

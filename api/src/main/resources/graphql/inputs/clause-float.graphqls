@@ -1,0 +1,21 @@
+input FloatInput {
+    value: Float!
+}
+
+input FloatIntervalInput {
+    start: Float!
+    end: Float!
+}
+
+input FloatClauseInput {
+    isNull: Boolean,
+    isNotNull: Boolean,
+    isEqual: FloatInput
+    isNotEqual: FloatInput
+    isGreater: FloatInput
+    isGreaterOrEqual: FloatInput
+    isLesser: FloatInput
+    isLesserOrEqual: FloatInput
+    isBetween: FloatIntervalInput,
+    isNotBetween: FloatIntervalInput,
+}

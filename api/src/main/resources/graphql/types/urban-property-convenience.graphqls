@@ -1,0 +1,4 @@
+type UrbanPropertyConvenienceDto {
+    id: ID!
+    description: String!
+}

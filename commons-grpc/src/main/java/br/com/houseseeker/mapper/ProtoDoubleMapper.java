@@ -16,4 +16,8 @@ public abstract class ProtoDoubleMapper {
         return Optional.ofNullable(value).map(v -> DoubleValue.of(v.doubleValue())).orElse(DoubleValue.getDefaultInstance());
     }
 
+    public BigDecimal toBigDecimal(@Nullable DoubleValue value) {
+        return Optional.ofNullable(value).map(v -> BigDecimal.valueOf(v.getValue())).orElse(null);
+    }
+
 }
