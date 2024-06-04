@@ -42,6 +42,9 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Build with Maven
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -DnvdApiKey=${{ secrets.NVD_API_KEY }} -B package dependency-check:aggregate org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
 
       - name: Upload Dependency Check Report Artifact
@@ -297,9 +300,9 @@ jobs:
         run: |
           docker run -d \
           --name house-seeker-test-db \
-          -e POSTGRES_USER=${{ secrets.TEST_USER }} \
-          -e POSTGRES_PASSWORD=${{ secrets.TEST_PSW }} \
-          -e POSTGRES_DB=${{ secrets.TEST_DB }} \
+          -e POSTGRES_USER=house-seeker \
+          -e POSTGRES_PASSWORD=house-seeker \
+          -e POSTGRES_DB=house-seeker \
           -e TZ=GMT-3 \
           -e PGTZ=GMT-3 \
           -p 5432:5432 \
@@ -316,8 +319,8 @@ jobs:
         run: |
           docker run -d \
           --name house-seeker-messaging-test \
-          -e RABBITMQ_DEFAULT_PASS=${{ secrets.TEST_USER }} \
-          -e RABBITMQ_DEFAULT_USER=${{ secrets.TEST_PSW }} \
+          -e RABBITMQ_DEFAULT_PASS=house-seeker \
+          -e RABBITMQ_DEFAULT_USER=house-seeker \
           -p 5672:5672 \
           --network host \
           rabbitmq:3.13.0-alpine
