@@ -400,11 +400,15 @@ jobs:
         working-directory: qa
         run: API_URL=http://localhost:8080 CI=true npx playwright test
 
-      - name: Converting Jacoco Report
+      - name: Converting Jacoco Data Report
+        working-directory: data/target
         if: github.event_name != 'pull_request'
-        run: |
-          java -jar data/target/jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles data/src --classfiles data/target/classes;
-          java -jar api/target/jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles api/src --classfiles api/target/classes;
+        run: java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles ../src --classfiles classes
+
+      - name: Converting Jacoco API Report
+        working-directory: api/target
+        if: github.event_name != 'pull_request'
+        run: java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles ../src --classfiles classes
 
       - name: Generate JaCoCo Badge - Data
         uses: cicirello/jacoco-badge-generator@v2
