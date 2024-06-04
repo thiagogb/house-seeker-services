@@ -325,18 +325,32 @@ jobs:
           --network host \
           rabbitmq:3.13.0-alpine
 
-      - name: Starting Data Application
-        working-directory: data/target
-        run: java -jar -Dspring.flyway.locations=classpath:db/migration/schema,classpath:db/migration/test data-0.0.1-SNAPSHOT.jar
-
-      - name: Starting API Application
-        working-directory: api/target
-        run: java -jar api-0.0.1-SNAPSHOT.jar
-
       - name: Waiting RabbitMQ container healthcheck
         run: |
           until [ "`docker inspect -f {{.State.Health.Status}} house-seeker-messaging-test`"=="healthy" ]; do
             sleep 0.1;
+          done;
+
+      - name: Starting Data Application
+        working-directory: data/target
+        run: nohup java -jar -Dspring.flyway.locations=classpath:db/migration/schema,classpath:db/migration/test data-0.0.1-SNAPSHOT.jar &
+
+      - name: Waiting Data Application to Respond
+        run: |
+          until curl --output /dev/null --silent --head --fail http://localhost:8082/actuator; do
+            printf '.';
+            sleep 1;
+          done;
+
+      - name: Starting API Application
+        working-directory: api/target
+        run: nohup java -jar api-0.0.1-SNAPSHOT.jar &
+
+      - name: Waiting API Application to Respond
+        run: |
+          until curl --output /dev/null --silent --head --fail http://localhost:8080/actuator; do
+            printf '.';
+            sleep 1;
           done;
 
       - name: Install NPM dependencies
