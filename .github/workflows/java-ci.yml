@@ -235,11 +235,16 @@ jobs:
           output: 'trivy-scan-report-api.sarif'
           ignore-unfixed: true
 
-      - name: Upload Report Jetimob-Scrapper
+      - name: Upload Report Artifact Jetimob-Scrapper
         uses: actions/upload-artifact@v4
         with:
           name: trivy-scan-report-jetimob-scraper.sarif
           path: trivy-scan-report-jetimob-scraper.sarif
+
+      - name: Publish Report Jetimob-Scrapper
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-scan-report-jetimob-scraper.sarif'
 
       - name: Upload Report Data
         uses: actions/upload-artifact@v4
@@ -247,11 +252,21 @@ jobs:
           name: trivy-scan-report-data.sarif
           path: trivy-scan-report-data.sarif
 
+      - name: Publish Report Data
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-scan-report-data.sarif'
+
       - name: Upload Report API
         uses: actions/upload-artifact@v4
         with:
           name: trivy-scan-report-api.sarif
           path: trivy-scan-report-api.sarif
+
+      - name: Publish Report API
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-scan-report-api.sarif'
 
   integrationTests:
     name: Run Integration Tests
@@ -270,7 +285,7 @@ jobs:
       - name: Build with Maven
         run: mvn -DskipTests -B package --file pom.xml
 
-      - name: Checkout branch ${{ env.BRANCH_NAME }} on QA repo
+      - name: Checkout current branch on QA repo
         uses: actions/checkout@v4
         id: priority-checkout
         with:
@@ -280,7 +295,7 @@ jobs:
           path: qa
           continue-on-error: true
 
-      - name: Fallback checkout branch main on QA repo
+      - name: Fallback checkout main branch on QA repo
         if: steps.priority-checkout.outcome == 'failure'
         uses: actions/checkout@v4
         with:
