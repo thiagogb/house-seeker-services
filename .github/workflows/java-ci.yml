@@ -349,8 +349,7 @@ jobs:
         run: API_URL=http://localhost:8080 CI=true npx playwright test
 
       - uses: actions/upload-artifact@v4
-        working-directory: qa
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-report/
+          path: qa/playwright-report/
