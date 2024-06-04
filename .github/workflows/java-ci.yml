@@ -280,6 +280,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
-          repository: https://github.com/thiagogb/house-seeker-services-qa
+          repository: thiagogb/house-seeker-services-qa
           event-type: remote-trigger
           client-payload: '{"tag": "latest"}'
