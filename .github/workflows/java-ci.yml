@@ -244,6 +244,7 @@ jobs:
       - name: Publish Report Jetimob-Scrapper
         uses: github/codeql-action/upload-sarif@v2
         with:
+          category: trivy-scan-jetimob-scrapper
           sarif_file: 'trivy-scan-report-jetimob-scraper.sarif'
 
       - name: Upload Report Data
@@ -255,6 +256,7 @@ jobs:
       - name: Publish Report Data
         uses: github/codeql-action/upload-sarif@v2
         with:
+          category: trivy-scan-data
           sarif_file: 'trivy-scan-report-data.sarif'
 
       - name: Upload Report API
@@ -266,6 +268,7 @@ jobs:
       - name: Publish Report API
         uses: github/codeql-action/upload-sarif@v2
         with:
+          category: trivy-scan-api
           sarif_file: 'trivy-scan-report-api.sarif'
 
   integrationTests:
