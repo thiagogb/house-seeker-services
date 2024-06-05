@@ -363,7 +363,7 @@ jobs:
         working-directory: data/target
         run: |
           nohup java \
-          -javaagent:jacocoagent/lib/jacocoagent.jar=destfile=jacoco.exec,append=false,excludes=br/com/houseseeker/**/proto/*.class:br/com/houseseeker/**/QDsl*.class \
+          -javaagent:jacocoagent/lib/jacocoagent.jar=append=false \
           -jar \
           -Dspring.flyway.locations=classpath:db/migration/schema,classpath:db/migration/test \
           data-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
@@ -380,7 +380,7 @@ jobs:
         working-directory: api/target
         run: |
           nohup java \
-          -javaagent:jacocoagent/lib/jacocoagent.jar=destfile=jacoco.exec,append=false,excludes=br/com/houseseeker/**/proto/*.class:br/com/houseseeker/**/QDsl*.class \
+          -javaagent:jacocoagent/lib/jacocoagent.jar=append=false \
           -jar \
           api-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
           echo $! > save_pid.txt
@@ -415,12 +415,17 @@ jobs:
       - name: Converting Jacoco Data Report
         working-directory: data/target
         if: github.event_name != 'pull_request'
-        run: java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles ../src --classfiles classes
+        run: |
+          find classes -type f -name "QDsl*.class" -delete
+          find classes -type d -wholename "**/proto" -exec rm -r {} +
+          java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles ../src/main/java --classfiles classes
 
       - name: Converting Jacoco API Report
         working-directory: api/target
         if: github.event_name != 'pull_request'
-        run: java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles ../src --classfiles classes
+        run: |
+          find classes -type d -wholename "**/proto" -exec rm -r {} +
+          java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --sourcefiles ../src/main/java --classfiles classes
 
       - name: Generate JaCoCo Badge - Data
         uses: cicirello/jacoco-badge-generator@v2
@@ -430,7 +435,7 @@ jobs:
           jacoco-csv-file: data/target/qa-coverage.csv
           coverage-badge-filename: qa-data-coverage-jacoco.svg
           branches-badge-filename: qa-data-branches-jacoco.svg
-          generate-summary: false
+          workflow-summary-heading: QA Data - JaCoCo Test Coverage Summary
 
       - name: Generate JaCoCo Badge - API
         uses: cicirello/jacoco-badge-generator@v2
@@ -440,7 +445,7 @@ jobs:
           jacoco-csv-file: api/target/qa-coverage.csv
           coverage-badge-filename: qa-api-coverage-jacoco.svg
           branches-badge-filename: qa-api-branches-jacoco.svg
-          generate-summary: false
+          workflow-summary-heading: QA API - JaCoCo Test Coverage Summary
 
       - name: JoCoco Badge Commit
         if: github.event_name != 'pull_request'
