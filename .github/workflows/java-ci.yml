@@ -338,7 +338,8 @@ jobs:
       - name: Waiting PostgreSQL container healthcheck
         run: |
           until [ "`docker inspect -f {{.State.Health.Status}} house-seeker-test-db`"=="healthy" ]; do
-            sleep 0.1;
+            printf '.';
+            sleep 1;
           done;
 
       - name: Run RabbitMQ container
@@ -354,7 +355,8 @@ jobs:
       - name: Waiting RabbitMQ container healthcheck
         run: |
           until [ "`docker inspect -f {{.State.Health.Status}} house-seeker-messaging-test`"=="healthy" ]; do
-            sleep 0.1;
+            printf '.';
+            sleep 1;
           done;
 
       - name: Starting Data Application
@@ -364,7 +366,8 @@ jobs:
           -javaagent:jacocoagent/lib/jacocoagent.jar=destfile=jacoco.exec,append=false,excludes=br/com/houseseeker/**/proto/*.class:br/com/houseseeker/**/QDsl*.class \
           -jar \
           -Dspring.flyway.locations=classpath:db/migration/schema,classpath:db/migration/test \
-          data-0.0.1-SNAPSHOT.jar &
+          data-0.0.1-SNAPSHOT.jar > output.log > 2>&1 &
+          echo $! > save_pid.txt
 
       - name: Waiting Data Application to Respond
         run: |
@@ -379,7 +382,8 @@ jobs:
           nohup java \
           -javaagent:jacocoagent/lib/jacocoagent.jar=destfile=jacoco.exec,append=false,excludes=br/com/houseseeker/**/proto/*.class:br/com/houseseeker/**/QDsl*.class \
           -jar \
-          api-0.0.1-SNAPSHOT.jar &
+          api-0.0.1-SNAPSHOT.jar > output.log > 2>&1 &
+          echo $! > save_pid.txt
 
       - name: Waiting API Application to Respond
         run: |
@@ -399,6 +403,14 @@ jobs:
       - name: Run Playwright tests
         working-directory: qa
         run: API_URL=http://localhost:8080 CI=true npx playwright test
+
+      - name: Killing Data Application
+        working-directory: data/target
+        run: kill -INT `cat save_pid.txt`
+
+      - name: Killing API Application
+        working-directory: api/target
+        run: kill -INT `cat save_pid.txt`
 
       - name: Converting Jacoco Data Report
         working-directory: data/target
