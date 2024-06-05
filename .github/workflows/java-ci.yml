@@ -366,7 +366,7 @@ jobs:
           -javaagent:jacocoagent/lib/jacocoagent.jar=destfile=jacoco.exec,append=false,excludes=br/com/houseseeker/**/proto/*.class:br/com/houseseeker/**/QDsl*.class \
           -jar \
           -Dspring.flyway.locations=classpath:db/migration/schema,classpath:db/migration/test \
-          data-0.0.1-SNAPSHOT.jar > output.log > 2>&1 &
+          data-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
           echo $! > save_pid.txt
 
       - name: Waiting Data Application to Respond
@@ -382,7 +382,7 @@ jobs:
           nohup java \
           -javaagent:jacocoagent/lib/jacocoagent.jar=destfile=jacoco.exec,append=false,excludes=br/com/houseseeker/**/proto/*.class:br/com/houseseeker/**/QDsl*.class \
           -jar \
-          api-0.0.1-SNAPSHOT.jar > output.log > 2>&1 &
+          api-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
           echo $! > save_pid.txt
 
       - name: Waiting API Application to Respond
