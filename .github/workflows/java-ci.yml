@@ -408,13 +408,13 @@ jobs:
         working-directory: data/target
         run: |
           kill -INT `cat save_pid.txt`
-          sleep 1
+          sleep 3
 
       - name: Killing API Application
         working-directory: api/target
         run: |
           kill -INT `cat save_pid.txt`
-          sleep 1
+          sleep 3
 
       - name: Converting Jacoco Data Report
         working-directory: data/target
