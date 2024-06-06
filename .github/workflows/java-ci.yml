@@ -364,7 +364,7 @@ jobs:
           -javaagent:jacocoagent/lib/jacocoagent.jar=append=false \
           -jar \
           -Dspring.profiles.active=test \
-          data-0.0.1-SNAPSHOT.jar
+          data-0.0.1-SNAPSHOT.jar &
 
       - name: Waiting Data Application to Respond
         run: |
@@ -380,7 +380,7 @@ jobs:
           -javaagent:jacocoagent/lib/jacocoagent.jar=append=false \
           -jar \
           -Dspring.profiles.active=test \
-          api-0.0.1-SNAPSHOT.jar
+          api-0.0.1-SNAPSHOT.jar &
 
       - name: Waiting API Application to Respond
         run: |
