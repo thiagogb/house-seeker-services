@@ -401,11 +401,25 @@ jobs:
         working-directory: qa
         run: API_URL=http://localhost:8080 CI=true npx playwright test
 
+      - name: Shutting down applications
+        run: |
+          curl -X POST http://localhost:8082/actuator/shutdown
+          curl -X POST http://localhost:8080/actuator/shutdown
+          echo 'Waiting data application to shutdown'
+          until curl --output /dev/null --silent --head http://localhost:8082/actuator; do
+            printf '.';
+            sleep 1;
+          done;
+          echo 'Waiting api application to shutdown'
+          until curl --output /dev/null --silent --head http://localhost:8080/actuator; do
+            printf '.';
+            sleep 1;
+          done;
+
       - name: Converting Jacoco Data Report
         working-directory: data/target
         if: github.event_name != 'pull_request'
         run: |
-          curl -X POST http://localhost:8082/actuator/shutdown
           find classes -type f -name "QDsl*.class" -delete
           find classes -type d -wholename "**/proto" -exec rm -r {} +
           java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --html qa-coverage-site --sourcefiles ../src/main/java --classfiles classes
@@ -414,7 +428,6 @@ jobs:
         working-directory: api/target
         if: github.event_name != 'pull_request'
         run: |
-          curl -X POST http://localhost:8080/actuator/shutdown
           find classes -type d -wholename "**/proto" -exec rm -r {} +
           java -jar jacocoagent/lib/jacococli.jar report jacoco.exec --csv qa-coverage.csv --html qa-coverage-site --sourcefiles ../src/main/java --classfiles classes
 
