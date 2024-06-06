@@ -364,7 +364,8 @@ jobs:
           -javaagent:jacocoagent/lib/jacocoagent.jar=append=false \
           -jar \
           -Dspring.profiles.active=test \
-          data-0.0.1-SNAPSHOT.jar &
+          data-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
+          echo $! > pid.txt
 
       - name: Waiting Data Application to Respond
         run: |
@@ -380,7 +381,8 @@ jobs:
           -javaagent:jacocoagent/lib/jacocoagent.jar=append=false \
           -jar \
           -Dspring.profiles.active=test \
-          api-0.0.1-SNAPSHOT.jar &
+          api-0.0.1-SNAPSHOT.jar > output.log 2>&1 &
+          echo $! > pid.txt
 
       - name: Waiting API Application to Respond
         run: |
@@ -404,17 +406,9 @@ jobs:
       - name: Shutting down applications
         run: |
           curl -X POST http://localhost:8082/actuator/shutdown
+          tail --pid=`cat data/target/pid.txt` -f /dev/null
           curl -X POST http://localhost:8080/actuator/shutdown
-          echo 'Waiting data application to shutdown'
-          until curl --output /dev/null --silent --head http://localhost:8082/actuator; do
-            printf '.';
-            sleep 1;
-          done;
-          echo 'Waiting api application to shutdown'
-          until curl --output /dev/null --silent --head http://localhost:8080/actuator; do
-            printf '.';
-            sleep 1;
-          done;
+          tail --pid=`cat api/target/pid.txt` -f /dev/null
 
       - name: Converting Jacoco Data Report
         working-directory: data/target
