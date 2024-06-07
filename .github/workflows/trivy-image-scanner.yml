@@ -1,0 +1,79 @@
+name: Trivy image scanner
+on:
+  workflow_run:
+    workflows: [ "Docker build and publish" ]
+    branches: [ "*" ]
+    types:
+      - completed
+jobs:
+  job:
+    name: Trivy image scanner
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event_name != 'pull_request' }}
+    steps:
+      - name: Log into docker.io
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: docker.io
+          username: aquinate
+          password: ${{ secrets.DOCKER_HUB_PSW }}
+
+      - name: "jetimob-scraper: scanning"
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'aquinate/house-seeker-jetimob-scraper:latest'
+          format: 'sarif'
+          output: 'trivy-scan-report-jetimob-scraper.sarif'
+          ignore-unfixed: true
+
+      - name: "data: scanning"
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'aquinate/house-seeker-data:latest'
+          format: 'sarif'
+          output: 'trivy-scan-report-data.sarif'
+          ignore-unfixed: true
+
+      - name: "api: scanning"
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'aquinate/house-seeker-api:latest'
+          format: 'sarif'
+          output: 'trivy-scan-report-api.sarif'
+          ignore-unfixed: true
+
+      - name: "jetimob-scrapper: upload report artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-scan-report-jetimob-scraper.sarif
+          path: trivy-scan-report-jetimob-scraper.sarif
+
+      - name: "jetimob-scrapper: publish results"
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          category: trivy-scan-jetimob-scrapper
+          sarif_file: 'trivy-scan-report-jetimob-scraper.sarif'
+
+      - name: "data: upload report artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-scan-report-data.sarif
+          path: trivy-scan-report-data.sarif
+
+      - name: "data: publish results"
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          category: trivy-scan-data
+          sarif_file: 'trivy-scan-report-data.sarif'
+
+      - name: "api: upload report artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-scan-report-api.sarif
+          path: trivy-scan-report-api.sarif
+
+      - name: "api: publish results"
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          category: trivy-scan-api
+          sarif_file: 'trivy-scan-report-api.sarif'

@@ -1,0 +1,49 @@
+name: Docker build and publish
+on:
+  workflow_run:
+    workflows: [ "Java unit tests" ]
+    branches: [ "*" ]
+    types:
+      - completed
+jobs:
+  job:
+    name: Docker build and publish
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event_name != 'pull_request' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restoring modules targets
+        uses: actions/cache/restore@v4
+        with:
+          path: maven-target.zip
+          key: maven-target
+
+      - name: Unzip module targets
+        run: upzip -o maven-target.zip
+
+      - name: "jetimob-scraper: docker build"
+        run: docker build . --file Dockerfile-jetimob-scraper --tag aquinate/house-seeker-jetimob-scraper:latest
+
+      - name: "data: docker build"
+        run: docker build . --file Dockerfile-data --tag aquinate/house-seeker-data:latest
+
+      - name: "api: docker build"
+        run: docker build . --file Dockerfile-api --tag aquinate/house-seeker-api:latest
+
+      - name: Log into docker.io
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: docker.io
+          username: aquinate
+          password: ${{ secrets.DOCKER_HUB_PSW }}
+
+      - name: "jetimob-scraper: push image"
+        run: docker push aquinate/house-seeker-jetimob-scraper:latest
+
+      - name: "data: push image"
+        run: docker push aquinate/house-seeker-data:latest
+
+      - name: "api: push image"
+        run: docker push aquinate/house-seeker-api:latest
