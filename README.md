@@ -1,5 +1,16 @@
 # house-seeker-services
 
+## Workflow Status
+
+| Workflow                 | Status                                                                                                                                                                                                                              |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Unit tests               | [![Java unit tests](https://github.com/thiagogb/house-seeker-services/actions/workflows/java-unit-tests.yml/badge.svg)](https://github.com/thiagogb/house-seeker-services/actions/workflows/java-unit-tests.yml)                    |
+| Integration tests        | [![SonarCloud scanner](https://github.com/thiagogb/house-seeker-services/actions/workflows/sonar-cloud-scanner.yml/badge.svg)](https://github.com/thiagogb/house-seeker-services/actions/workflows/sonar-cloud-scanner.yml)         |
+| Jar Dependency Check     | [![Java dependency check](https://github.com/thiagogb/house-seeker-services/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/thiagogb/house-seeker-services/actions/workflows/dependency-check.yml)            |
+| SonarCloud scanner       | [![SonarCloud scanner](https://github.com/thiagogb/house-seeker-services/actions/workflows/sonar-cloud-scanner.yml/badge.svg)](https://github.com/thiagogb/house-seeker-services/actions/workflows/sonar-cloud-scanner.yml)         |
+| Docker build and publish | [![Docker build and publish](https://github.com/thiagogb/house-seeker-services/actions/workflows/docker-build-publish.yml/badge.svg)](https://github.com/thiagogb/house-seeker-services/actions/workflows/docker-build-publish.yml) |
+| Trivy image scanner      | [![Trivy image scanner](https://github.com/thiagogb/house-seeker-services/actions/workflows/trivy-image-scanner.yml/badge.svg)](https://github.com/thiagogb/house-seeker-services/actions/workflows/trivy-image-scanner.yml)        |
+
 ## Code Coverage Report by Module
 
 | Module            | UT: Coverage                                                      | UT: Branches                                                      | IT: Coverage                                            | IT: Branches                                            |
