@@ -297,12 +297,12 @@ jobs:
       - name: Checkout current branch on QA repo
         uses: actions/checkout@v4
         id: priority-checkout
+        continue-on-error: true
         with:
           repository: thiagogb/house-seeker-services-qa
           ref: ${{ env.BRANCH_NAME }}
           token: ${{ secrets.PAT }}
           path: qa
-          continue-on-error: true
 
       - name: Fallback checkout main branch on QA repo
         if: steps.priority-checkout.outcome == 'failure'
