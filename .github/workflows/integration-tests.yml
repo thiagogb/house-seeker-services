@@ -28,7 +28,7 @@ jobs:
           key: maven-target
 
       - name: Unzip module targets
-        run: upzip -o maven-target.zip
+        run: unzip -o maven-target.zip
 
       - name: Download and extract jacoco agent
         run: |

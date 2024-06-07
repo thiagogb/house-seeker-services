@@ -21,7 +21,7 @@ jobs:
           key: maven-target
 
       - name: Unzip module targets
-        run: upzip -o maven-target.zip
+        run: unzip -o maven-target.zip
 
       - name: "jetimob-scraper: docker build"
         run: docker build . --file Dockerfile-jetimob-scraper --tag aquinate/house-seeker-jetimob-scraper:latest
