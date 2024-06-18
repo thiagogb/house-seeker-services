@@ -39,7 +39,7 @@ class UrbanPropertyLocationGrpcDataServiceTest extends AbstractJpaIntegrationTes
                                                                              .setDistrict(true)
                                                                              .build()
                                                       )
-                                                      .setClauses(
+                                                      .addClauses(
                                                               ClausesData.newBuilder()
                                                                          .setState(
                                                                                  StringComparisonData.newBuilder()

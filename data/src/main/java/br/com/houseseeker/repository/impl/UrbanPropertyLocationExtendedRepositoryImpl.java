@@ -1,10 +1,13 @@
 package br.com.houseseeker.repository.impl;
 
+import br.com.houseseeker.domain.projection.City;
 import br.com.houseseeker.entity.UrbanPropertyLocation;
 import br.com.houseseeker.repository.UrbanPropertyLocationExtendedRepository;
 import br.com.houseseeker.repository.builder.ExpressionBuilder;
 import br.com.houseseeker.repository.builder.OrderBuilder;
 import br.com.houseseeker.repository.builder.PredicateBuilder;
+import br.com.houseseeker.service.proto.GetCitiesRequest;
+import br.com.houseseeker.service.proto.GetStatesRequest;
 import br.com.houseseeker.service.proto.GetUrbanPropertyLocationsRequest;
 import br.com.houseseeker.util.PaginationUtils;
 import com.querydsl.core.types.Expression;
@@ -35,6 +38,24 @@ public class UrbanPropertyLocationExtendedRepositoryImpl implements UrbanPropert
         );
     }
 
+    @Override
+    public Page<String> findDistinctStatesBy(@NotNull GetStatesRequest request) {
+        return PaginationUtils.collectPaginationMetadata(
+                configureBaseQuery(request).fetch(),
+                request.getPagination(),
+                () -> configureCountQuery(request).fetchFirst()
+        );
+    }
+
+    @Override
+    public Page<City> findDistinctCitiesBy(@NotNull GetCitiesRequest request) {
+        return PaginationUtils.collectPaginationMetadata(
+                configureBaseQuery(request).fetch(),
+                request.getPagination(),
+                () -> configureCountQuery(request).fetchFirst()
+        );
+    }
+
     private JPAQuery<UrbanPropertyLocation> configureBaseQuery(GetUrbanPropertyLocationsRequest request) {
         JPAQuery<UrbanPropertyLocation> query = jpaQueryFactory.select(
                                                                        Projections.bean(
@@ -44,8 +65,32 @@ public class UrbanPropertyLocationExtendedRepositoryImpl implements UrbanPropert
                                                                )
                                                                .from(urbanPropertyLocation)
                                                                .innerJoin(urbanPropertyLocation.urbanProperty)
-                                                               .where(buildWherePredicates(request.getClauses()))
+                                                               .where(buildWherePredicates(request))
                                                                .orderBy(buildOrderSpecifiers(request.getOrders()));
+        PaginationUtils.paginateQuery(query, request.getPagination());
+        return query;
+    }
+
+    private JPAQuery<String> configureBaseQuery(GetStatesRequest request) {
+        JPAQuery<String> query = jpaQueryFactory.selectDistinct(urbanPropertyLocation.state)
+                                                .from(urbanPropertyLocation)
+                                                .where(buildWherePredicates(request))
+                                                .orderBy(buildOrderSpecifiers(request.getOrders()));
+        PaginationUtils.paginateQuery(query, request.getPagination());
+        return query;
+    }
+
+    private JPAQuery<City> configureBaseQuery(GetCitiesRequest request) {
+        JPAQuery<City> query = jpaQueryFactory.selectDistinct(
+                                                      Projections.constructor(
+                                                              City.class,
+                                                              urbanPropertyLocation.state,
+                                                              urbanPropertyLocation.city
+                                                      )
+                                              )
+                                              .from(urbanPropertyLocation)
+                                              .where(buildWherePredicates(request))
+                                              .orderBy(buildOrderSpecifiers(request.getOrders()));
         PaginationUtils.paginateQuery(query, request.getPagination());
         return query;
     }
@@ -53,7 +98,19 @@ public class UrbanPropertyLocationExtendedRepositoryImpl implements UrbanPropert
     private JPAQuery<Long> configureCountQuery(GetUrbanPropertyLocationsRequest request) {
         return jpaQueryFactory.select(urbanPropertyLocation.count())
                               .from(urbanPropertyLocation)
-                              .where(buildWherePredicates(request.getClauses()));
+                              .where(buildWherePredicates(request));
+    }
+
+    private JPAQuery<Long> configureCountQuery(GetStatesRequest request) {
+        return jpaQueryFactory.select(urbanPropertyLocation.countDistinct())
+                              .from(urbanPropertyLocation)
+                              .where(buildWherePredicates(request));
+    }
+
+    private JPAQuery<Long> configureCountQuery(GetCitiesRequest request) {
+        return jpaQueryFactory.select(urbanPropertyLocation.countDistinct())
+                              .from(urbanPropertyLocation)
+                              .where(buildWherePredicates(request));
     }
 
     private Expression<?>[] buildProjectionExpressions(GetUrbanPropertyLocationsRequest.ProjectionsData projections) {
@@ -72,6 +129,17 @@ public class UrbanPropertyLocationExtendedRepositoryImpl implements UrbanPropert
                                 .build();
     }
 
+    private Predicate[] buildWherePredicates(GetUrbanPropertyLocationsRequest request) {
+        return PredicateBuilder.newInstance()
+                               .append(
+                                       request.getClausesList(),
+                                       this::buildWherePredicates,
+                                       GetUrbanPropertyLocationsRequest.ClausesData::getInnerOperator,
+                                       GetUrbanPropertyLocationsRequest.ClausesData::getOuterOperator
+                               )
+                               .build();
+    }
+
     private Predicate[] buildWherePredicates(GetUrbanPropertyLocationsRequest.ClausesData clauses) {
         return PredicateBuilder.newInstance()
                                .append(urbanPropertyLocation.id, clauses.getId())
@@ -88,6 +156,39 @@ public class UrbanPropertyLocationExtendedRepositoryImpl implements UrbanPropert
                                .build();
     }
 
+    private Predicate[] buildWherePredicates(GetStatesRequest request) {
+        return PredicateBuilder.newInstance()
+                               .append(
+                                       request.getClausesList(),
+                                       this::buildWherePredicates,
+                                       GetStatesRequest.ClausesData::getInnerOperator,
+                                       GetStatesRequest.ClausesData::getOuterOperator
+                               )
+                               .build();
+    }
+
+    private Predicate[] buildWherePredicates(GetStatesRequest.ClausesData clause) {
+        return PredicateBuilder.newInstance().append(urbanPropertyLocation.state, clause.getState()).build();
+    }
+
+    private Predicate[] buildWherePredicates(GetCitiesRequest request) {
+        return PredicateBuilder.newInstance()
+                               .append(
+                                       request.getClausesList(),
+                                       this::buildWherePredicates,
+                                       GetCitiesRequest.ClausesData::getInnerOperator,
+                                       GetCitiesRequest.ClausesData::getOuterOperator
+                               )
+                               .build();
+    }
+
+    private Predicate[] buildWherePredicates(GetCitiesRequest.ClausesData clause) {
+        return PredicateBuilder.newInstance()
+                               .append(urbanPropertyLocation.state, clause.getState())
+                               .append(urbanPropertyLocation.city, clause.getCity())
+                               .build();
+    }
+
     private OrderSpecifier<?>[] buildOrderSpecifiers(GetUrbanPropertyLocationsRequest.OrdersData orders) {
         return OrderBuilder.newInstance()
                            .append(urbanPropertyLocation.id, orders.getId())
@@ -101,6 +202,19 @@ public class UrbanPropertyLocationExtendedRepositoryImpl implements UrbanPropert
                            .append(urbanPropertyLocation.complement, orders.getComplement())
                            .append(urbanPropertyLocation.latitude, orders.getLatitude())
                            .append(urbanPropertyLocation.longitude, orders.getLongitude())
+                           .build();
+    }
+
+    private OrderSpecifier<?>[] buildOrderSpecifiers(GetStatesRequest.OrdersData orders) {
+        return OrderBuilder.newInstance()
+                           .append(urbanPropertyLocation.state, orders.getState())
+                           .build();
+    }
+
+    private OrderSpecifier<?>[] buildOrderSpecifiers(GetCitiesRequest.OrdersData orders) {
+        return OrderBuilder.newInstance()
+                           .append(urbanPropertyLocation.state, orders.getState())
+                           .append(urbanPropertyLocation.city, orders.getCity())
                            .build();
     }
 

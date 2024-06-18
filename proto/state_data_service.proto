@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "google/protobuf/wrappers.proto";
+
+message GetStatesRequest {
+  message ClausesData {
+    optional StringComparisonData state = 1;
+    optional ClauseOperator innerOperator = 3;
+    optional ClauseOperator outerOperator = 4;
+  }
+  message OrdersData {
+    optional OrderDetailsData state = 1;
+  }
+  repeated ClausesData clauses = 1;
+  optional PaginationRequestData pagination = 2;
+  optional OrdersData orders = 3;
+}
+
+message GetStatesResponse {
+  repeated google.protobuf.StringValue states = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service StateDataService {
+  rpc GetStates(GetStatesRequest) returns (GetStatesResponse);
+}

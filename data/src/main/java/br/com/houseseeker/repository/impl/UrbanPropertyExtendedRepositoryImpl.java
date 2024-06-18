@@ -8,6 +8,7 @@ import br.com.houseseeker.repository.UrbanPropertyExtendedRepository;
 import br.com.houseseeker.repository.builder.ExpressionBuilder;
 import br.com.houseseeker.repository.builder.OrderBuilder;
 import br.com.houseseeker.repository.builder.PredicateBuilder;
+import br.com.houseseeker.service.proto.GetSubTypesRequest;
 import br.com.houseseeker.service.proto.GetUrbanPropertiesRequest;
 import br.com.houseseeker.util.PaginationUtils;
 import com.querydsl.core.types.Expression;
@@ -38,6 +39,15 @@ public class UrbanPropertyExtendedRepositoryImpl implements UrbanPropertyExtende
         );
     }
 
+    @Override
+    public Page<String> findDistinctSubTypesBy(@NotNull GetSubTypesRequest request) {
+        return PaginationUtils.collectPaginationMetadata(
+                configureBaseQuery(request).fetch(),
+                request.getPagination(),
+                () -> configureCountQuery(request).fetchFirst()
+        );
+    }
+
     private JPAQuery<UrbanProperty> configureBaseQuery(GetUrbanPropertiesRequest request) {
         JPAQuery<UrbanProperty> query = jpaQueryFactory.select(
                                                                Projections.bean(
@@ -53,10 +63,26 @@ public class UrbanPropertyExtendedRepositoryImpl implements UrbanPropertyExtende
         return query;
     }
 
+    private JPAQuery<String> configureBaseQuery(GetSubTypesRequest request) {
+        JPAQuery<String> query = jpaQueryFactory.selectDistinct(urbanProperty.subType)
+                                                .from(urbanProperty)
+                                                .innerJoin(urbanProperty.provider)
+                                                .where(buildWherePredicates(request))
+                                                .orderBy(buildOrderSpecifiers(request.getOrders()));
+        PaginationUtils.paginateQuery(query, request.getPagination());
+        return query;
+    }
+
     private JPAQuery<Long> configureCountQuery(GetUrbanPropertiesRequest request) {
         return jpaQueryFactory.select(urbanProperty.count())
                               .from(urbanProperty)
                               .where(buildWherePredicates(request.getClauses()));
+    }
+
+    private JPAQuery<Long> configureCountQuery(GetSubTypesRequest request) {
+        return jpaQueryFactory.select(urbanProperty.countDistinct())
+                              .from(urbanProperty)
+                              .where(buildWherePredicates(request));
     }
 
     private Expression<?>[] buildProjectionExpressions(GetUrbanPropertiesRequest.ProjectionsData projections) {
@@ -117,6 +143,23 @@ public class UrbanPropertyExtendedRepositoryImpl implements UrbanPropertyExtende
                                .build();
     }
 
+    private Predicate[] buildWherePredicates(GetSubTypesRequest request) {
+        return PredicateBuilder.newInstance()
+                               .append(
+                                       request.getClausesList(),
+                                       this::buildWherePredicates,
+                                       GetSubTypesRequest.ClausesData::getInnerOperator,
+                                       GetSubTypesRequest.ClausesData::getOuterOperator
+                               )
+                               .build();
+    }
+
+    private Predicate[] buildWherePredicates(GetSubTypesRequest.ClausesData clauses) {
+        return PredicateBuilder.newInstance()
+                               .append(urbanProperty.subType, clauses.getSubType())
+                               .build();
+    }
+
     private OrderSpecifier<?>[] buildOrderSpecifiers(GetUrbanPropertiesRequest.OrdersData orders) {
         return OrderBuilder.newInstance()
                            .append(urbanProperty.id, orders.getId())
@@ -143,6 +186,12 @@ public class UrbanPropertyExtendedRepositoryImpl implements UrbanPropertyExtende
                            .append(urbanProperty.lastAnalysisDate, orders.getLastAnalysisDate())
                            .append(urbanProperty.exclusionDate, orders.getExclusionDate())
                            .append(urbanProperty.analyzable, orders.getAnalyzable())
+                           .build();
+    }
+
+    private OrderSpecifier<?>[] buildOrderSpecifiers(GetSubTypesRequest.OrdersData orders) {
+        return OrderBuilder.newInstance()
+                           .append(urbanProperty.subType, orders.getSubType())
                            .build();
     }
 

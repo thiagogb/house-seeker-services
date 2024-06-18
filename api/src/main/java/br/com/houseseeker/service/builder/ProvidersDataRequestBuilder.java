@@ -32,7 +32,7 @@ public class ProvidersDataRequestBuilder implements DataRequestBuildable<Provide
     public ProvidersDataRequestBuilder byId(int id) {
         withProjections(Collections.emptySet());
 
-        builder.setClauses(
+        builder.addClauses(
                 ClausesData.newBuilder()
                            .setId(
                                    Int32ComparisonData.newBuilder()
@@ -87,7 +87,7 @@ public class ProvidersDataRequestBuilder implements DataRequestBuildable<Provide
     }
 
     private void configureClauses(ProviderInput.Clauses clauses) {
-        builder.setClauses(
+        builder.addClauses(
                 ClausesData.newBuilder()
                            .setId(IntegerComparisonBuilder.build(clauses.getId()))
                            .setName(StringComparisonBuilder.build(clauses.getName()))

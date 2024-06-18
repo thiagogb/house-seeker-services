@@ -5,6 +5,7 @@ import br.com.houseseeker.domain.exception.GrpcStatusException;
 import br.com.houseseeker.domain.proto.BoolComparisonData;
 import br.com.houseseeker.domain.proto.BoolSingleComparisonData;
 import br.com.houseseeker.domain.proto.BytesComparisonData;
+import br.com.houseseeker.domain.proto.ClauseOperator;
 import br.com.houseseeker.domain.proto.EnumComparisonData;
 import br.com.houseseeker.domain.proto.EnumListComparisonData;
 import br.com.houseseeker.domain.proto.Int32ComparisonData;
@@ -128,7 +129,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setId(
                                                                         Int32ComparisonData.newBuilder()
@@ -162,7 +163,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setName(
                                                                         StringComparisonData.newBuilder()
@@ -191,7 +192,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setSiteUrl(
                                                                         StringComparisonData.newBuilder()
@@ -220,7 +221,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setDataUrl(
                                                                         StringComparisonData.newBuilder()
@@ -245,7 +246,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setMechanism(
                                                                         EnumComparisonData.newBuilder()
@@ -277,7 +278,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setLogo(
                                                                         BytesComparisonData.newBuilder()
@@ -302,7 +303,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setCronExpression(
                                                                         StringComparisonData.newBuilder()
@@ -331,7 +332,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setParams(
                                                                         StringComparisonData.newBuilder()
@@ -360,7 +361,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setId(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setActive(
                                                                         BoolComparisonData.newBuilder()
@@ -492,7 +493,7 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                                                                     .setDataUrl(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setDataUrl(
                                                                         StringComparisonData.newBuilder()
@@ -564,6 +565,110 @@ class ProviderRepositoryTest extends AbstractJpaIntegrationTest {
                         ProviderMechanism.SUPER_LOGICA,
                         ProviderMechanism.JETIMOB_V4
                 );
+    }
+
+    @Test
+    @DisplayName("given a proto request with multiple group clauses using OR separator when calls findBy then expects")
+    void givenAProtoRequestWithMultipleGroupClausesUsingOrSeparator_whenCallsFindBy_thenExpects() {
+        var request = GetProvidersDataRequest.newBuilder()
+                                             .setProjections(
+                                                     ProjectionsData.newBuilder()
+                                                                    .setId(true)
+                                                                    .build()
+                                             )
+                                             .addAllClauses(List.of(
+                                                     ClausesData.newBuilder()
+                                                                .setId(
+                                                                        Int32ComparisonData.newBuilder()
+                                                                                           .setIsEqual(
+                                                                                                   Int32SingleComparisonData.newBuilder()
+                                                                                                                            .setValue(10000)
+                                                                                                                            .build()
+                                                                                           )
+                                                                                           .build()
+                                                                )
+                                                                .build(),
+                                                     ClausesData.newBuilder()
+                                                                .setId(
+                                                                        Int32ComparisonData.newBuilder()
+                                                                                           .setIsEqual(
+                                                                                                   Int32SingleComparisonData.newBuilder()
+                                                                                                                            .setValue(10001)
+                                                                                                                            .build()
+                                                                                           )
+                                                                                           .build()
+                                                                )
+                                                                .setOuterOperator(ClauseOperator.OR)
+                                                                .build()
+                                             ))
+                                             .setOrders(
+                                                     OrdersData.newBuilder()
+                                                               .setMechanism(
+                                                                       OrderDetailsData.newBuilder()
+                                                                                       .setIndex(1)
+                                                                                       .setDirection(OrderDirectionData.ASC)
+                                                                                       .build()
+                                                               )
+                                                               .build()
+                                             )
+                                             .build();
+
+        Page<Provider> result = providerRepository.findBy(request);
+
+        assertThat(result.getContent())
+                .extracting("id")
+                .containsExactly(10000, 10001);
+    }
+
+    @Test
+    @DisplayName("given a proto request with inner clauses using OR separator when calls findBy then expects")
+    void givenAProtoRequestWithInnerClausesUsingOrSeparator_whenCallsFindBy_thenExpects() {
+        var request = GetProvidersDataRequest.newBuilder()
+                                             .setProjections(
+                                                     ProjectionsData.newBuilder()
+                                                                    .setId(true)
+                                                                    .build()
+                                             )
+                                             .addClauses(
+                                                     ClausesData.newBuilder()
+                                                                .setId(
+                                                                        Int32ComparisonData.newBuilder()
+                                                                                           .setIsEqual(
+                                                                                                   Int32SingleComparisonData.newBuilder()
+                                                                                                                            .setValue(10000)
+                                                                                                                            .build()
+                                                                                           )
+                                                                                           .build()
+                                                                )
+                                                                .setName(
+                                                                        StringComparisonData.newBuilder()
+                                                                                            .setIsEqual(
+                                                                                                    StringSingleComparisonData.newBuilder()
+                                                                                                                              .setValue("Cancian Imóveis")
+                                                                                                                              .build()
+                                                                                            )
+                                                                                            .build()
+                                                                )
+                                                                .setInnerOperator(ClauseOperator.OR)
+                                                                .build()
+                                             )
+                                             .setOrders(
+                                                     OrdersData.newBuilder()
+                                                               .setMechanism(
+                                                                       OrderDetailsData.newBuilder()
+                                                                                       .setIndex(1)
+                                                                                       .setDirection(OrderDirectionData.ASC)
+                                                                                       .build()
+                                                               )
+                                                               .build()
+                                             )
+                                             .build();
+
+        Page<Provider> result = providerRepository.findBy(request);
+
+        assertThat(result.getContent())
+                .extracting("id")
+                .containsExactly(10000, 10001);
     }
 
 }

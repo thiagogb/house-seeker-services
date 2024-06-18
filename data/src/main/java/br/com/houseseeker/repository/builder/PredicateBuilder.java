@@ -2,16 +2,20 @@ package br.com.houseseeker.repository.builder;
 
 import br.com.houseseeker.domain.proto.BoolComparisonData;
 import br.com.houseseeker.domain.proto.BytesComparisonData;
+import br.com.houseseeker.domain.proto.ClauseOperator;
 import br.com.houseseeker.domain.proto.DateTimeComparisonData;
 import br.com.houseseeker.domain.proto.DoubleComparisonData;
 import br.com.houseseeker.domain.proto.EnumComparisonData;
 import br.com.houseseeker.domain.proto.Int32ComparisonData;
 import br.com.houseseeker.domain.proto.StringComparisonData;
+import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.ArrayPath;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.BooleanPath;
 import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.EnumPath;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 import jakarta.validation.constraints.NotNull;
@@ -21,6 +25,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -85,8 +90,58 @@ public class PredicateBuilder {
         return this;
     }
 
+    public <T> PredicateBuilder append(
+            @NotNull List<T> clauses,
+            @NotNull Function<T, Predicate[]> predicateSupplier,
+            @NotNull Function<T, ClauseOperator> innerClauseSupplier,
+            @NotNull Function<T, ClauseOperator> outerClauseSupplier
+    ) {
+        clauses.forEach(clause -> prepareExpressionGroup(
+                predicateSupplier.apply(clause),
+                innerClauseSupplier.apply(clause),
+                outerClauseSupplier.apply(clause)
+        ));
+
+        return this;
+    }
+
     public Predicate[] build() {
         return predicates;
+    }
+
+    private void prepareExpressionGroup(Predicate[] paths, ClauseOperator innerOperator, ClauseOperator outerOperator) {
+        if (ArrayUtils.isEmpty(paths))
+            return;
+
+        Predicate predicate = applyInnerSeparator(paths, innerOperator);
+        if (ArrayUtils.isNotEmpty(predicates)) {
+            applyOuterOperator(outerOperator, predicate);
+        } else {
+            predicates = ArrayUtils.add(predicates, predicate);
+        }
+    }
+
+    private Predicate applyInnerSeparator(Predicate[] paths, ClauseOperator operator) {
+        if (ArrayUtils.getLength(paths) == 1)
+            return ArrayUtils.get(paths, 0);
+
+        return Expressions.predicate(
+                Ops.WRAPPED,
+                switch (operator) {
+                    case AND, UNRECOGNIZED -> Expressions.predicate(Ops.AND, paths);
+                    case OR -> Expressions.predicate(Ops.OR, paths);
+                }
+        );
+    }
+
+    private void applyOuterOperator(ClauseOperator operator, Predicate rightPredicate) {
+        int lastIndex = predicates.length - 1;
+        if (ArrayUtils.get(predicates, lastIndex) instanceof BooleanExpression lastExpression) {
+            predicates[lastIndex] = switch (operator) {
+                case AND, UNRECOGNIZED -> lastExpression.and(rightPredicate);
+                case OR -> lastExpression.or(rightPredicate);
+            };
+        }
     }
 
 }

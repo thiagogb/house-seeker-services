@@ -47,7 +47,7 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
                                                           )
                                                   )
                                                   .from(provider)
-                                                  .where(buildWherePredicates(request.getClauses()))
+                                                  .where(buildWherePredicates(request))
                                                   .orderBy(buildOrderSpecifiers(request.getOrders()));
         PaginationUtils.paginateQuery(query, request.getPagination());
         return query;
@@ -56,7 +56,7 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
     private JPAQuery<Long> configureCountQuery(GetProvidersDataRequest request) {
         return jpaQueryFactory.select(provider.count())
                               .from(provider)
-                              .where(buildWherePredicates(request.getClauses()));
+                              .where(buildWherePredicates(request));
     }
 
     private Expression<?>[] buildProjectionExpressions(ProjectionsData projections) {
@@ -71,6 +71,17 @@ public class ProviderExtendedRepositoryImpl implements ProviderExtendedRepositor
                                 .append(provider.logo, projections.getLogo())
                                 .append(provider.active, projections.getActive())
                                 .build();
+    }
+
+    private Predicate[] buildWherePredicates(GetProvidersDataRequest request) {
+        return PredicateBuilder.newInstance()
+                               .append(
+                                       request.getClausesList(),
+                                       this::buildWherePredicates,
+                                       GetProvidersDataRequest.ClausesData::getInnerOperator,
+                                       GetProvidersDataRequest.ClausesData::getOuterOperator
+                               )
+                               .build();
     }
 
     private Predicate[] buildWherePredicates(ClausesData clauses) {

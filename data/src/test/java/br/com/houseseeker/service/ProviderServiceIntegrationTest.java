@@ -82,7 +82,7 @@ class ProviderServiceIntegrationTest extends AbstractJpaIntegrationTest {
                                                                     .setMechanism(true)
                                                                     .build()
                                              )
-                                             .setClauses(
+                                             .addClauses(
                                                      ClausesData.newBuilder()
                                                                 .setId(
                                                                         Int32ComparisonData.newBuilder()

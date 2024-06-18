@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_package = "br.com.houseseeker.service.proto";
+option java_multiple_files = true;
+
+import "message/request_commons.proto";
+import "message/response_commons.proto";
+import "message/comparison_commons.proto";
+import "google/protobuf/wrappers.proto";
+
+message GetConveniencesRequest {
+  message ClausesData {
+    optional StringComparisonData description = 1;
+    optional ClauseOperator innerOperator = 3;
+    optional ClauseOperator outerOperator = 4;
+  }
+  message OrdersData {
+    optional OrderDetailsData description = 1;
+  }
+  repeated ClausesData clauses = 1;
+  optional PaginationRequestData pagination = 2;
+  optional OrdersData orders = 3;
+}
+
+message GetConveniencesResponse {
+  repeated google.protobuf.StringValue conveniences = 1;
+  PaginationResponseData pagination = 2;
+}
+
+service ConvenienceDataService {
+  rpc GetConveniences(GetConveniencesRequest) returns (GetConveniencesResponse);
+}

@@ -34,6 +34,8 @@ message GetUrbanPropertyLocationsRequest {
     optional StringComparisonData complement = 9;
     optional DoubleComparisonData latitude = 10;
     optional DoubleComparisonData longitude = 11;
+    optional ClauseOperator innerOperator = 12;
+    optional ClauseOperator outerOperator = 13;
   }
   message OrdersData {
     optional OrderDetailsData id = 1;
@@ -49,7 +51,7 @@ message GetUrbanPropertyLocationsRequest {
     optional OrderDetailsData longitude = 11;
   }
   optional ProjectionsData projections = 1;
-  optional ClausesData clauses = 2;
+  repeated ClausesData clauses = 2;
   optional PaginationRequestData pagination = 3;
   optional OrdersData orders = 4;
 }

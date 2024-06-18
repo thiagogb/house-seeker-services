@@ -32,6 +32,8 @@ message GetProvidersDataRequest {
     optional StringComparisonData cron_expression = 7;
     optional BytesComparisonData logo = 8;
     optional BoolComparisonData active = 9;
+    optional ClauseOperator innerOperator = 10;
+    optional ClauseOperator outerOperator = 11;
   }
   message OrdersData {
     optional OrderDetailsData id = 1;
@@ -42,7 +44,7 @@ message GetProvidersDataRequest {
     optional OrderDetailsData active = 6;
   }
   optional ProjectionsData projections = 1;
-  optional ClausesData clauses = 2;
+  repeated ClausesData clauses = 2;
   optional PaginationRequestData pagination = 3;
   optional OrdersData orders = 4;
 }

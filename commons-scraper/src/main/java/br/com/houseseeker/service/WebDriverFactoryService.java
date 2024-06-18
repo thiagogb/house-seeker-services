@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Getter
 public class WebDriverFactoryService {
 
-    private static final String WEBDRIVER_CHROME_VERSION = "124.0.6367.207";
+    private static final String WEBDRIVER_CHROME_VERSION = "126.0.6478.126";
     private static final ChromeOptions WEBDRIVER_CHROME_OPTIONS = configureChromeOptions();
 
     @Value("${webdriver.retry-count:3}")

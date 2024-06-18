@@ -83,9 +83,9 @@ class UrbanPropertyLocationServiceTest {
                                                 "zip_code: true street_name: true street_number: true complement: true " +
                                                 "latitude: true longitude: true")
                         )
-                        .satisfies(r -> assertThat(r.getClauses())
+                        .satisfies(r -> assertThat(r.getClausesList())
                                 .extracting(p -> normalizeSpace(p.toString()))
-                                .isEqualTo("urban_property_id { is_in { values: 1 values: 2 } }")
+                                .containsExactly("urban_property_id { is_in { values: 1 values: 2 } }")
                         )
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination())

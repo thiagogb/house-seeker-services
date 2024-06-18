@@ -56,7 +56,7 @@ class UrbanPropertyLocationServiceIntegrationTest extends AbstractJpaIntegration
                                                                              .setDistrict(true)
                                                                              .build()
                                                       )
-                                                      .setClauses(
+                                                      .addClauses(
                                                               ClausesData.newBuilder()
                                                                          .setUrbanPropertyId(
                                                                                  Int32ComparisonData.newBuilder()

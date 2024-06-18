@@ -27,7 +27,7 @@ public class UrbanPropertyLocationsDataRequestBuilder {
     public UrbanPropertyLocationsDataRequestBuilder byUrbanProperties(@NotNull List<Integer> ids) {
         withProjections(Collections.emptySet());
 
-        builder.setClauses(
+        builder.addClauses(
                        ClausesData.newBuilder()
                                   .setUrbanPropertyId(
                                           Int32ComparisonData.newBuilder()

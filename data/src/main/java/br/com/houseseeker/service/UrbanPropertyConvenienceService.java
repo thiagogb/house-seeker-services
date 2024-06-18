@@ -3,6 +3,7 @@ package br.com.houseseeker.service;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanPropertyConvenience;
 import br.com.houseseeker.repository.UrbanPropertyConvenienceRepository;
+import br.com.houseseeker.service.proto.GetConveniencesRequest;
 import br.com.houseseeker.service.proto.GetUrbanPropertyConveniencesRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +29,11 @@ public class UrbanPropertyConvenienceService {
     @Transactional
     public Page<UrbanPropertyConvenience> findBy(@NotNull GetUrbanPropertyConveniencesRequest request) {
         return urbanPropertyConvenienceRepository.findBy(request);
+    }
+
+    @Transactional
+    public Page<String> findDistinctConveniencesBy(@NotNull GetConveniencesRequest request) {
+        return urbanPropertyConvenienceRepository.findDistinctConveniencesBy(request);
     }
 
     @Transactional

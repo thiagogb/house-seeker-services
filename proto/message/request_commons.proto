@@ -8,6 +8,11 @@ message PaginationRequestData {
   int32 pageNumber = 2;
 }
 
+enum ClauseOperator {
+  AND = 0;
+  OR = 1;
+}
+
 enum OrderDirectionData {
   ASC = 0;
   DESC = 1;

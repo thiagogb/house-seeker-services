@@ -18,7 +18,6 @@ import br.com.houseseeker.mapper.ProtoBytesMapperImpl;
 import br.com.houseseeker.mapper.ProtoInt32MapperImpl;
 import br.com.houseseeker.mapper.ProtoStringMapperImpl;
 import br.com.houseseeker.mapper.ProviderMapperImpl;
-import br.com.houseseeker.service.proto.GetProvidersDataRequest.ClausesData;
 import br.com.houseseeker.service.proto.GetProvidersDataRequest.OrdersData;
 import br.com.houseseeker.service.proto.GetProvidersDataResponse;
 import br.com.houseseeker.service.proto.ProviderDataServiceGrpc.ProviderDataServiceBlockingStub;
@@ -143,7 +142,7 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getClausesList()).isEqualTo(Collections.emptyList()))
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
@@ -169,7 +168,7 @@ class ProviderServiceTest {
                                                 "params: false cron_expression: false logo: false active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getClausesList()).isEqualTo(Collections.emptyList()))
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
                 )
@@ -209,9 +208,9 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses())
+                        .satisfies(r -> assertThat(r.getClausesList())
                                 .extracting(p -> normalizeSpace(p.toString()))
-                                .isEqualTo(
+                                .containsExactly(
                                         "id { is_greater { value: 1 } } name { } site_url { } data_url { } mechanism { } " +
                                                 "params { } cron_expression { } logo { } active { }"
                                 )
@@ -252,7 +251,7 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getClausesList()).isEqualTo(Collections.emptyList()))
                         .satisfies(r -> assertThat(r.getOrders())
                                 .extracting(p -> normalizeSpace(p.toString()))
                                 .isEqualTo("id { index: 1 } name { } site_url { } data_url { } mechanism { } active { }")
@@ -288,7 +287,7 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses()).isEqualTo(ClausesData.getDefaultInstance()))
+                        .satisfies(r -> assertThat(r.getClausesList()).isEqualTo(Collections.emptyList()))
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination())
                                 .extracting(p -> normalizeSpace(p.toString()))
@@ -318,9 +317,9 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses())
+                        .satisfies(r -> assertThat(r.getClausesList())
                                 .extracting(p -> normalizeSpace(p.toString()))
-                                .isEqualTo("id { is_equal { value: 1 } }")
+                                .containsExactly("id { is_equal { value: 1 } }")
                         )
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
@@ -359,9 +358,9 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses())
+                        .satisfies(r -> assertThat(r.getClausesList())
                                 .extracting(p -> normalizeSpace(p.toString()))
-                                .isEqualTo("id { is_equal { value: 1 } }")
+                                .containsExactly("id { is_equal { value: 1 } }")
                         )
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
@@ -417,9 +416,9 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses())
+                        .satisfies(r -> assertThat(r.getClausesList())
                                 .extracting(p -> normalizeSpace(p.toString()))
-                                .isEqualTo("id { is_equal { value: 1 } }")
+                                .containsExactly("id { is_equal { value: 1 } }")
                         )
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))
@@ -477,9 +476,9 @@ class ProviderServiceTest {
                                                 "params: true cron_expression: true logo: true active: true"
                                 )
                         )
-                        .satisfies(r -> assertThat(r.getClauses())
+                        .satisfies(r -> assertThat(r.getClausesList())
                                 .extracting(p -> normalizeSpace(p.toString()))
-                                .isEqualTo("id { is_equal { value: 1 } }")
+                                .containsExactly("id { is_equal { value: 1 } }")
                         )
                         .satisfies(r -> assertThat(r.getOrders()).isEqualTo(OrdersData.getDefaultInstance()))
                         .satisfies(r -> assertThat(r.getPagination()).isEqualTo(PaginationRequestData.getDefaultInstance()))

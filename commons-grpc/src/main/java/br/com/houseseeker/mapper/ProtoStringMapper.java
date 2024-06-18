@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
@@ -45,6 +46,8 @@ public abstract class ProtoStringMapper {
     public UrbanPropertyPriceVariationType toPriceVariationType(@Nullable StringValue value) {
         return toEnum(UrbanPropertyPriceVariationType.class, value);
     }
+
+    public abstract List<StringValue> toStringValue(@Nullable List<String> values);
 
     public StringValue toStringValue(@Nullable String value) {
         return Optional.ofNullable(value).map(StringValue::of).orElse(StringValue.getDefaultInstance());

@@ -5,6 +5,7 @@ import br.com.houseseeker.repository.UrbanPropertyConvenienceExtendedRepository;
 import br.com.houseseeker.repository.builder.ExpressionBuilder;
 import br.com.houseseeker.repository.builder.OrderBuilder;
 import br.com.houseseeker.repository.builder.PredicateBuilder;
+import br.com.houseseeker.service.proto.GetConveniencesRequest;
 import br.com.houseseeker.service.proto.GetUrbanPropertyConveniencesRequest;
 import br.com.houseseeker.util.PaginationUtils;
 import com.querydsl.core.types.Expression;
@@ -35,6 +36,15 @@ public class UrbanPropertyConvenienceExtendedRepositoryImpl implements UrbanProp
         );
     }
 
+    @Override
+    public Page<String> findDistinctConveniencesBy(@NotNull GetConveniencesRequest request) {
+        return PaginationUtils.collectPaginationMetadata(
+                configureBaseQuery(request).fetch(),
+                request.getPagination(),
+                () -> configureCountQuery(request).fetchFirst()
+        );
+    }
+
     private JPAQuery<UrbanPropertyConvenience> configureBaseQuery(GetUrbanPropertyConveniencesRequest request) {
         JPAQuery<UrbanPropertyConvenience> query = jpaQueryFactory.select(
                                                                           Projections.bean(
@@ -50,10 +60,26 @@ public class UrbanPropertyConvenienceExtendedRepositoryImpl implements UrbanProp
         return query;
     }
 
+    private JPAQuery<String> configureBaseQuery(GetConveniencesRequest request) {
+        JPAQuery<String> query = jpaQueryFactory.selectDistinct(urbanPropertyConvenience.description)
+                                                .from(urbanPropertyConvenience)
+                                                .innerJoin(urbanPropertyConvenience.urbanProperty)
+                                                .where(buildWherePredicates(request))
+                                                .orderBy(buildOrderSpecifiers(request.getOrders()));
+        PaginationUtils.paginateQuery(query, request.getPagination());
+        return query;
+    }
+
     private JPAQuery<Long> configureCountQuery(GetUrbanPropertyConveniencesRequest request) {
         return jpaQueryFactory.select(urbanPropertyConvenience.count())
                               .from(urbanPropertyConvenience)
                               .where(buildWherePredicates(request.getClauses()));
+    }
+
+    private JPAQuery<Long> configureCountQuery(GetConveniencesRequest request) {
+        return jpaQueryFactory.select(urbanPropertyConvenience.countDistinct())
+                              .from(urbanPropertyConvenience)
+                              .where(buildWherePredicates(request));
     }
 
     private Expression<?>[] buildProjectionExpressions(GetUrbanPropertyConveniencesRequest.ProjectionsData projections) {
@@ -72,10 +98,33 @@ public class UrbanPropertyConvenienceExtendedRepositoryImpl implements UrbanProp
                                .build();
     }
 
+    private Predicate[] buildWherePredicates(GetConveniencesRequest request) {
+        return PredicateBuilder.newInstance()
+                               .append(
+                                       request.getClausesList(),
+                                       this::buildWherePredicates,
+                                       GetConveniencesRequest.ClausesData::getInnerOperator,
+                                       GetConveniencesRequest.ClausesData::getOuterOperator
+                               )
+                               .build();
+    }
+
+    private Predicate[] buildWherePredicates(GetConveniencesRequest.ClausesData clauses) {
+        return PredicateBuilder.newInstance()
+                               .append(urbanPropertyConvenience.description, clauses.getDescription())
+                               .build();
+    }
+
     private OrderSpecifier<?>[] buildOrderSpecifiers(GetUrbanPropertyConveniencesRequest.OrdersData orders) {
         return OrderBuilder.newInstance()
                            .append(urbanPropertyConvenience.id, orders.getId())
                            .append(urbanPropertyConvenience.urbanProperty.id, orders.getUrbanPropertyId())
+                           .append(urbanPropertyConvenience.description, orders.getDescription())
+                           .build();
+    }
+
+    private OrderSpecifier<?>[] buildOrderSpecifiers(GetConveniencesRequest.OrdersData orders) {
+        return OrderBuilder.newInstance()
                            .append(urbanPropertyConvenience.description, orders.getDescription())
                            .build();
     }

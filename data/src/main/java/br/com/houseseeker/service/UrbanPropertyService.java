@@ -3,6 +3,7 @@ package br.com.houseseeker.service;
 import br.com.houseseeker.entity.Provider;
 import br.com.houseseeker.entity.UrbanProperty;
 import br.com.houseseeker.repository.UrbanPropertyRepository;
+import br.com.houseseeker.service.proto.GetSubTypesRequest;
 import br.com.houseseeker.service.proto.GetUrbanPropertiesRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +29,11 @@ public class UrbanPropertyService {
     @Transactional
     public Page<UrbanProperty> findBy(@NotNull GetUrbanPropertiesRequest request) {
         return urbanPropertyRepository.findBy(request);
+    }
+
+    @Transactional
+    public Page<String> findDistinctSubTypesBy(@NotNull GetSubTypesRequest request) {
+        return urbanPropertyRepository.findDistinctSubTypesBy(request);
     }
 
     @Transactional
